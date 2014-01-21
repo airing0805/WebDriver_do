@@ -1,4 +1,4 @@
-package com.andy.weiboDriver.test.webDriver;
+package com.andy.weiboDriver.webDriver;
 
 import java.util.Calendar;
 import java.util.List;
@@ -13,9 +13,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
-import com.andy.weiboDriver.webDriver.WebDriverUtil;
-
-public class PiPiWebDriverT {
+public class WeiboSendAtPP {
 
 	String[][] messArr = {
 			{"晒幸福是件危险的事，可惜很多人不明白，往死里晒。",

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<systemConfig>
+	<weibo>
+		<username></username>
+		<password></password>
+		<from>
+			<QQAddress></QQAddress>
+			<QQAddress></QQAddress>
+			<QQAddress></QQAddress>
+			<QQAddress></QQAddress>
+			<QQAddress></QQAddress>
+			<QQAddress></QQAddress>
+			<QQAddress></QQAddress>
+			<QQAddress></QQAddress>
+			<QQAddress></QQAddress>
+		</from>
+	</weibo>	
+	
+	<weibo>
+		<username></username>
+		<password></password>
+		<from>
+			<QQAddress></QQAddress>
+			<QQAddress></QQAddress>
+			<QQAddress></QQAddress>
+			<QQAddress></QQAddress>
+			<QQAddress></QQAddress>
+			<QQAddress></QQAddress>
+			<QQAddress></QQAddress>
+			<QQAddress></QQAddress>
+			<QQAddress></QQAddress>
+		</from>
+	</weibo>	
+</systemConfig>

@@ -1,4 +1,4 @@
-package com.andy.weiboDriver.test.webDriver;
+package com.andy.weiboDriver.util;
 
 
 import org.apache.commons.configuration.ConfigurationException;

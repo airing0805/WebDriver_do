@@ -1,4 +1,4 @@
-package com.andy.weiboDriver.test.util;
+package com.andy.weiboDriver.util;
 
 import java.util.Date;
 

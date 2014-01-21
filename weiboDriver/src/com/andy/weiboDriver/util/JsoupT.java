@@ -1,4 +1,4 @@
-package com.andy.weiboDriver.test.htmlParser;
+package com.andy.weiboDriver.util;
 
 import java.io.IOException;
 import java.util.Iterator;
