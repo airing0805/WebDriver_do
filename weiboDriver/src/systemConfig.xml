@@ -5,8 +5,7 @@
 		<password>andy0805</password>
 		<address>
 			<QQAddress>http://t.qq.com/xiaohuacom123</QQAddress>
-			<QQAddress>11</QQAddress>
-			<QQAddress>11</QQAddress>
+			<QQAddress>http://t.qq.com/xiaohua-joke</QQAddress>
 		</address>
 	</weibo>
 
@@ -14,8 +13,8 @@
 		<username>yitest08051@sina.com</username>
 		<password>andy0805</password>
 		<address>
-			<QQAddress>1</QQAddress>
-			<QQAddress>1</QQAddress>
+			<QQAddress>http://t.qq.com/huang1943</QQAddress>
+			<QQAddress>http://t.qq.com/q346754754</QQAddress>
 		</address>
 	</weibo>
 </systemConfig>
