@@ -1,34 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <systemConfig>
 	<weibo>
-		<username></username>
-		<password></password>
-		<from>
-			<QQAddress></QQAddress>
-			<QQAddress></QQAddress>
-			<QQAddress></QQAddress>
-			<QQAddress></QQAddress>
-			<QQAddress></QQAddress>
-			<QQAddress></QQAddress>
-			<QQAddress></QQAddress>
-			<QQAddress></QQAddress>
-			<QQAddress></QQAddress>
-		</from>
-	</weibo>	
-	
+		<username>zhaoyuan01@126.com</username>
+		<password>andy0805</password>
+		<address>
+			<QQAddress>http://t.qq.com/xiaohuacom123</QQAddress>
+			<QQAddress>11</QQAddress>
+			<QQAddress>11</QQAddress>
+		</address>
+	</weibo>
+
 	<weibo>
-		<username></username>
-		<password></password>
-		<from>
-			<QQAddress></QQAddress>
-			<QQAddress></QQAddress>
-			<QQAddress></QQAddress>
-			<QQAddress></QQAddress>
-			<QQAddress></QQAddress>
-			<QQAddress></QQAddress>
-			<QQAddress></QQAddress>
-			<QQAddress></QQAddress>
-			<QQAddress></QQAddress>
-		</from>
-	</weibo>	
+		<username>yitest08051@sina.com</username>
+		<password>andy0805</password>
+		<address>
+			<QQAddress>1</QQAddress>
+			<QQAddress>1</QQAddress>
+		</address>
+	</weibo>
 </systemConfig>
