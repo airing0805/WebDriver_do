@@ -14,7 +14,6 @@ public class WeiboQQ {
 		// String url = "http://t.qq.com/xiaohuacom123";
 		long start = System.currentTimeMillis();
 		String message = getMessage(fd, url);
-		;
 		long end = System.currentTimeMillis();
 		long total = end - start;
 		System.out.println(total);
@@ -54,7 +53,7 @@ public class WeiboQQ {
 			}
 			sb.append(("\"" + picHref + "\"},"));
 		}
-		return sb.substring(0, sb.length() - 1).toString();
+		return sb.toString();
 	}
 
 }

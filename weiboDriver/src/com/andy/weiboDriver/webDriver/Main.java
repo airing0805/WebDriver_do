@@ -31,12 +31,13 @@ public class Main {
 			if (caseNum == 1) {
 				for (int j = 0; j < addressList.size(); j++) {
 					String url = XMLConfig.getConfig().getString("weibo(" + i + ").address.QQAddress(" + j + ")");
-					//TODO 有时候没有原创哦
 					weiboQQGetMessage(fd, url, path);
 					Thread.sleep(5000);
 					
 				}
 			}else{
+				StringBuffer sb = new StringBuffer("");
+				String mess= sb.substring(0, sb.length() - 1).toString();
 				//TODO 分解成数组或集合
 //				weiboSendAtPP(fd, username, password, messArr);
 			}
