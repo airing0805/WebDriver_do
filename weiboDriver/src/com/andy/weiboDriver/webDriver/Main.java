@@ -20,7 +20,6 @@ public class Main {
 			caseNum =1;
 		}
 		WebDriver fd = new FirefoxDriver();
-
 		List weiboList = XMLConfig.getConfig().getList("weibo.username");
 		int listSize = weiboList.size();
 		for (int i = 0; i < listSize; i++) {
@@ -35,14 +34,14 @@ public class Main {
 					//TODO 有时候没有原创哦
 					weiboQQGetMessage(fd, url, path);
 					Thread.sleep(5000);
-					fd.quit();
+					
 				}
 			}else{
 				//TODO 分解成数组或集合
 //				weiboSendAtPP(fd, username, password, messArr);
 			}
 		}
-
+		fd.quit();
 	}
 
 	private static void weiboQQGetMessage(WebDriver fd, String url, String path) throws InterruptedException {
