@@ -32,7 +32,14 @@ public class WeiboQQ {
 			closeLoginElement.click();
 		}
 		// 点击原创等待加载
-		fd.findElement(By.xpath("//*[@id=\"userAppTab\"]/ul/li[2]/a")).click();
+		By originalBy = By.xpath("//*[@id=\"userAppTab\"]/ul/li[2]/a");
+		WebElement  originalWe = WebDriverUtil.findElement4Wait(fd, originalBy, 1);
+		if (null != closeLoginElement) {
+			String text = originalWe.getText();
+			if(text.contains("原创")){
+				originalWe.click();
+			}
+		}
 		Thread.sleep(500);
 		List<WebElement> messageLiList = fd.findElements(By.cssSelector("ul[id=\"talkList\"] > li"));
 		for (int i = 0; i < messageLiList.size(); i++) {
