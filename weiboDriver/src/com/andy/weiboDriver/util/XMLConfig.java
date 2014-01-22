@@ -16,7 +16,7 @@ public class XMLConfig {
 	public static XMLConfiguration getConfig() throws ConfigurationException {
 		if (xmlConifg == null) {
 			System.out.println(System.getProperty("user.dir"));              
-			xmlConifg = new XMLConfiguration(System.getProperty("user.dir")+"/src/systemConfig.xml");
+			xmlConifg = new XMLConfiguration(System.getProperty("user.dir")+"/config/systemConfig.xml");
 		}
 		return xmlConifg;
 	}

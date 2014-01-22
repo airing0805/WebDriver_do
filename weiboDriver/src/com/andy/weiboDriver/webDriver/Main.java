@@ -12,37 +12,51 @@ import com.andy.weiboDriver.util.XMLConfig;
 
 public class Main {
 	public static void main(String[] args) throws ConfigurationException, InterruptedException {
-		
+
 		int caseNum = 0;
-		if(null != args && args.length >0){
-			Integer.parseInt(args[0]);
-		}else{
-			caseNum =1;
+		if (null != args && args.length > 0) {
+			caseNum = Integer.parseInt(args[0]);
+		} else {
+			 caseNum =1;
 		}
-		WebDriver fd = new FirefoxDriver();
-		List weiboList = XMLConfig.getConfig().getList("weibo.username");
+		List<Object> weiboList = XMLConfig.getConfig().getList("weibo.username");
 		int listSize = weiboList.size();
+		WebDriver fd = new FirefoxDriver();
 		for (int i = 0; i < listSize; i++) {
 			String username = XMLConfig.getConfig().getString("weibo(" + i + ").username");
 			String password = XMLConfig.getConfig().getString("weibo(" + i + ").password");
 			System.out.println(username);
 			String path = System.getProperty("user.dir") + File.separator + username + ".txt";
-			List addressList = XMLConfig.getConfig().getList("weibo(" + i + ").address.QQAddress");
+			List<Object> addressList = XMLConfig.getConfig().getList("weibo(" + i + ").address.QQAddress");
 			if (caseNum == 1) {
+				new File(path).delete();
 				for (int j = 0; j < addressList.size(); j++) {
 					String url = XMLConfig.getConfig().getString("weibo(" + i + ").address.QQAddress(" + j + ")");
 					weiboQQGetMessage(fd, url, path);
 					Thread.sleep(5000);
-					
 				}
-			}else{
-				StringBuffer sb = new StringBuffer("");
-				String mess= sb.substring(0, sb.length() - 1).toString();
-				//TODO 分解成数组或集合
-//				weiboSendAtPP(fd, username, password, messArr);
+			} else {
+				StringBuffer sb = FileUtil.readFileByLines(path);
+				String[][] messArr = str2Arr(sb.toString());
+				weiboSendAtPP(fd, username, password, messArr);
 			}
 		}
 		fd.quit();
+	}
+
+	private static String[][] str2Arr(String message) {
+		String[] messArr = message.split("~mashang~");
+		String[][] messArr2 = new String[messArr.length][2];
+		for (int i = 0; i < messArr.length; i++) {
+			String[] messArr3 = messArr[i].split("~laiqian~");
+			messArr2[i][0] = messArr3[0];
+			if (messArr3.length > 1) {
+				messArr2[i][1] = messArr3[1];
+			} else {
+				messArr2[i][1] = "";
+			}
+		}
+		return messArr2;
 	}
 
 	private static void weiboQQGetMessage(WebDriver fd, String url, String path) throws InterruptedException {
@@ -51,7 +65,7 @@ public class Main {
 		FileUtil.write2FileEnd(path, message);
 	}
 
-	private static void weiboSendAtPP(WebDriver fd, String username, String password, String[][] messArr) throws InterruptedException {
+	private static void weiboSendAtPP(WebDriver fd, String username, String password, String[][] messArr) throws InterruptedException, ConfigurationException {
 		new WeiboSendAtPP().faWeiFlowT(fd, username, password, messArr);
 	}
 }

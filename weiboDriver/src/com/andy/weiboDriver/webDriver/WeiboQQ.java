@@ -45,13 +45,17 @@ public class WeiboQQ {
 			WebElement messageLi = messageLiList.get(i);
 			WebElement messageDiv = messageLi.findElement(By.cssSelector("div[class=\"msgCnt\"]"));
 			String message = messageDiv.getText().replace("\"", "“");
-			sb.append(("{\"" + message + "\","));
+			//有链接的都不要。。。
+			if(message.toLowerCase().contains("url.cn")){
+				continue;
+			}
+			sb.append( message + "~laiqian~");
 			WebElement picDiv = WebDriverUtil.findElement4Wait(messageLi, By.cssSelector("div[class=\"mediaWrap\"] > div > a.pic"), 1);
 			String picHref = "";
 			if (null != picDiv) {
 				picHref = picDiv.getAttribute("href");
 			}
-			sb.append(("\"" + picHref + "\"},"));
+			sb.append("" + picHref + "~mashang~");
 		}
 		return sb.toString();
 	}
