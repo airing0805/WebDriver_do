@@ -2,15 +2,18 @@ package com.andy.weiboDriver.webDriver;
 
 import java.util.List;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import com.andy.weiboDriver.util.XMLConfig;
+
 public class WeiboQQ {
 
-	public String getMessageFlow(WebDriver fd, String url) throws InterruptedException {
+	public String getMessageFlow(WebDriver fd, String url) throws InterruptedException, ConfigurationException {
 		// String url = "http://t.qq.com/xiaohuacom123";
 		long start = System.currentTimeMillis();
 		String message = getMessage(fd, url);
@@ -22,7 +25,7 @@ public class WeiboQQ {
 	}
 
 	// 从qq获取微博内容，没有水印
-	public String getMessage(WebDriver fd, String url) throws InterruptedException {
+	public String getMessage(WebDriver fd, String url) throws InterruptedException, ConfigurationException {
 		StringBuffer sb = new StringBuffer();
 		fd.get(url);
 		By closeLoginBy = By.cssSelector("div[class=\"DWrap\"] > a.DClose.close");
@@ -43,6 +46,9 @@ public class WeiboQQ {
 		List<WebElement> messageLiList = fd.findElements(By.cssSelector("ul[id=\"talkList\"] > li"));
 		for (int i = 0; i < messageLiList.size(); i++) {
 			WebElement messageLi = messageLiList.get(i);
+			if(hasAdvert(messageLi)){
+				continue;
+			}
 			WebElement messageDiv = messageLi.findElement(By.cssSelector("div[class=\"msgCnt\"]"));
 			String message = messageDiv.getText().replace("\"", "“");
 			//有链接的都不要。。。
@@ -59,5 +65,19 @@ public class WeiboQQ {
 		}
 		return sb.toString();
 	}
+	
+	private boolean hasAdvert(WebElement messageLi) throws ConfigurationException {
+		By replyBy = By.cssSelector("div[class=\"replyBox\"]");
+		if(WebDriverUtil.hasElement(messageLi,replyBy))return true;
+		String messageLiStr = messageLi.toString();
+		List<Object> advertList  = XMLConfig.getConfig().getList("advert.value");
+		for(Object advertValue : advertList){
+			if(messageLiStr.contains(advertValue.toString())){
+				 return true;
+			}
+		}
+		return false;
+	}
+
 
 }

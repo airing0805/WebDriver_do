@@ -20,4 +20,9 @@
 			<QQAddress>http://t.qq.com/q346754754</QQAddress>
 		</address>
 	</weibo>
+	
+	<advert>
+		<value>url.cn</value>
+		<value>电话</value>
+	</advert>
 </systemConfig>

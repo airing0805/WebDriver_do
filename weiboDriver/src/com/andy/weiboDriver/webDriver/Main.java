@@ -59,7 +59,7 @@ public class Main {
 		return messArr2;
 	}
 
-	private static void weiboQQGetMessage(WebDriver fd, String url, String path) throws InterruptedException {
+	private static void weiboQQGetMessage(WebDriver fd, String url, String path) throws InterruptedException, ConfigurationException {
 		String message = new WeiboQQ().getMessageFlow(fd, url);
 		System.out.println(message);
 		FileUtil.write2FileEnd(path, message);

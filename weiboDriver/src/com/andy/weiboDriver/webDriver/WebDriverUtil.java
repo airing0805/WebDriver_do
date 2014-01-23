@@ -26,6 +26,15 @@ public class WebDriverUtil {
 		}
 		return we;
 	}
+	
+	public static boolean  hasElement(WebElement wddddd, By by) {
+			try {
+				WebElement we = wddddd.findElement(by);
+			} catch (NoSuchElementException e) {
+				return false;
+			}
+		return true;
+	}
 
 	/**
 	 * 元素范围内，在一定时间内查找元素，传入秒时间
