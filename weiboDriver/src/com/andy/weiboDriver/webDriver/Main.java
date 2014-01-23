@@ -13,7 +13,7 @@ import com.andy.weiboDriver.util.XMLConfig;
 public class Main {
 	public static void main(String[] args) throws ConfigurationException, InterruptedException {
 
-		int caseNum = 0;
+		int caseNum = 1;
 		if (null != args && args.length > 0) {
 			caseNum = Integer.parseInt(args[0]);
 		} else {
@@ -60,7 +60,8 @@ public class Main {
 	}
 
 	private static void weiboQQGetMessage(WebDriver fd, String url, String path) throws InterruptedException, ConfigurationException {
-		String message = new WeiboQQ().getMessageFlow(fd, url);
+		fd.get(url);
+		String message = new WeiboQQ().getMessageFlow(fd);
 		System.out.println(message);
 		FileUtil.write2FileEnd(path, message);
 	}

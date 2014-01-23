@@ -12,11 +12,12 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import com.andy.weiboDriver.util.XMLConfig;
 
 public class WeiboQQ {
+	StringBuffer messageBuffer = new StringBuffer();
 
-	public String getMessageFlow(WebDriver fd, String url) throws InterruptedException, ConfigurationException {
+	public String getMessageFlow(WebDriver fd) throws InterruptedException, ConfigurationException {
 		// String url = "http://t.qq.com/xiaohuacom123";
 		long start = System.currentTimeMillis();
-		String message = getMessage(fd, url);
+		String message = getMessage(fd,1);
 		long end = System.currentTimeMillis();
 		long total = end - start;
 		System.out.println(total);
@@ -25,9 +26,7 @@ public class WeiboQQ {
 	}
 
 	// 从qq获取微博内容，没有水印
-	public String getMessage(WebDriver fd, String url) throws InterruptedException, ConfigurationException {
-		StringBuffer sb = new StringBuffer();
-		fd.get(url);
+	public String getMessage(WebDriver fd, int startPage) throws InterruptedException, ConfigurationException {
 		By closeLoginBy = By.cssSelector("div[class=\"DWrap\"] > a.DClose.close");
 		WebElement closeLoginElement = WebDriverUtil.findElement4Wait(fd, closeLoginBy, 2);
 		if (null != closeLoginElement) {
@@ -55,17 +54,38 @@ public class WeiboQQ {
 			if(message.toLowerCase().contains("url.cn")){
 				continue;
 			}
-			sb.append( message + "~laiqian~");
+			messageBuffer.append( message + "~laiqian~");
 			WebElement picDiv = WebDriverUtil.findElement4Wait(messageLi, By.cssSelector("div[class=\"mediaWrap\"] > div > a.pic"), 1);
 			String picHref = "";
 			if (null != picDiv) {
 				picHref = picDiv.getAttribute("href");
 			}
-			sb.append("" + picHref + "~mashang~");
+			messageBuffer.append("" + picHref + "~mashang~");
 		}
-		return sb.toString();
+		doNextPage(fd,startPage);
+		return messageBuffer.toString();
 	}
 	
+	private void doNextPage(WebDriver fd, int startPage) throws ConfigurationException, InterruptedException {
+		int pageConf = Integer.parseInt(XMLConfig.getConfig().getString("QQSpiderPage"));
+		if(pageConf != startPage){
+			WebElement pageNavWe = fd.findElement(By.xpath("//*[@id=\"pageNav\"]"));
+			List<WebElement> pageLinkWeList = pageNavWe.findElements(By.tagName("a"));
+			int nextPageNum = startPage+1;
+			for(WebElement pageLinkWe:pageLinkWeList){
+				String text = pageLinkWe.getText();
+				if(nextPageNum == Integer.parseInt(text)){
+					String nextLink = pageLinkWe.getAttribute("href");
+					System.out.println(nextLink);
+					fd.get(nextLink);
+					break;
+				}
+			}
+			getMessage(fd, nextPageNum);
+		}
+		
+	}
+
 	private boolean hasAdvert(WebElement messageLi) throws ConfigurationException {
 		By replyBy = By.cssSelector("div[class=\"replyBox\"]");
 		if(WebDriverUtil.hasElement(messageLi,replyBy))return true;
