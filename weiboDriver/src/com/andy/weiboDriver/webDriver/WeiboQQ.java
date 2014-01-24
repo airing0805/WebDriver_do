@@ -74,9 +74,11 @@ public class WeiboQQ {
 			int nextPageNum = startPage+1;
 			for(WebElement pageLinkWe:pageLinkWeList){
 				String text = pageLinkWe.getText();
+				if(text.contains("上一页")||text.contains("下一页")){
+					continue;
+				}
 				if(nextPageNum == Integer.parseInt(text)){
 					String nextLink = pageLinkWe.getAttribute("href");
-					System.out.println(nextLink);
 					fd.get(nextLink);
 					break;
 				}
