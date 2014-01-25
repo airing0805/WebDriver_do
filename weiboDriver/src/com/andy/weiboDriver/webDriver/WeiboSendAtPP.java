@@ -34,12 +34,14 @@ public class WeiboSendAtPP {
 		timer_diffWe.clear();
 		timer_diffWe.sendKeys(XMLConfig.getConfig().getString("timer_diff"));
 		for (int i = 0; i < messArr.length; i++) {
+			fd.get(fd.getCurrentUrl());
 			ppSendTime(fd, messArr[i][0], messArr[i][1]);
-			Thread.sleep(500);
 		}
 	}
 
 	public void ppSendTime(WebDriver fd, String message, String picUrl) throws InterruptedException {
+		//页面显示
+		WebDriverUtil.findElement4Wait(fd,By.cssSelector("textarea[id=\"content_1\"]"),-1);
 		// 显示图片提示方式
 		((JavascriptExecutor) fd).executeScript("$('#show_pic_list_1').show();");
 		Thread.sleep(100);
@@ -54,10 +56,11 @@ public class WeiboSendAtPP {
 		if (null != picUrl && picUrl.length() > 0) {
 			// 显示图片提示窗口
 			picLink.click();
-			Thread.sleep(10);
+			Thread.sleep(100);
 			// 输入图片地址
 			WebElement picLinkInput = fd.findElement(By.cssSelector("input[id=\"pic_url_1\"]"));
 			picLinkInput.sendKeys(picUrl);
+			
 			Thread.sleep(10);
 			// 提交图片
 			WebElement picLinkSubmit = fd.findElement(By.cssSelector("input[id=\"pic_url_send_1\"]"));
@@ -66,6 +69,7 @@ public class WeiboSendAtPP {
 		}
 		// 填微博
 		WebElement MessageWe = fd.findElement(By.cssSelector("textarea[id=\"content_1\"]"));
+		MessageWe.clear();
 		MessageWe.sendKeys(message);
 		MessageWe.click();
 		new Actions(fd).moveToElement(MessageWe).build().perform();
@@ -74,16 +78,71 @@ public class WeiboSendAtPP {
 		messageTimeSendBut.click();
 		// 要给图片提交留一点时间
 		// 等待重复内容的提示
-		Thread.sleep(3000);
+		Thread.sleep(1000);
 		WebElement closeHas = WebDriverUtil.findElement4Wait(fd, By.cssSelector("a[id=\"dialog_close\"]"), 1);
-		if (closeHas.isDisplayed() && null != closeHas) {
+		if (null != closeHas && closeHas.isDisplayed() ) {
 			closeHas.click();
-			WebElement picClose = fd.findElement(By.cssSelector("strong[id=\"insert_picture_preview_1\"] > a"));
-			if (picClose.isDisplayed()) {
-				picClose.click();
-			}
+			//等待一下，让图片地址自动关闭。
+			Thread.sleep(100);
 		}
 		MessageWe.clear();
+		//上传完成后，关闭图片，防止中断。
+		WebElement picClose = WebDriverUtil.findElement4Wait(fd, By.cssSelector("strong[id=\"insert_picture_preview_1\"] > a"), 2);
+		if (null != picClose && picClose.isDisplayed()  ) {
+			picClose.click();
+		}
+	}
+	
+	public void ppSendTimeBak(WebDriver fd, String message, String picUrl) throws InterruptedException {
+		// 显示图片提示方式
+		((JavascriptExecutor) fd).executeScript("$('#show_pic_list_1').show();");
+		Thread.sleep(100);
+		// 显示图片提示方式
+		WebElement picMoveWe2 = fd.findElement(By.cssSelector("span[id=\"span_open_pic_1\"]"));
+		if (!picMoveWe2.isDisplayed()) {
+			picMoveWe2.sendKeys(Keys.DOWN);
+			new Actions(fd).moveToElement(picMoveWe2).build().perform();
+		}
+		Thread.sleep(50);
+		WebElement picLink = WebDriverUtil.findElement4Wait(fd, By.cssSelector("a[id=\"open_pic_url_1\"]"), 1);
+		if (null != picUrl && picUrl.length() > 0) {
+			// 显示图片提示窗口
+			picLink.click();
+			Thread.sleep(100);
+			// 输入图片地址
+			WebElement picLinkInput = fd.findElement(By.cssSelector("input[id=\"pic_url_1\"]"));
+			picLinkInput.sendKeys(picUrl);
+			
+			Thread.sleep(10);
+			// 提交图片
+			WebElement picLinkSubmit = fd.findElement(By.cssSelector("input[id=\"pic_url_send_1\"]"));
+			picLinkSubmit.click();
+			Thread.sleep(300);
+		}
+		// 填微博
+		WebElement MessageWe = fd.findElement(By.cssSelector("textarea[id=\"content_1\"]"));
+		MessageWe.clear();
+		MessageWe.sendKeys(message);
+		MessageWe.click();
+		new Actions(fd).moveToElement(MessageWe).build().perform();
+		// 提交
+		WebElement messageTimeSendBut = fd.findElement(By.cssSelector("input[id=\"button_1\"]"));
+		messageTimeSendBut.click();
+		// 要给图片提交留一点时间
+		// 等待重复内容的提示
+		Thread.sleep(1000);
+		WebElement closeHas = WebDriverUtil.findElement4Wait(fd, By.cssSelector("a[id=\"dialog_close\"]"), 1);
+		if (null != closeHas && closeHas.isDisplayed() ) {
+			closeHas.click();
+			//等待一下，让图片地址自动关闭。
+			Thread.sleep(100);
+		}
+		MessageWe.clear();
+		//上传完成后，关闭图片，防止中断。
+		WebElement picClose = WebDriverUtil.findElement4Wait(fd, By.cssSelector("strong[id=\"insert_picture_preview_1\"] > a"), 2);
+		if (null != picClose && picClose.isDisplayed()  ) {
+			picClose.click();
+		}
 	}
 	
 	// 登录到pp
@@ -144,7 +203,6 @@ public class WeiboSendAtPP {
 		sinaLoginWe.click();
 		Thread.sleep(1000);
 		if (currentUrl.contains("time")) {
-			System.out.println("contains time");
 			return;
 		}
 		String timeUrl = "http://weibo.pp.cc/time/";

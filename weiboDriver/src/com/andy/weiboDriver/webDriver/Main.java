@@ -13,35 +13,54 @@ import com.andy.weiboDriver.util.XMLConfig;
 public class Main {
 	public static void main(String[] args) throws ConfigurationException, InterruptedException {
 
-		int caseNum = 0;
+		int caseNum = 1;
 		if (null != args && args.length > 0) {
 			caseNum = Integer.parseInt(args[0]);
-		} else {
-			 caseNum =1;
-		}
+		} 
 		List<Object> weiboList = XMLConfig.getConfig().getList("weibo.username");
-		int listSize = weiboList.size();
 		WebDriver fd = new FirefoxDriver();
+		if(caseNum==0){
+			 getMessage(fd, weiboList);
+		}else if(caseNum==1){
+			sendAtPP(fd, weiboList);
+		}else{
+			getMessage(fd, weiboList);
+			sendAtPP(fd, weiboList);
+			
+		}
+		
+		
+		fd.quit();
+	}
+	
+	public static void sendAtPP(WebDriver fd,List<Object> weiboList ) throws ConfigurationException, InterruptedException{
+		int listSize = weiboList.size();
 		for (int i = 0; i < listSize; i++) {
 			String username = XMLConfig.getConfig().getString("weibo(" + i + ").username");
 			String password = XMLConfig.getConfig().getString("weibo(" + i + ").password");
 			System.out.println(username);
 			String path = System.getProperty("user.dir") + File.separator + username + ".txt";
 			List<Object> addressList = XMLConfig.getConfig().getList("weibo(" + i + ").address.QQAddress");
-			if (caseNum == 1) {
+				StringBuffer sb = FileUtil.readFileByLines(path);
+				String[][] messArr = str2Arr(sb.toString());
+				weiboSendAtPP(fd, username, password, messArr);
+		}
+	}
+	
+	public static void getMessage(WebDriver fd,List<Object> weiboList ) throws ConfigurationException, InterruptedException{
+		int listSize = weiboList.size();
+		for (int i = 0; i < listSize; i++) {
+			String username = XMLConfig.getConfig().getString("weibo(" + i + ").username");
+			System.out.println(username);
+			String path = System.getProperty("user.dir") + File.separator + username + ".txt";
+			List<Object> addressList = XMLConfig.getConfig().getList("weibo(" + i + ").address.QQAddress");
 				new File(path).delete();
 				for (int j = 0; j < addressList.size(); j++) {
 					String url = XMLConfig.getConfig().getString("weibo(" + i + ").address.QQAddress(" + j + ")");
 					weiboQQGetMessage(fd, url, path);
 					Thread.sleep(5000);
 				}
-			} else {
-				StringBuffer sb = FileUtil.readFileByLines(path);
-				String[][] messArr = str2Arr(sb.toString());
-				weiboSendAtPP(fd, username, password, messArr);
-			}
 		}
-		fd.quit();
 	}
 
 	private static String[][] str2Arr(String message) {

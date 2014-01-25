@@ -17,11 +17,15 @@ public class WebDriverUtil {
 	 */
 	public static WebElement findElement4Wait(WebDriver wd, By by, int num) throws InterruptedException {
 		WebElement we = null;
-		for (int i = 0; i < num * 2; i++) {
+		if(num <0){
+			num =1000;
+		}
+		for (int i = 0; i < num * 10; i++) {
 			try {
 				we = wd.findElement(by);
+				if(null != we)break;
 			} catch (NoSuchElementException e) {
-				Thread.sleep(500);
+				Thread.sleep(100);
 			}
 		}
 		return we;
@@ -46,11 +50,15 @@ public class WebDriverUtil {
 	 */
 	public static WebElement findElement4Wait(WebElement we, By by, int num) throws InterruptedException {
 		WebElement we2 = null;
-		for (int i = 0; i < num * 2; i++) {
+		if(num <0){
+			num =1000;
+		}
+		for (int i = 0; i < num * 10; i++) {
 			try {
 				we2 = we.findElement(by);
+				if(null != we)break;
 			} catch (NoSuchElementException e) {
-				Thread.sleep(500);
+				Thread.sleep(100);
 			}
 		}
 		return we2;

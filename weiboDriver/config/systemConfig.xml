@@ -2,7 +2,7 @@
 <systemConfig>
 	
 	<timer_diff>20</timer_diff>
-	<QQSpiderPage>3</QQSpiderPage>
+	<QQSpiderPage>1</QQSpiderPage>
 	
 	<weibo>
 		<username>zhaoyuan01@126.com</username>
@@ -26,6 +26,7 @@
 		<des>排除关键字</des>
 		<value>url.cn</value>
 		<value>电话</value>
+		<value>微信</value>
 	</advert>
 	
 	<address>
