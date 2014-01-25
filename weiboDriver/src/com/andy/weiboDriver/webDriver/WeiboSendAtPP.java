@@ -30,7 +30,7 @@ public class WeiboSendAtPP {
 	}
 
 	public void iterateMessage(WebDriver fd, String[][] messArr) throws InterruptedException, ConfigurationException {
-		WebElement timer_diffWe = fd.findElement(By.id("timer_diff_1"));
+		WebElement timer_diffWe = WebDriverUtil.findElement4Wait(fd, By.id("timer_diff_1"), -1);
 		timer_diffWe.clear();
 		timer_diffWe.sendKeys(XMLConfig.getConfig().getString("timer_diff"));
 		for (int i = 0; i < messArr.length; i++) {
@@ -78,7 +78,7 @@ public class WeiboSendAtPP {
 		messageTimeSendBut.click();
 		// 要给图片提交留一点时间
 		// 等待重复内容的提示
-		Thread.sleep(1000);
+		Thread.sleep(3000);
 		WebElement closeHas = WebDriverUtil.findElement4Wait(fd, By.cssSelector("a[id=\"dialog_close\"]"), 1);
 		if (null != closeHas && closeHas.isDisplayed() ) {
 			closeHas.click();
