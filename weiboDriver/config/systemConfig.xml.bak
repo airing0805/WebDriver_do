@@ -2,21 +2,29 @@
 <systemConfig>
 	
 	<timer_diff>20</timer_diff>
-	<QQSpiderPage>4</QQSpiderPage>
+	<QQSpiderPage>1</QQSpiderPage>
 	
 	<weibo>
 		<username>zhaoyuan01@126.com</username>
 		<password>andy0805</password>
 		<address>
-			<QQAddress>http://t.qq.com/zhichangyy</QQAddress>
-			<QQAddress>http://t.qq.com/weiboimetu</QQAddress>
-			<QQAddress>http://t.qq.com/tx-yuer</QQAddress>
+			<QQAddress>http://t.qq.com/xiaohuacom123</QQAddress>
+			<QQAddress>http://t.qq.com/xiaohua-joke</QQAddress>
 		</address>
 	</weibo>
+
+	<weibo>
+		<username>yitest08051@sina.com</username>
+		<password>andy0805</password>
+		<address>
+			<QQAddress>http://t.qq.com/huang1943</QQAddress>
+			<QQAddress>http://t.qq.com/q346754754</QQAddress>
+		</address>
+	</weibo>
+	
 	<advert>
 		<des>排除关键字</des>
 		<value>url.cn</value>
-		<value>qq</value>
 		<value>电话</value>
 		<value>微信</value>
 	</advert>

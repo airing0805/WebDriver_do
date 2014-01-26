@@ -94,7 +94,7 @@ public class WeiboQQ {
 		String messageLiStr = messageLi.toString();
 		List<Object> advertList  = XMLConfig.getConfig().getList("advert.value");
 		for(Object advertValue : advertList){
-			if(messageLiStr.contains(advertValue.toString())){
+			if(messageLiStr.toLowerCase().contains(advertValue.toString().toLowerCase())){
 				 return true;
 			}
 		}
