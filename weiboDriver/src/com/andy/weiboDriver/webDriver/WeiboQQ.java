@@ -1,32 +1,50 @@
 package com.andy.weiboDriver.webDriver;
 
+import java.io.File;
 import java.util.List;
 
 import org.apache.commons.configuration.ConfigurationException;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
+import com.andy.weiboDriver.util.FileUtil;
 import com.andy.weiboDriver.util.XMLConfig;
 
 public class WeiboQQ {
+
 	StringBuffer messageBuffer = new StringBuffer();
 
-	public String getMessageFlow(WebDriver fd) throws InterruptedException, ConfigurationException {
-		// String url = "http://t.qq.com/xiaohuacom123";
-		long start = System.currentTimeMillis();
-		String message = getMessage(fd,1);
-		long end = System.currentTimeMillis();
-		long total = end - start;
-		System.out.println(total);
-		return message;
-		// fd.quit();
+	public WeiboQQ() {
+		super();
+	}
+
+	public void getMessageFlow(WebDriver fd, int weiboNum) throws ConfigurationException, InterruptedException {
+		for (int i = 0; i < weiboNum; i++) {
+			long start = System.currentTimeMillis();
+			
+			String username = XMLConfig.getConfig().getString("weibo(" + i + ").username");
+			System.out.println(username);
+			String path = System.getProperty("user.dir") + File.separator + username + ".txt";
+			List<Object> addressList = XMLConfig.getConfig().getList("weibo(" + i + ").address.QQAddress");
+			new File(path).delete();
+			for (int j = 0; j < addressList.size(); j++) {
+				String url = XMLConfig.getConfig().getString("weibo(" + i + ").address.QQAddress(" + j + ")");
+				fd.get(url);
+				String message = getMessage(fd, 1);
+				System.out.println(message);
+				FileUtil.write2FileEnd(path, message);
+				// Thread.sleep(3000);
+			}
+			
+			long end = System.currentTimeMillis();
+			long total = end - start;
+			System.out.println(total);
+		}
 	}
 
 	// 从qq获取微博内容，没有水印
-	public String getMessage(WebDriver fd, int startPage) throws InterruptedException, ConfigurationException {
+	private String getMessage(WebDriver fd, int startPage) throws InterruptedException, ConfigurationException {
 		By closeLoginBy = By.cssSelector("div[class=\"DWrap\"] > a.DClose.close");
 		WebElement closeLoginElement = WebDriverUtil.findElement4Wait(fd, closeLoginBy, 2);
 		if (null != closeLoginElement) {
@@ -34,10 +52,10 @@ public class WeiboQQ {
 		}
 		// 点击原创等待加载
 		By originalBy = By.xpath("//*[@id=\"userAppTab\"]/ul/li[2]/a");
-		WebElement  originalWe = WebDriverUtil.findElement4Wait(fd, originalBy, 1);
+		WebElement originalWe = WebDriverUtil.findElement4Wait(fd, originalBy, 1);
 		if (null != closeLoginElement) {
 			String text = originalWe.getText();
-			if(text.contains("原创")){
+			if (text.contains("原创")) {
 				originalWe.click();
 			}
 		}
@@ -45,16 +63,16 @@ public class WeiboQQ {
 		List<WebElement> messageLiList = fd.findElements(By.cssSelector("ul[id=\"talkList\"] > li"));
 		for (int i = 0; i < messageLiList.size(); i++) {
 			WebElement messageLi = messageLiList.get(i);
-			if(hasAdvert(messageLi)){
+			if (hasAdvert(messageLi)) {
 				continue;
 			}
 			WebElement messageDiv = messageLi.findElement(By.cssSelector("div[class=\"msgCnt\"]"));
 			String message = messageDiv.getText().replace("\"", "“");
-			//有链接的都不要。。。
-			if(message.toLowerCase().contains("url.cn")){
+			// 有链接的都不要。。。
+			if (message.toLowerCase().contains("url.cn")) {
 				continue;
 			}
-			messageBuffer.append( message + "~laiqian~");
+			messageBuffer.append(message + "~laiqian~");
 			WebElement picDiv = WebDriverUtil.findElement4Wait(messageLi, By.cssSelector("div[class=\"mediaWrap\"] > div > a.pic"), 1);
 			String picHref = "";
 			if (null != picDiv) {
@@ -62,22 +80,22 @@ public class WeiboQQ {
 			}
 			messageBuffer.append("" + picHref + "~mashang~");
 		}
-		doNextPage(fd,startPage);
+		doNextPage(fd, startPage);
 		return messageBuffer.toString();
 	}
-	
+
 	private void doNextPage(WebDriver fd, int startPage) throws ConfigurationException, InterruptedException {
 		int pageConf = Integer.parseInt(XMLConfig.getConfig().getString("QQSpiderPage"));
-		if(pageConf != startPage){
+		if (pageConf != startPage) {
 			WebElement pageNavWe = fd.findElement(By.xpath("//*[@id=\"pageNav\"]"));
 			List<WebElement> pageLinkWeList = pageNavWe.findElements(By.tagName("a"));
-			int nextPageNum = startPage+1;
-			for(WebElement pageLinkWe:pageLinkWeList){
+			int nextPageNum = startPage + 1;
+			for (WebElement pageLinkWe : pageLinkWeList) {
 				String text = pageLinkWe.getText();
-				if(text.contains("上一页")||text.contains("下一页")){
+				if (text.contains("上一页") || text.contains("下一页")) {
 					continue;
 				}
-				if(nextPageNum == Integer.parseInt(text)){
+				if (nextPageNum == Integer.parseInt(text)) {
 					String nextLink = pageLinkWe.getAttribute("href");
 					fd.get(nextLink);
 					break;
@@ -85,21 +103,21 @@ public class WeiboQQ {
 			}
 			getMessage(fd, nextPageNum);
 		}
-		
+
 	}
 
 	private boolean hasAdvert(WebElement messageLi) throws ConfigurationException {
 		By replyBy = By.cssSelector("div[class=\"replyBox\"]");
-		if(WebDriverUtil.hasElement(messageLi,replyBy))return true;
+		if (WebDriverUtil.hasElement(messageLi, replyBy))
+			return true;
 		String messageLiStr = messageLi.toString();
-		List<Object> advertList  = XMLConfig.getConfig().getList("advert.value");
-		for(Object advertValue : advertList){
-			if(messageLiStr.toLowerCase().contains(advertValue.toString().toLowerCase())){
-				 return true;
+		List<Object> advertList = XMLConfig.getConfig().getList("advert.value");
+		for (Object advertValue : advertList) {
+			if (messageLiStr.toLowerCase().contains(advertValue.toString().toLowerCase())) {
+				return true;
 			}
 		}
 		return false;
 	}
-
 
 }

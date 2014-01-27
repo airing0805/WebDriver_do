@@ -1,7 +1,5 @@
 package com.andy.weiboDriver.util;
 
-import java.util.Date;
-
 import org.junit.Test;
 
 public class T {

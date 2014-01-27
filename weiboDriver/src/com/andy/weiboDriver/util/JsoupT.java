@@ -39,7 +39,7 @@ public class JsoupT {
 		Document doc = getDoc(url);
 		Element el = getSinaArti( doc);
 
-//		System.out.println(el.html());
+		System.out.println(el.html());
 	}
 
 	public Document getDoc(String url) {

@@ -55,40 +55,49 @@ public class WeiboSina {
 	}
 	
 	//通过微博进行登录
-	public void login(WebDriver fd) {
-		fd.get("http://www.weibo.com");
-		List<WebElement> webElementList = fd.findElements(By.tagName("input"));
-		for (WebElement we : webElementList) {
-			boolean flag1 = "username".equals(we.getAttribute("name"));
-			boolean flag2 = "username".equals(we.getAttribute("node-type"));
-			if (flag1 && flag2) {
-				we.sendKeys("yitest0805@sina.com");
-			}
-			boolean flag3 = "password".equals(we.getAttribute("name"));
-			boolean flag4 = "password".equals(we.getAttribute("node-type"));
-			if (flag3 && flag4) {
-				we.sendKeys("andy0805");
-				break;
-			}
-		}
-		List<WebElement> aList = fd.findElements(By.tagName("a"));
-		for (WebElement we : aList) {
-			boolean flag2 = "submitBtn".equals(we.getAttribute("node-type"));
-			if (flag2) {
-				we.click();
-				break;
-			}
-		}
+	public void login(WebDriver fd,String username,String password) {
+//		fd.get("http://www.weibo.com");
+		fd.get("http://weibo.com/logout.php");
+		By usernameBy = By.cssSelector("input[node-type=\"username\"]");
+		WebElement usernameWe = WebDriverUtil.findElement4Wait(fd,usernameBy,-1);
+		usernameWe.click();
+		usernameWe.sendKeys(username);
+		WebElement passwordWe = fd.findElement(By.cssSelector("input[node-type=\"password\"]"));
+		passwordWe.click();
+		passwordWe.sendKeys(password);
+//		fd.findElement(By.id("login_form_savestate")).click();
+		fd.findElement(By.cssSelector("a[node-type=\"submitBtn\"]")).click();
 	}
 	
-	public String getUserInfo(){
-		//TODO
-		return null;
-	}
+	//通过微博进行登录
+		public void login(WebDriver fd) {
+			fd.get("http://www.weibo.com");
+			List<WebElement> webElementList = fd.findElements(By.tagName("input"));
+			for (WebElement we : webElementList) {
+				boolean flag1 = "username".equals(we.getAttribute("name"));
+				boolean flag2 = "username".equals(we.getAttribute("node-type"));
+				if (flag1 && flag2) {
+					we.sendKeys("yitest0805@sina.com");
+				}
+				boolean flag3 = "password".equals(we.getAttribute("name"));
+				boolean flag4 = "password".equals(we.getAttribute("node-type"));
+				if (flag3 && flag4) {
+					we.sendKeys("andy0805");
+					break;
+				}
+			}
+			List<WebElement> aList = fd.findElements(By.tagName("a"));
+			for (WebElement we : aList) {
+				boolean flag2 = "submitBtn".equals(we.getAttribute("node-type"));
+				if (flag2) {
+					we.click();
+					break;
+				}
+			}
+		}
 	
-	public String getUserFromTopic(){
-		//TODO 通过话题，获取用户
-		return null;
+	public void logout(WebDriver fd){
+		fd.get("http://weibo.com/logout.php");
 	}
 	
 	//TODO需要测试
@@ -99,29 +108,23 @@ public class WeiboSina {
 		String href  = we2.getAttribute("href");
 		int last = href.lastIndexOf("=");
 		href = href.substring(0, last+1);
-		String uri = "http://weibo.com"+href;
+//		String uri = "http://weibo.com"+href;
 		for(int i = 0;i<num;i++){
 			href = href.substring(0, last+1)+(i+1);
 			getUserList(fd,href);
 		}
 	}
 	
+	//这个是做什么的哦
 	public void getUserList(WebDriver fd,String url) throws InterruptedException{
 		fd.get(url);
 		Thread.sleep(5000);
-//		List<WebElement> weList =fd.findElements(By.cssSelector("ul[node-type=\"userListBox\"] > li "));
-//		List<WebElement> weList2 =fd.findElements(By.cssSelector("ul[node-type=\"userListBox\"] > li > a[class=\"W_f14 S_func1\"]"));
 		List<WebElement> weList =fd.findElement(By.cssSelector("ul[node-type=\"userListBox\"]")).findElements(By.cssSelector(" a[class=\"W_f14 S_func1\"]"));
-//		List<WebElement> weList4 =fd.findElement(By.cssSelector("ul[node-type=\"userListBox\"]")).findElements(By.tagName("a"));
 		
 		System.out.println(weList.size());
-//		System.out.println(weList2.size());
-//		System.out.println(weList3.size());
-//		System.out.println(weList4.size());
 		String filepath =System.getProperty("user.dir")+File.separator+"aa.txt";
 		String text = "";
 		for(WebElement we:weList){
-//			we = we.findElement(By.cssSelector("a[class=\"W_f14 S_func1\"]"));
 			text =text+ we.getText()+"--@@##--"+we.getAttribute("href")+"\n";
 		}
 		System.out.println(filepath);

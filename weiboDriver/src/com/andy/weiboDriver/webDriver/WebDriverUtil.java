@@ -15,7 +15,7 @@ public class WebDriverUtil {
 	 * @return
 	 * @throws InterruptedException
 	 */
-	public static WebElement findElement4Wait(WebDriver wd, By by, int num) throws InterruptedException {
+	public static WebElement findElement4Wait(WebDriver wd, By by, int num) {
 		WebElement we = null;
 		if(num <0){
 			num =1000;
@@ -25,7 +25,12 @@ public class WebDriverUtil {
 				we = wd.findElement(by);
 				if(null != we)break;
 			} catch (NoSuchElementException e) {
-				Thread.sleep(100);
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+					continue;
+				}
 			}
 		}
 		return we;
@@ -33,7 +38,7 @@ public class WebDriverUtil {
 	
 	public static boolean  hasElement(WebElement wddddd, By by) {
 			try {
-				WebElement we = wddddd.findElement(by);
+				wddddd.findElement(by);
 			} catch (NoSuchElementException e) {
 				return false;
 			}
@@ -48,7 +53,7 @@ public class WebDriverUtil {
 	 * @return
 	 * @throws InterruptedException
 	 */
-	public static WebElement findElement4Wait(WebElement we, By by, int num) throws InterruptedException {
+	public static WebElement findElement4Wait(WebElement we, By by, int num) {
 		WebElement we2 = null;
 		if(num <0){
 			num =1000;
@@ -58,7 +63,12 @@ public class WebDriverUtil {
 				we2 = we.findElement(by);
 				if(null != we)break;
 			} catch (NoSuchElementException e) {
-				Thread.sleep(100);
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+					continue;
+				}
 			}
 		}
 		return we2;

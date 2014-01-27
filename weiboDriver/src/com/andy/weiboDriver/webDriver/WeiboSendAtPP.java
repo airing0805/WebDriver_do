@@ -1,47 +1,80 @@
 package com.andy.weiboDriver.webDriver;
 
-import java.util.Calendar;
+import java.io.File;
 import java.util.List;
 
 import org.apache.commons.configuration.ConfigurationException;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.Select;
 
+import com.andy.weiboDriver.util.FileUtil;
 import com.andy.weiboDriver.util.XMLConfig;
 
 public class WeiboSendAtPP {
-
-	public void faWeiFlowT(WebDriver fd, String username, String password, String[][] messArr) throws InterruptedException, ConfigurationException {
-		long start = System.currentTimeMillis();
-//		login(fd);
-		loginPP(fd, username, password);
-		Thread.sleep(1000);
-		iterateMessage(fd, messArr);
-		long end = System.currentTimeMillis();
-		long total = end - start;
-		System.out.println(total);
+	
+	public WeiboSendAtPP() {
+		super();
 	}
 
-	public void iterateMessage(WebDriver fd, String[][] messArr) throws InterruptedException, ConfigurationException {
+	public void sendAtPPFlow(WebDriver fd, int weiboNum) throws ConfigurationException, InterruptedException {
+		for (int i = 0; i < weiboNum; i++) {
+			long start = System.currentTimeMillis();
+
+			String username = XMLConfig.getConfig().getString("weibo(" + i + ").username");
+			String password = XMLConfig.getConfig().getString("weibo(" + i + ").password");
+			System.out.println(username);
+			String path = System.getProperty("user.dir") + File.separator + username + ".txt";
+			StringBuffer sb = FileUtil.readFileByLines(path);
+			String[][] messArr = str2Arr(sb.toString());
+			loginPP(fd, username, password);
+			Thread.sleep(1000);
+			iterateMessage(fd, messArr);
+
+			long end = System.currentTimeMillis();
+			long total = end - start;
+			System.out.println(total);
+		}
+	}
+
+	private String[][] str2Arr(String message) {
+		String[] messArr = message.split("~mashang~");
+		String[][] messArr2 = new String[messArr.length][2];
+		for (int i = 0; i < messArr.length; i++) {
+			String[] messArr3 = messArr[i].split("~laiqian~");
+			messArr2[i][0] = messArr3[0];
+			if (messArr3.length > 1) {
+				messArr2[i][1] = messArr3[1];
+			} else {
+				messArr2[i][1] = "";
+			}
+		}
+		return messArr2;
+	}
+
+
+	private void iterateMessage(WebDriver fd, String[][] messArr) throws InterruptedException, ConfigurationException {
 		WebElement timer_diffWe = WebDriverUtil.findElement4Wait(fd, By.id("timer_diff_1"), -1);
 		timer_diffWe.clear();
 		timer_diffWe.sendKeys(XMLConfig.getConfig().getString("timer_diff"));
 		for (int i = 0; i < messArr.length; i++) {
-			fd.get(fd.getCurrentUrl());
-			ppSendTime(fd, messArr[i][0], messArr[i][1]);
+			// fd.get(fd.getCurrentUrl());
+			try {
+				ppSendTime(fd, messArr[i][0], messArr[i][1]);
+			} catch (Exception e) {
+				System.out.println("失败的内容 ：" + messArr[i][0]);
+				e.printStackTrace();
+				continue;
+			}
 		}
 	}
 
-	public void ppSendTime(WebDriver fd, String message, String picUrl) throws InterruptedException {
-		//页面显示
-		WebDriverUtil.findElement4Wait(fd,By.cssSelector("textarea[id=\"content_1\"]"),-1);
+	private void ppSendTime(WebDriver fd, String message, String picUrl) throws InterruptedException {
+		// 页面显示
+		WebDriverUtil.findElement4Wait(fd, By.cssSelector("textarea[id=\"content_1\"]"), -1);
 		// 显示图片提示方式
 		((JavascriptExecutor) fd).executeScript("$('#show_pic_list_1').show();");
 		Thread.sleep(100);
@@ -60,7 +93,7 @@ public class WeiboSendAtPP {
 			// 输入图片地址
 			WebElement picLinkInput = fd.findElement(By.cssSelector("input[id=\"pic_url_1\"]"));
 			picLinkInput.sendKeys(picUrl);
-			
+
 			Thread.sleep(10);
 			// 提交图片
 			WebElement picLinkSubmit = fd.findElement(By.cssSelector("input[id=\"pic_url_send_1\"]"));
@@ -80,20 +113,21 @@ public class WeiboSendAtPP {
 		// 等待重复内容的提示
 		Thread.sleep(3000);
 		WebElement closeHas = WebDriverUtil.findElement4Wait(fd, By.cssSelector("a[id=\"dialog_close\"]"), 1);
-		if (null != closeHas && closeHas.isDisplayed() ) {
+		if (null != closeHas && closeHas.isDisplayed()) {
 			closeHas.click();
-			//等待一下，让图片地址自动关闭。
+			// 等待一下，让图片地址自动关闭。
 			Thread.sleep(100);
 		}
 		MessageWe.clear();
-		//上传完成后，关闭图片，防止中断。
+		// 上传完成后，关闭图片，防止中断。
 		WebElement picClose = WebDriverUtil.findElement4Wait(fd, By.cssSelector("strong[id=\"insert_picture_preview_1\"] > a"), 2);
-		if (null != picClose && picClose.isDisplayed()  ) {
+		if (null != picClose && picClose.isDisplayed()) {
 			picClose.click();
 		}
 	}
-	
-	public void ppSendTimeBak(WebDriver fd, String message, String picUrl) throws InterruptedException {
+
+	@SuppressWarnings("unused")
+	private void ppSendTimeBak(WebDriver fd, String message, String picUrl) throws InterruptedException {
 		// 显示图片提示方式
 		((JavascriptExecutor) fd).executeScript("$('#show_pic_list_1').show();");
 		Thread.sleep(100);
@@ -112,7 +146,7 @@ public class WeiboSendAtPP {
 			// 输入图片地址
 			WebElement picLinkInput = fd.findElement(By.cssSelector("input[id=\"pic_url_1\"]"));
 			picLinkInput.sendKeys(picUrl);
-			
+
 			Thread.sleep(10);
 			// 提交图片
 			WebElement picLinkSubmit = fd.findElement(By.cssSelector("input[id=\"pic_url_send_1\"]"));
@@ -132,39 +166,44 @@ public class WeiboSendAtPP {
 		// 等待重复内容的提示
 		Thread.sleep(1000);
 		WebElement closeHas = WebDriverUtil.findElement4Wait(fd, By.cssSelector("a[id=\"dialog_close\"]"), 1);
-		if (null != closeHas && closeHas.isDisplayed() ) {
+		if (null != closeHas && closeHas.isDisplayed()) {
 			closeHas.click();
-			//等待一下，让图片地址自动关闭。
+			// 等待一下，让图片地址自动关闭。
 			Thread.sleep(100);
 		}
 		MessageWe.clear();
-		//上传完成后，关闭图片，防止中断。
+		// 上传完成后，关闭图片，防止中断。
 		WebElement picClose = WebDriverUtil.findElement4Wait(fd, By.cssSelector("strong[id=\"insert_picture_preview_1\"] > a"), 2);
-		if (null != picClose && picClose.isDisplayed()  ) {
+		if (null != picClose && picClose.isDisplayed()) {
 			picClose.click();
 		}
 	}
-	
+
 	// 登录到pp
-	public void loginPP(WebDriver fd, String username, String password) throws InterruptedException {
+	private void loginPP(WebDriver fd, String username, String password) throws InterruptedException {
 		// 这个注释要保留
-		//String ppUrl = "http://weibo.pp.cc/";
+		// String ppUrl = "http://weibo.pp.cc/";
+		// 退出的链接地址，
 		String ppUrl = "http://login.pp.cc/logout.html?redirect=http://weibo.pp.cc/logout.php";
 		fd.get(ppUrl);
-		//先退出
-		WebElement we = WebDriverUtil.findElement4Wait(fd, By.xpath("//*[@id=\"changeMyMenu\"]"), 1);
+		// 先保证退出
+		WebDriverUtil.findElement4Wait(fd, By.xpath("//*[@id=\"changeMyMenu\"]"), 1);
 		fd.findElement(By.id("username_login")).sendKeys(username);
 		fd.findElement(By.id("password_login")).sendKeys(password);
 		fd.findElement(By.id("submit_login")).click();
 	}
 
-	public void ppTime(WebDriver fd, String text) {
-		Calendar calendar = Calendar.getInstance();
-		Select select = new Select(fd.findElement(By.cssSelector("select[id=\"hour_1\"]")));
-		select.selectByVisibleText(text);
+	@SuppressWarnings("unused")
+	private void ppTime(WebDriver fd, String text) {
+		// 在晚上1点到7点的时候不发送
+		// 当
+//		Calendar calendar = Calendar.getInstance();
+//		Select select = new Select(fd.findElement(By.cssSelector("select[id=\"hour_1\"]")));
+//		select.selectByVisibleText(text);
 	}
 
-	public void loginPP4Oauth(WebDriver fd) throws InterruptedException {
+	@SuppressWarnings("unused")
+	private void loginPP4Oauth(WebDriver fd) throws InterruptedException {
 		String ppUrl = "http://weibo.pp.cc/";
 		fd.get(ppUrl);
 		Thread.sleep(1000);
@@ -190,7 +229,8 @@ public class WeiboSendAtPP {
 	}
 
 	// 点击新浪登录
-	public void loginPP4click(WebDriver fd) throws InterruptedException {
+	@SuppressWarnings("unused")
+	private void loginPP4click(WebDriver fd) throws InterruptedException {
 		String ppUrl = "http://weibo.pp.cc/";
 		fd.get(ppUrl);
 		String currentUrl = fd.getCurrentUrl();
@@ -209,33 +249,6 @@ public class WeiboSendAtPP {
 		fd.get(timeUrl);
 	}
 
-
-
-	// 登录到新浪微博
-	public void login(WebDriver fd) {
-		fd.get("http://www.weibo.com");
-		List<WebElement> webElementList = fd.findElements(By.tagName("input"));
-		for (WebElement we : webElementList) {
-			boolean flag1 = "username".equals(we.getAttribute("name"));
-			boolean flag2 = "username".equals(we.getAttribute("node-type"));
-			if (flag1 && flag2) {
-				we.sendKeys("yitest0805@sina.com");
-			}
-			boolean flag3 = "password".equals(we.getAttribute("name"));
-			boolean flag4 = "password".equals(we.getAttribute("node-type"));
-			if (flag3 && flag4) {
-				we.sendKeys("andy0805");
-				break;
-			}
-		}
-		List<WebElement> aList = fd.findElements(By.tagName("a"));
-		for (WebElement we : aList) {
-			boolean flag2 = "submitBtn".equals(we.getAttribute("node-type"));
-			if (flag2) {
-				we.click();
-				break;
-			}
-		}
-	}
+	
 
 }
