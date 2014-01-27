@@ -56,15 +56,20 @@ public class WeiboSina {
 	
 	//通过微博进行登录
 	public void login(WebDriver fd,String username,String password) {
-		fd.get("http://www.weibo.com");
-		WebElement usernameWe = fd.findElement(By.cssSelector("input[node-type=\"username\"]"));
+//		fd.get("http://www.weibo.com");
+		fd.get("http://weibo.com/logout.php");
+		By usernameBy = By.cssSelector("input[node-type=\"username\"]");
+		WebElement usernameWe = WebDriverUtil.findElement4Wait(fd,usernameBy,-1);
 		usernameWe.sendKeys(username);
 		WebElement passwordWe = fd.findElement(By.cssSelector("input[node-type=\"password\"]"));
 		passwordWe.sendKeys(password);
-		fd.findElement(By.cssSelector("input[node-type=\"savestate\"]")).click();
+		fd.findElement(By.id("login_form_savestate")).click();
 		fd.findElement(By.cssSelector("input[node-type=\"submitBtn\"]")).click();
 	}
 	
+	public void logout(WebDriver fd){
+		fd.get("http://weibo.com/logout.php");
+	}
 	
 	//TODO需要测试
 	public void GetUserFromFans(WebDriver fd) throws InterruptedException{
