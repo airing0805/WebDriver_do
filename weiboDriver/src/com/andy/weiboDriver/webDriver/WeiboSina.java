@@ -63,8 +63,8 @@ public class WeiboSina {
 		usernameWe.sendKeys(username);
 		WebElement passwordWe = fd.findElement(By.cssSelector("input[node-type=\"password\"]"));
 		passwordWe.sendKeys(password);
-		fd.findElement(By.id("login_form_savestate")).click();
-		fd.findElement(By.cssSelector("input[node-type=\"submitBtn\"]")).click();
+//		fd.findElement(By.id("login_form_savestate")).click();
+		fd.findElement(By.cssSelector("a[node-type=\"submitBtn\"]")).click();
 	}
 	
 	public void logout(WebDriver fd){

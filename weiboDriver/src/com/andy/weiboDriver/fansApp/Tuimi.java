@@ -14,7 +14,8 @@ public class Tuimi {
 		WebDriver fd = new FirefoxDriver();
 		String username = "yitest0805@sina.com";
 		String password = "andy0805";
-		tu.oneKeyAttention(fd, username, password);
+		new WeiboSina().login(fd, username, password);
+		tu.oneKeyAttention(fd);
 	}
 	
 	
@@ -32,8 +33,8 @@ public class Tuimi {
 		
 	}
 	
-	public void oneKeyAttention(WebDriver fd, String username, String password) {
-		new WeiboSina().login(fd, username, password);
+	public void oneKeyAttention(WebDriver fd) {
+		
 		String url = "http://apps.weibo.com/tuimimi";
 		fd.get(url);
 		fd.findElement(By.id("onekey_btn")).click();
