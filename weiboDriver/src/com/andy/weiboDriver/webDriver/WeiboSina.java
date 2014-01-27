@@ -99,7 +99,7 @@ public class WeiboSina {
 		String href  = we2.getAttribute("href");
 		int last = href.lastIndexOf("=");
 		href = href.substring(0, last+1);
-		String uri = "http://weibo.com"+href;
+//		String uri = "http://weibo.com"+href;
 		for(int i = 0;i<num;i++){
 			href = href.substring(0, last+1)+(i+1);
 			getUserList(fd,href);

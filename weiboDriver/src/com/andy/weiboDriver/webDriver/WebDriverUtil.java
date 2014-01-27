@@ -33,7 +33,7 @@ public class WebDriverUtil {
 	
 	public static boolean  hasElement(WebElement wddddd, By by) {
 			try {
-				WebElement we = wddddd.findElement(by);
+				wddddd.findElement(by);
 			} catch (NoSuchElementException e) {
 				return false;
 			}
