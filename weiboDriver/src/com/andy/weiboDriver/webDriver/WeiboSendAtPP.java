@@ -249,32 +249,6 @@ public class WeiboSendAtPP {
 		fd.get(timeUrl);
 	}
 
-	// 登录到新浪微博
-	@SuppressWarnings("unused")
-	private void login(WebDriver fd) {
-		fd.get("http://www.weibo.com");
-		List<WebElement> webElementList = fd.findElements(By.tagName("input"));
-		for (WebElement we : webElementList) {
-			boolean flag1 = "username".equals(we.getAttribute("name"));
-			boolean flag2 = "username".equals(we.getAttribute("node-type"));
-			if (flag1 && flag2) {
-				we.sendKeys("yitest0805@sina.com");
-			}
-			boolean flag3 = "password".equals(we.getAttribute("name"));
-			boolean flag4 = "password".equals(we.getAttribute("node-type"));
-			if (flag3 && flag4) {
-				we.sendKeys("andy0805");
-				break;
-			}
-		}
-		List<WebElement> aList = fd.findElements(By.tagName("a"));
-		for (WebElement we : aList) {
-			boolean flag2 = "submitBtn".equals(we.getAttribute("node-type"));
-			if (flag2) {
-				we.click();
-				break;
-			}
-		}
-	}
+	
 
 }
