@@ -1,9 +1,6 @@
 package com.andy.weiboDriver.fansApp;
 
-import java.awt.RenderingHints.Key;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -27,38 +24,19 @@ public class Tuimi {
 	public Tuimi() {
 		super();
 	}
-
-	public void attentionOne(WebDriver fd, String username, String password){
-		
-		String url = "http://apps.weibo.com/tuimimi";
-		fd.get(url);
-		fd.findElement(By.id("onekey_btn")).click();
-		
-	}
 	
 	public void oneKeyAttention(WebDriver fd) {
 		
 		String url = "http://apps.weibo.com/tuimimi";
 		fd.get(url);
-		WebElement searchWe = WebDriverUtil.findElement4Wait(fd, By.cssSelector("input[node-type=\"searchInput\"]"), -1);
-		searchWe.sendKeys("搜");
-//		fd.findElement(By.id("desc")).click();
-		System.out.println(1);
-		WebElement appsIframe =WebDriverUtil.findElement4Wait(fd,By.id("apps"),-1);
-		System.out.println(2);
-		fd.switchTo().frame(appsIframe);
-		System.out.println(3);
-		fd.findElement(By.id("onekey_btn")).click();
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		fd = fd.switchTo().defaultContent();
-		WebElement appsIframeTwo =fd.findElement(By.id("apps"));
-		fd = fd.switchTo().frame(appsIframeTwo);
-		WebElement iframeWe = fd.findElement(By.cssSelector("div[id=\"oneKeyAttention\"] > iframe"));
-//		WebElement iframeWe =  WebDriverUtil.findElement4Wait(oneKeyAttentionWe,By.tagName("iframe"),-1);
+		WebDriverUtil.findElement4Wait(fd, By.id("apps"), 10);
+		url = "http://tuimi.sinaapp.com/onekeyfl";
+		System.out.println(4);
+		fd.get(url);
+		System.out.println(5);
+		WebElement oneKeyAttentionWe = WebDriverUtil.findElement4Wait(fd,By.cssSelector("div[id=\"oneKeyAttention\"]"),10);
+		WebElement iframeWe =  WebDriverUtil.findElement4Wait(oneKeyAttentionWe,By.tagName("iframe"),-1);
+		System.out.println(6);
 		fd.switchTo().frame(iframeWe);
 
 		System.out.println(7);
@@ -66,9 +44,15 @@ public class Tuimi {
 		WebElement oneKeyButton = divWe.findElement(By.cssSelector("a[class=\"btngreen_l\"]"));
 		System.out.println(8);
 		oneKeyButton.sendKeys(Keys.DOWN);
-		oneKeyButton.click();
-//		oneKeyButton.findElement(By.tagName("span")).click();
+		System.out.println(oneKeyButton.isEnabled());
+		System.out.println(oneKeyButton.getText());
+		System.out.println(oneKeyButton.getLocation());
+//		oneKeyButton.click();
 		System.out.println(9);
+//		fd.switchTo().alert().accept();
+		fd.switchTo().defaultContent();
+		fd.findElement(By.id("addMark"));
+		
 //		try {
 //			Thread.sleep(5000);
 //		} catch (InterruptedException e) {
