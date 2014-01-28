@@ -1,7 +1,6 @@
 package com.andy.weiboDriver.webDriver;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -9,6 +8,7 @@ public class WebDriverUtil {
 
 	/**
 	 * driver范围内，在一定时间内查找元素，传入秒时间
+	 * 
 	 * @param wd
 	 * @param by
 	 * @param num
@@ -17,14 +17,15 @@ public class WebDriverUtil {
 	 */
 	public static WebElement findElement4Wait(WebDriver wd, By by, int num) {
 		WebElement we = null;
-		if(num <0){
-			num =1000;
+		if (num < 0) {
+			num = 1000;
 		}
 		for (int i = 0; i < num * 10; i++) {
 			try {
 				we = wd.findElement(by);
-				if(null != we)break;
-			} catch (NoSuchElementException e) {
+				if (null != we)
+					break;
+			} catch (RuntimeException e) {
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e1) {
@@ -35,18 +36,19 @@ public class WebDriverUtil {
 		}
 		return we;
 	}
-	
-	public static boolean  hasElement(WebElement wddddd, By by) {
-			try {
-				wddddd.findElement(by);
-			} catch (NoSuchElementException e) {
-				return false;
-			}
+
+	public static boolean hasElement(WebElement wddddd, By by) {
+		try {
+			wddddd.findElement(by);
+		} catch (RuntimeException e) {
+			return false;
+		}
 		return true;
 	}
 
 	/**
 	 * 元素范围内，在一定时间内查找元素，传入秒时间
+	 * 
 	 * @param we
 	 * @param by
 	 * @param num
@@ -55,14 +57,15 @@ public class WebDriverUtil {
 	 */
 	public static WebElement findElement4Wait(WebElement we, By by, int num) {
 		WebElement we2 = null;
-		if(num <0){
-			num =1000;
+		if (num < 0) {
+			num = 1000;
 		}
 		for (int i = 0; i < num * 10; i++) {
 			try {
 				we2 = we.findElement(by);
-				if(null != we)break;
-			} catch (NoSuchElementException e) {
+				if (null != we)
+					break;
+			} catch (RuntimeException e) {
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e1) {
