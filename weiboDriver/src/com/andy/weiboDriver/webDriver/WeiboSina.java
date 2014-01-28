@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 import com.andy.weiboDriver.util.FileUtil;
 
@@ -60,42 +61,15 @@ public class WeiboSina {
 		fd.get("http://weibo.com/logout.php");
 		By usernameBy = By.cssSelector("input[node-type=\"username\"]");
 		WebElement usernameWe = WebDriverUtil.findElement4Wait(fd,usernameBy,-1);
-		usernameWe.click();
 		usernameWe.sendKeys(username);
 		WebElement passwordWe = fd.findElement(By.cssSelector("input[node-type=\"password\"]"));
-		passwordWe.click();
 		passwordWe.sendKeys(password);
 //		fd.findElement(By.id("login_form_savestate")).click();
 		WebElement loginDivWe = fd.findElement(By.cssSelector("div[node-type=\"normal_form\"]"));
 		loginDivWe.findElement(By.cssSelector("a[node-type=\"submitBtn\"]")).click();
+		WebDriverUtil.findElement4Wait(fd, By.id("pl_content_top"), -1);
+		
 	}
-	
-	//通过微博进行登录
-		public void login(WebDriver fd) {
-			fd.get("http://www.weibo.com");
-			List<WebElement> webElementList = fd.findElements(By.tagName("input"));
-			for (WebElement we : webElementList) {
-				boolean flag1 = "username".equals(we.getAttribute("name"));
-				boolean flag2 = "username".equals(we.getAttribute("node-type"));
-				if (flag1 && flag2) {
-					we.sendKeys("yitest0805@sina.com");
-				}
-				boolean flag3 = "password".equals(we.getAttribute("name"));
-				boolean flag4 = "password".equals(we.getAttribute("node-type"));
-				if (flag3 && flag4) {
-					we.sendKeys("andy0805");
-					break;
-				}
-			}
-			List<WebElement> aList = fd.findElements(By.tagName("a"));
-			for (WebElement we : aList) {
-				boolean flag2 = "submitBtn".equals(we.getAttribute("node-type"));
-				if (flag2) {
-					we.click();
-					break;
-				}
-			}
-		}
 	
 	public void logout(WebDriver fd){
 		fd.get("http://weibo.com/logout.php");
