@@ -15,7 +15,7 @@ public class Tuimi {
 		String username = "yitest0805@sina.com";
 		String password = "andy0805";
 		new WeiboSina().login(fd, username, password);
-		tu.oneKeyAttention(fd);
+//		tu.oneKeyAttention(fd);
 	}
 	
 	

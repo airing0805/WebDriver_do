@@ -66,7 +66,8 @@ public class WeiboSina {
 		passwordWe.click();
 		passwordWe.sendKeys(password);
 //		fd.findElement(By.id("login_form_savestate")).click();
-		fd.findElement(By.cssSelector("a[node-type=\"submitBtn\"]")).click();
+		WebElement loginDivWe = fd.findElement(By.cssSelector("div[node-type=\"normal_form\"]"));
+		loginDivWe.findElement(By.cssSelector("a[node-type=\"submitBtn\"]")).click();
 	}
 	
 	//通过微博进行登录
