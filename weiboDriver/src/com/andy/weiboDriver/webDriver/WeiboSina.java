@@ -67,7 +67,7 @@ public class WeiboSina {
 //		fd.findElement(By.id("login_form_savestate")).click();
 		WebElement loginDivWe = fd.findElement(By.cssSelector("div[node-type=\"normal_form\"]"));
 		loginDivWe.findElement(By.cssSelector("a[node-type=\"submitBtn\"]")).click();
-		WebDriverUtil.findElement4Wait(fd, By.id("pl_content_top"), -1);
+		WebDriverUtil.findElement4Wait(fd, By.id("pl_content_top"), 100);
 		
 	}
 	
