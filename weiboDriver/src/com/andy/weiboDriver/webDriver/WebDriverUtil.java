@@ -76,5 +76,21 @@ public class WebDriverUtil {
 		}
 		return we2;
 	}
+	
+	public static WebDriver getUrl(WebDriver fd,String url){
+		while(true){
+			fd.get(url);
+			String currentUrl = fd.getCurrentUrl();
+			if(currentUrl.contains(url)){
+				return fd;
+			}else{
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+				}
+				continue;
+			}
+		}
+	}
 
 }
