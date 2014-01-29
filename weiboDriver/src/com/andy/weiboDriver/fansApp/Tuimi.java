@@ -10,6 +10,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import com.andy.weiboDriver.webDriver.WebDriverUtil;
 import com.andy.weiboDriver.webDriver.WeiboSina;
 
+//推米互粉
 public class Tuimi {
 
 	public static void main(String[] args) {
@@ -66,7 +67,7 @@ public class Tuimi {
 		}
 	}
 
-	public void oneKeyAttention(WebDriver fd) {
+	public boolean oneKeyAttention(WebDriver fd) {
 		// 点击一键关注
 		WebElement divWe = WebDriverUtil.findElement4Wait(fd, By.cssSelector("div[class=\"btn_con\"]"), 100);
 		WebElement oneKeyButton = WebDriverUtil.findElement4Wait(divWe, By.cssSelector("a[class=\"btngreen_l\"]"), 100);
@@ -91,8 +92,10 @@ public class Tuimi {
 		fd.findElement(By.id("addMark")).click();
 		// 确认积分
 		WebElement alertWe = WebDriverUtil.findElement4Wait(fd, By.id("tu_dialog_body"), 10);
+		boolean flag = alertWe.getText().contains("领分无效");
 		alertWe.findElement(By.cssSelector("a[class=\"btn\"]")).click();
 		System.out.println("完成一键");
+		return flag;
 	}
 
 	public void nextOneKeyAttention(WebDriver fd) {
