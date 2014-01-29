@@ -1,6 +1,5 @@
 package com.andy.weiboDriver.util;
 
-
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
 
@@ -10,13 +9,15 @@ public class XMLConfig {
 
 	private XMLConfig() {
 	}
-	
-	
 
-	public static XMLConfiguration getConfig() throws ConfigurationException {
-		if (xmlConifg == null) {
-			System.out.println(System.getProperty("user.dir"));              
-			xmlConifg = new XMLConfiguration(System.getProperty("user.dir")+"/config/systemConfig.xml");
+	public static XMLConfiguration getConfig() {
+		try {
+			if (xmlConifg == null) {
+				System.out.println(System.getProperty("user.dir"));
+				xmlConifg = new XMLConfiguration(System.getProperty("user.dir") + "/config/systemConfig.xml");
+			}
+		} catch (ConfigurationException e){
+			e.printStackTrace();
 		}
 		return xmlConifg;
 	}

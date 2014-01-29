@@ -12,15 +12,19 @@ public class Tuitu {
 
 	// http://tuitu.sinaapp.com/weibo/?ref=appmy
 	public static void main(String[] args) {
-		Tuitu tu = new Tuitu();
 		WebDriver fd = new FirefoxDriver();
 		String username = "yitest0805@sina.com";
 		String password = "andy0805";
 		new WeiboSina().login(fd, username, password);
+		Tuitu tu = new Tuitu();
 		// 先弄积分再继续推
-		tu.oneKeyScore(fd);
-		tu.startSpread(fd);
+		tu.getScoreFlow(fd);
 		System.out.println(10);
+	}
+	
+	public void getScoreFlow(WebDriver fd){
+		oneKeyScore(fd);
+		startSpread(fd);
 	}
 
 	private void startSpread(WebDriver fd) {

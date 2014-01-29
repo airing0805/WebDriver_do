@@ -14,21 +14,24 @@ import com.andy.weiboDriver.webDriver.WeiboSina;
 public class Tuimi {
 
 	public static void main(String[] args) {
-		Tuimi tu = new Tuimi();
 		WebDriver fd = new FirefoxDriver();
 		String username = "yitest0805@sina.com";
 		String password = "andy0805";
 		new WeiboSina().login(fd, username, password);
-		tu.gotoOneKeyPage(fd);
-		
-		tu.switchToIframe(fd);
-		tu.oneKeyAttention(fd);
-		tu.nextOneKeyAttention(fd);
-		
-		tu.switchToIframe(fd);
-		tu.oneKeyAttention(fd);
-		tu.nextOneKeyAttention(fd);
+		Tuimi tu = new Tuimi();
+		tu.getScoreFlow( fd);
+//		
+//		tu.switchToIframe(fd);
+//		tu.oneKeyAttention(fd);
+//		tu.nextOneKeyAttention(fd);
 		System.out.println(10);
+	}
+	
+	public void getScoreFlow(WebDriver fd){
+		gotoOneKeyPage(fd);
+		switchToIframe(fd);
+		oneKeyAttention(fd);
+		nextOneKeyAttention(fd);
 	}
 
 	public Tuimi() {
@@ -40,7 +43,7 @@ public class Tuimi {
 //		fd.get(url);
 //		WebDriverUtil.findElement4Wait(fd, By.id("apps"), 10);
 		String url = "http://tuimi.sinaapp.com/onekeyfl";
-		fd.get(url);
+		WebDriverUtil.getUrl(fd, url);
 	}
 
 	public void switchToIframe(WebDriver fd) {
