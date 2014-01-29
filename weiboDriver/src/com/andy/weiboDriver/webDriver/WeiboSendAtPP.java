@@ -24,8 +24,8 @@ public class WeiboSendAtPP {
 		for (int i = 0; i < weiboNum; i++) {
 			long start = System.currentTimeMillis();
 
-			String username = XMLConfig.getConfig().getString("weibo(" + i + ").username");
-			String password = XMLConfig.getConfig().getString("weibo(" + i + ").password");
+			String username = XMLConfig.getConfig().getString("weibo(" + i + ").pp_username");
+			String password = XMLConfig.getConfig().getString("weibo(" + i + ").pp_password");
 			System.out.println(username);
 			String path = System.getProperty("user.dir") + File.separator + username + ".txt";
 			StringBuffer sb = FileUtil.readFileByLines(path);

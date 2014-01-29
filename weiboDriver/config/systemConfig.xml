@@ -5,13 +5,15 @@
 	<QQSpiderPage>4</QQSpiderPage>
 	
 	<weibo>
-		<username>zhaoyuan01@126.com</username>
-		<password>andy0805</password>
-		<address>
+		<weibo_username></weibo_username>
+		<weibo_password></weibo_password>
+		<pp_username>zhaoyuan01@126.com</pp_username>
+		<pp_password>andy0805</pp_password>
+		<pp_address>
 			<QQAddress>http://t.qq.com/zhichangyy</QQAddress>
 			<QQAddress>http://t.qq.com/weiboimetu</QQAddress>
 			<QQAddress>http://t.qq.com/tx-yuer</QQAddress>
-		</address>
+		</pp_address>
 	</weibo>
 	<advert>
 		<des>排除关键字</des>

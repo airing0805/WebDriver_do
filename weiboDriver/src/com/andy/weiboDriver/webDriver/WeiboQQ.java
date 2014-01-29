@@ -23,10 +23,10 @@ public class WeiboQQ {
 		for (int i = 0; i < weiboNum; i++) {
 			long start = System.currentTimeMillis();
 			
-			String username = XMLConfig.getConfig().getString("weibo(" + i + ").username");
+			String username = XMLConfig.getConfig().getString("weibo(" + i + ").pp_username");
 			System.out.println(username);
 			String path = System.getProperty("user.dir") + File.separator + username + ".txt";
-			List<Object> addressList = XMLConfig.getConfig().getList("weibo(" + i + ").address.QQAddress");
+			List<Object> addressList = XMLConfig.getConfig().getList("weibo(" + i + ").pp_address.QQAddress");
 			new File(path).delete();
 			for (int j = 0; j < addressList.size(); j++) {
 				String url = XMLConfig.getConfig().getString("weibo(" + i + ").address.QQAddress(" + j + ")");
