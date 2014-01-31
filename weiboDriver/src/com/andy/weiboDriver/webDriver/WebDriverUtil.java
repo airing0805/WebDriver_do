@@ -79,11 +79,11 @@ public class WebDriverUtil {
 	
 	public static WebDriver getUrl(WebDriver fd,String url){
 		while(true){
-			fd.get(url);
 			String currentUrl = fd.getCurrentUrl();
 			if(currentUrl.contains(url)){
 				return fd;
 			}else{
+				fd.get(url);
 				try {
 					Thread.sleep(500);
 				} catch (InterruptedException e) {

@@ -14,12 +14,11 @@ import com.andy.weiboDriver.util.XMLConfig;
 public class Main {
 	public static void main(String[] args) throws ConfigurationException, InterruptedException {
 
-
-		int caseNum = 1;
+		int caseNum = 0;
 		if (null != args && args.length > 0) {
 			caseNum = Integer.parseInt(args[0]);
 		} 
-		List<Object> weiboList = XMLConfig.getConfig().getList("weibo.username");
+		List<Object> weiboList = XMLConfig.getConfig().getList("weibo.weibo_username");
 		int weiboNum = weiboList.size();
 		WebDriver fd = new FirefoxDriver();
 		if(caseNum==0){

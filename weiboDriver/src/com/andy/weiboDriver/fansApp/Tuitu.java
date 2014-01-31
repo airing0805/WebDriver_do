@@ -49,7 +49,6 @@ public class Tuitu {
 				if (!followAllBtnWe.isDisplayed()) {
 					break;
 				}
-				System.out.println("followAllBtnWe.isDisplayed()");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				continue;

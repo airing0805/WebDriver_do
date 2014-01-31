@@ -29,7 +29,7 @@ public class WeiboQQ {
 			List<Object> addressList = XMLConfig.getConfig().getList("weibo(" + i + ").pp_address.QQAddress");
 			new File(path).delete();
 			for (int j = 0; j < addressList.size(); j++) {
-				String url = XMLConfig.getConfig().getString("weibo(" + i + ").address.QQAddress(" + j + ")");
+				String url = XMLConfig.getConfig().getString("weibo(" + i + ").pp_address.QQAddress(" + j + ")");
 				fd.get(url);
 				String message = getMessage(fd, 1);
 				System.out.println(message);
