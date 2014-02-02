@@ -1,7 +1,6 @@
 package com.andy.weiboDriver.webDriver;
 
 import java.io.File;
-import java.util.List;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.openqa.selenium.By;

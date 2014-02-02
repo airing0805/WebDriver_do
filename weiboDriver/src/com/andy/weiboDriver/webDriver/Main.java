@@ -14,7 +14,7 @@ import com.andy.weiboDriver.util.XMLConfig;
 public class Main {
 	public static void main(String[] args) throws ConfigurationException, InterruptedException {
 
-		int caseNum = 0;
+		int caseNum = 3;
 		if (null != args && args.length > 0) {
 			caseNum = Integer.parseInt(args[0]);
 		} 
@@ -22,11 +22,11 @@ public class Main {
 		int weiboNum = weiboList.size();
 		WebDriver fd = new FirefoxDriver();
 		if(caseNum==0){
-			 new WeiboQQ().getMessageFlow(fd, weiboNum);
+			 new DriverWeiboQQ().getMessageFlow(fd, weiboNum);
 		}else if(caseNum==1){
 			new WeiboSendAtPP().sendAtPPFlow(fd, weiboNum);
 		}else if(caseNum==2){
-			new WeiboQQ().getMessageFlow(fd, weiboNum);
+			new DriverWeiboQQ().getMessageFlow(fd, weiboNum);
 			new WeiboSendAtPP().sendAtPPFlow(fd, weiboNum);
 		}else if(caseNum==3){
 			iterateGetScore(fd,weiboNum);
