@@ -13,8 +13,6 @@ import com.andy.weiboDriver.util.XMLConfig;
 
 public class DriverWeiboQQ {
 
-	StringBuffer messageBuffer = new StringBuffer();
-
 	public DriverWeiboQQ() {
 		super();
 	}
@@ -30,11 +28,15 @@ public class DriverWeiboQQ {
 			new File(path).delete();
 			for (int j = 0; j < addressList.size(); j++) {
 				String url = XMLConfig.getConfig().getString("weibo(" + i + ").pp_address.QQAddress(" + j + ")");
+				System.out.println(url);
 				fd.get(url);
-				String message = getMessage(fd, 1);
-				System.out.println(message);
-				FileUtil.write2FileEnd(path, message);
-				// Thread.sleep(3000);
+				int pageConf = Integer.parseInt(XMLConfig.getConfig().getString("QQSpiderPage"));
+				for(int k =0;k<pageConf;k++){
+					String message = getMessage(fd);
+					System.out.println(message);
+					doNextPage(fd, k+1);
+					FileUtil.write2FileEnd(path, message);
+				}
 			}
 			
 			long end = System.currentTimeMillis();
@@ -44,7 +46,8 @@ public class DriverWeiboQQ {
 	}
 
 	// 从qq获取微博内容，没有水印
-	private String getMessage(WebDriver fd, int startPage) throws InterruptedException, ConfigurationException {
+	private String getMessage(WebDriver fd) throws InterruptedException, ConfigurationException {
+		StringBuffer messageBuffer = new StringBuffer();
 		By closeLoginBy = By.cssSelector("div[class=\"DWrap\"] > a.DClose.close");
 		WebElement closeLoginElement = WebDriverUtil.findElement4Wait(fd, closeLoginBy, 2);
 		if (null != closeLoginElement) {
@@ -63,13 +66,24 @@ public class DriverWeiboQQ {
 		List<WebElement> messageLiList = fd.findElements(By.cssSelector("ul[id=\"talkList\"] > li"));
 		for (int i = 0; i < messageLiList.size(); i++) {
 			WebElement messageLi = messageLiList.get(i);
-			if (hasAdvert(messageLi)) {
+			//有转发内容的不要
+			By replyBy = By.cssSelector("div[class=\"replyBox\"]");
+			if (WebDriverUtil.hasElement(messageLi, replyBy))
+				continue;
+			//跨年的内容说明，跳过
+			By messCnt = By.cssSelector("div[class=\"msgCnt\"]");
+			boolean flag = WebDriverUtil.hasElement(messageLi, messCnt);
+			if(!flag){
 				continue;
 			}
 			WebElement messageDiv = messageLi.findElement(By.cssSelector("div[class=\"msgCnt\"]"));
 			String message = messageDiv.getText().replace("\"", "“");
-			// 有链接的都不要。。。
+			// 有链接的不要。。。
 			if (message.toLowerCase().contains("url.cn")) {
+				continue;
+			}
+			//有广告内容的不要
+			if (hasAdvert(messageLi)) {
 				continue;
 			}
 			messageBuffer.append(message + "~laiqian~");
@@ -80,7 +94,6 @@ public class DriverWeiboQQ {
 			}
 			messageBuffer.append("" + picHref + "~mashang~");
 		}
-		doNextPage(fd, startPage);
 		return messageBuffer.toString();
 	}
 
@@ -101,15 +114,10 @@ public class DriverWeiboQQ {
 					break;
 				}
 			}
-			getMessage(fd, nextPageNum);
 		}
-
 	}
 
 	private boolean hasAdvert(WebElement messageLi) throws ConfigurationException {
-		By replyBy = By.cssSelector("div[class=\"replyBox\"]");
-		if (WebDriverUtil.hasElement(messageLi, replyBy))
-			return true;
 		String messageLiStr = messageLi.toString();
 		List<Object> advertList = XMLConfig.getConfig().getList("advert.value");
 		for (Object advertValue : advertList) {

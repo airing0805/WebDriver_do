@@ -9,6 +9,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
 
 import com.andy.weiboDriver.util.FileUtil;
 import com.andy.weiboDriver.util.XMLConfig;
@@ -66,6 +67,7 @@ public class WeiboSendAtPP {
 			} catch (Exception e) {
 				System.out.println("失败的内容 ：" + messArr[i][0]);
 				e.printStackTrace();
+				i +=1;
 				continue;
 			}
 		}
@@ -122,6 +124,14 @@ public class WeiboSendAtPP {
 		WebElement picClose = WebDriverUtil.findElement4Wait(fd, By.cssSelector("strong[id=\"insert_picture_preview_1\"] > a"), 2);
 		if (null != picClose && picClose.isDisplayed()) {
 			picClose.click();
+		}
+		//调整不发送的时间
+		Select hourSelect = new Select(fd.findElement(By.cssSelector("select[id=\"hour_1\"]")));
+		WebElement hourSelectedWe = hourSelect.getFirstSelectedOption();
+		if("1".equals(hourSelectedWe.getText())){
+			hourSelect.selectByVisibleText("7");
+			Select minuteSelect = new Select(fd.findElement(By.cssSelector("select[id=\"minute_1\"]")));
+			minuteSelect.selectByVisibleText("30");
 		}
 	}
 

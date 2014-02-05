@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <systemConfig>
 	
-	<timer_diff>20</timer_diff>
-	<QQSpiderPage>4</QQSpiderPage>
+	<timer_diff>25</timer_diff>
+	<QQSpiderPage>100</QQSpiderPage>
 	
 	<weibo>
 		<weibo_username>yitest0805@sina.com</weibo_username>
@@ -10,9 +10,7 @@
 		<pp_username>zhaoyuan01@126.com</pp_username>
 		<pp_password>andy0805</pp_password>
 		<pp_address>
-			<QQAddress>http://t.qq.com/zhichangyy</QQAddress>
-			<QQAddress>http://t.qq.com/weiboimetu</QQAddress>
-			<QQAddress>http://t.qq.com/tx-yuer</QQAddress>
+			<QQAddress>http://t.qq.com/yangpushuan</QQAddress>
 		</pp_address>
 	</weibo>
 	<advert>
@@ -26,6 +24,14 @@
 	<address>
 		<advert>
 			<address></address>
+			<QQAddress>http://t.qq.com/zhichangyulu</QQAddress>
+			<QQAddress>http://t.qq.com/zhichangyy</QQAddress>
+			<QQAddress>http://t.qq.com/weiboimetu</QQAddress>
+			<QQAddress>http://t.qq.com/tx-yuer</QQAddress>
+			<QQAddress>http://t.qq.com/vip-sgxy</QQAddress>
+			<QQAddress>http://t.qq.com/vpd_9898</QQAddress>
+			<QQAddress>http://t.qq.com/vipyulu2013</QQAddress>
+			<QQAddress>http://t.qq.com/yangpushuan</QQAddress>
 		</advert>
 		<advertOut>
 			<address></address>
