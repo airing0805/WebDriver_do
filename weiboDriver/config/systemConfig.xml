@@ -2,8 +2,8 @@
 <systemConfig>
 	
 	<timer_diff>25</timer_diff>
-	<SendMessageOrder>desc</QQSpiderPage>
-	<SendMessageOrder>asc</QQSpiderPage>
+	<sendMessageOrder>desc</sendMessageOrder>
+	<sendMessageOrder_r>升序asc，页码越来越大;降序desc，页码越来越小</sendMessageOrder_r>
 	<QQSpiderPage>100</QQSpiderPage>
 	
 	<weibo>

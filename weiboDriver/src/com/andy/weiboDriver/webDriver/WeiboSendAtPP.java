@@ -23,7 +23,7 @@ public class WeiboSendAtPP {
 	public void sendAtPPFlow(WebDriver fd, int weiboNum) throws ConfigurationException, InterruptedException {
 		for (int i = 0; i < weiboNum; i++) {
 			long start = System.currentTimeMillis();
-
+			
 			String username = XMLConfig.getConfig().getString("weibo(" + i + ").pp_username");
 			String password = XMLConfig.getConfig().getString("weibo(" + i + ").pp_password");
 			System.out.println(username);
@@ -60,8 +60,17 @@ public class WeiboSendAtPP {
 		WebElement timer_diffWe = WebDriverUtil.findElement4Wait(fd, By.id("timer_diff_1"), -1);
 		timer_diffWe.clear();
 		timer_diffWe.sendKeys(XMLConfig.getConfig().getString("timer_diff"));
-		for (int i = 0; i < messArr.length; i++) {
-			// fd.get(fd.getCurrentUrl());
+		String order = XMLConfig.getConfig().getString("SendMessageOrder");
+		if("desc".equals(order)){
+			ppSentDesc(fd,messArr);
+		}else if("asc".equals(order)){
+			ppSentAsc(fd,messArr);
+		}
+	}
+	
+	public void ppSentDesc(WebDriver fd, String[][] messArr){
+
+		for (int i = messArr.length-1; i > 0; i++) {
 			try {
 				boolean flag = ppSendTime(fd, messArr[i][0], messArr[i][1]);
 				//到达15天跳出迭代
@@ -69,7 +78,25 @@ public class WeiboSendAtPP {
 					break;
 				}
 			} catch (Exception e) {
-				System.out.println("失败的内容 ：" + messArr[i][0]);
+				System.out.println("desc 失败的内容 ：" + messArr[i][0]);
+				e.printStackTrace();
+				i -=1;
+				continue;
+			}
+		}
+	}
+	
+	public void ppSentAsc(WebDriver fd, String[][] messArr){
+
+		for (int i = 0; i < messArr.length; i++) {
+			try {
+				boolean flag = ppSendTime(fd, messArr[i][0], messArr[i][1]);
+				//到达15天跳出迭代
+				if(!flag){
+					break;
+				}
+			} catch (Exception e) {
+				System.out.println("asc 失败的内容 ：" + messArr[i][0]);
 				e.printStackTrace();
 				i +=1;
 				continue;
