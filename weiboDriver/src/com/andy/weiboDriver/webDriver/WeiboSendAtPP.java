@@ -63,7 +63,11 @@ public class WeiboSendAtPP {
 		for (int i = 0; i < messArr.length; i++) {
 			// fd.get(fd.getCurrentUrl());
 			try {
-				ppSendTime(fd, messArr[i][0], messArr[i][1]);
+				boolean flag = ppSendTime(fd, messArr[i][0], messArr[i][1]);
+				//到达15天跳出迭代
+				if(!flag){
+					break;
+				}
 			} catch (Exception e) {
 				System.out.println("失败的内容 ：" + messArr[i][0]);
 				e.printStackTrace();
@@ -73,7 +77,7 @@ public class WeiboSendAtPP {
 		}
 	}
 
-	private void ppSendTime(WebDriver fd, String message, String picUrl) throws InterruptedException {
+	private boolean ppSendTime(WebDriver fd, String message, String picUrl) throws InterruptedException {
 		// 页面显示
 		WebDriverUtil.findElement4Wait(fd, By.cssSelector("textarea[id=\"content_1\"]"), -1);
 		// 显示图片提示方式
@@ -113,9 +117,16 @@ public class WeiboSendAtPP {
 		// 要给图片提交留一点时间
 		// 等待重复内容的提示
 		Thread.sleep(3000);
+		//关闭提示窗口		
 		WebElement closeHas = WebDriverUtil.findElement4Wait(fd, By.cssSelector("a[id=\"dialog_close\"]"), 1);
 		if (null != closeHas && closeHas.isDisplayed()) {
 			closeHas.click();
+			//是否到达15天控制范围
+			WebElement messageContent = WebDriverUtil.findElement4Wait(fd, By.cssSelector("input[id=\"dialog_message\"]"), 1);
+			if(null != messageContent && messageContent.isDisplayed()){
+				messageContent.getText().contains("15天");
+				return false;
+			}
 			// 等待一下，让图片地址自动关闭。
 			Thread.sleep(100);
 		}
@@ -133,6 +144,7 @@ public class WeiboSendAtPP {
 			Select minuteSelect = new Select(fd.findElement(By.cssSelector("select[id=\"minute_1\"]")));
 			minuteSelect.selectByVisibleText("30");
 		}
+		return false;
 	}
 
 	@SuppressWarnings("unused")
