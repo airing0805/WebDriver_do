@@ -22,6 +22,7 @@ public class WeiboSina {
 		//填入内容
 		By textareaBy  = By.cssSelector("div[node-type=\"textElDiv\"] > textarea[node-type=\"textEl\"]");
 		WebElement textareaEl = WebDriverUtil.findElement4Wait(fd,textareaBy,20);
+		textareaEl.clear();
 		textareaEl.sendKeys(message);
 		textareaEl.sendKeys(Keys.DOWN);
 		textareaEl.click();
@@ -42,6 +43,7 @@ public class WeiboSina {
 		//等待聊天窗口出现
 		By textAreaBy = By.cssSelector("div[node-type=\"_editorRoot\"] > textarea[node-type=\"_editorNode\"]  ");
 		WebElement textAreaEl = WebDriverUtil.findElement4Wait(fd, textAreaBy, 20);
+		textAreaEl.clear();
 		textAreaEl.sendKeys(message);
 		textAreaEl.click();
 		//通过聊天窗口发送私信
@@ -60,8 +62,10 @@ public class WeiboSina {
 		fd.get("http://weibo.com/logout.php");
 		By usernameBy = By.cssSelector("input[node-type=\"username\"]");
 		WebElement usernameWe = WebDriverUtil.findElement4Wait(fd,usernameBy,-1);
+		usernameWe.clear();
 		usernameWe.sendKeys(username);
 		WebElement passwordWe = fd.findElement(By.cssSelector("input[node-type=\"password\"]"));
+		passwordWe.clear();
 		passwordWe.sendKeys(password);
 //		fd.findElement(By.id("login_form_savestate")).click();
 		WebElement loginDivWe = fd.findElement(By.cssSelector("div[node-type=\"normal_form\"]"));
