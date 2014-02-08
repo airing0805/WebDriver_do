@@ -27,11 +27,28 @@ public class Tuimi {
 		System.out.println(10);
 	}
 	
+	//最多只到十页，有一页成功就退出
 	public void getScoreFlow(WebDriver fd){
-		gotoOneKeyPage(fd);
-		switchToIframe(fd);
-		oneKeyAttention(fd);
-		nextOneKeyAttention(fd);
+		for(int i=0 ; i<=10 ;i++){
+			gotoOneKeyPage(fd);
+			switchToIframe(fd);
+			boolean flag =oneKeyAttention(fd);
+			nextOneKeyAttention(fd);
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			if(i==10){
+				System.out.println("没有可以一键关注的了");
+				break;
+			}
+			if(flag ){
+				continue;
+			}else{
+				break;
+			}
+		}
 	}
 
 	public Tuimi() {
@@ -97,7 +114,7 @@ public class Tuimi {
 		WebElement alertWe = WebDriverUtil.findElement4Wait(fd, By.id("tu_dialog_body"), 10);
 		boolean flag = alertWe.getText().contains("领分无效");
 		alertWe.findElement(By.cssSelector("a[class=\"btn\"]")).click();
-		System.out.println("完成一键");
+		System.out.println("完成一键" + flag);
 		return flag;
 	}
 

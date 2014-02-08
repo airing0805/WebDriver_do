@@ -1,5 +1,6 @@
 package com.andy.weiboDriver.webDriver;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -42,13 +43,14 @@ public class Main {
 				String username = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_username");
 				String password = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_password");
 				new WeiboSina().login(fd, username, password);
-//				new Tuitu().getScoreFlow(fd);
+				//最多只到十页，有一页成功就退出
+				new Tuitu().getScoreFlow(fd);
 				new Qiuzf().getScoreFlow(fd);
-//				new Tuimi().getScoreFlow(fd);
+				new Tuimi().getScoreFlow(fd);
 			}
 			try {
 				//进入等待
-				System.out.println("进入等待");
+				System.out.println("进入等待" + new Date().toString());
 				Thread.sleep(1800000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
