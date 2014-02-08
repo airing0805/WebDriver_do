@@ -80,6 +80,11 @@ public class Qiuzf {
 		WebElement divWe = WebDriverUtil.findElement4Wait(fd, By.cssSelector("div[class=\"btn_con\"]"), 100);
 		WebElement oneKeyButton = WebDriverUtil.findElement4Wait(divWe, By.cssSelector("a[class=\"btngreen_l\"]"), 100);
 		oneKeyButton.click();
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		// 确认关注
 		Alert alert = fd.switchTo().alert();
 		alert.accept();

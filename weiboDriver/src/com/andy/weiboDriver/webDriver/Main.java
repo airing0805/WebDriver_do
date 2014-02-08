@@ -14,7 +14,7 @@ import com.andy.weiboDriver.util.XMLConfig;
 public class Main {
 	public static void main(String[] args) throws ConfigurationException, InterruptedException {
 
-		int caseNum = 0;
+		int caseNum = 3;
 		if (null != args && args.length > 0) {
 			caseNum = Integer.parseInt(args[0]);
 		} 
@@ -36,13 +36,23 @@ public class Main {
 	}
 	
 	public static void iterateGetScore(WebDriver fd,int weiboNum){
-		for(int i=0;i<weiboNum;i++){
-			String username = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_username");
-			String password = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_password");
-			new WeiboSina().login(fd, username, password);
-			new Qiuzf().getScoreFlow(fd);
-			new Tuimi().getScoreFlow(fd);
-			new Tuitu().getScoreFlow(fd);
+		
+		while(true){
+			for(int i=0;i<weiboNum;i++){
+				String username = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_username");
+				String password = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_password");
+				new WeiboSina().login(fd, username, password);
+//				new Tuitu().getScoreFlow(fd);
+				new Qiuzf().getScoreFlow(fd);
+//				new Tuimi().getScoreFlow(fd);
+			}
+			try {
+				//进入等待
+				System.out.println("进入等待");
+				Thread.sleep(1800000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	

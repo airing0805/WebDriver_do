@@ -25,6 +25,7 @@ public class Tuitu {
 	public void getScoreFlow(WebDriver fd){
 		oneKeyScore(fd);
 		startSpread(fd);
+		System.out.println("完成一个app关注");
 	}
 
 	private void startSpread(WebDriver fd) {

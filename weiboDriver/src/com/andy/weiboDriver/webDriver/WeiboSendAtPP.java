@@ -124,6 +124,7 @@ public class WeiboSendAtPP {
 			Thread.sleep(100);
 			// 输入图片地址
 			WebElement picLinkInput = fd.findElement(By.cssSelector("input[id=\"pic_url_1\"]"));
+			picLinkInput.clear();
 			picLinkInput.sendKeys(picUrl);
 
 			Thread.sleep(10);
@@ -193,6 +194,7 @@ public class WeiboSendAtPP {
 			Thread.sleep(100);
 			// 输入图片地址
 			WebElement picLinkInput = fd.findElement(By.cssSelector("input[id=\"pic_url_1\"]"));
+			picLinkInput.clear();
 			picLinkInput.sendKeys(picUrl);
 
 			Thread.sleep(10);
@@ -236,8 +238,12 @@ public class WeiboSendAtPP {
 		fd.get(ppUrl);
 		// 先保证退出
 		WebDriverUtil.findElement4Wait(fd, By.xpath("//*[@id=\"changeMyMenu\"]"), 1);
-		fd.findElement(By.id("username_login")).sendKeys(username);
-		fd.findElement(By.id("password_login")).sendKeys(password);
+		WebElement usernameWe = fd.findElement(By.id("username_login"));
+		usernameWe.clear();
+		usernameWe.sendKeys(username);
+		WebElement passwordWe =  fd.findElement(By.id("password_login"));
+		passwordWe.clear();
+		passwordWe.sendKeys(password);
 		fd.findElement(By.id("submit_login")).click();
 	}
 
@@ -269,8 +275,10 @@ public class WeiboSendAtPP {
 		String ppOauthUrl = "https://api.weibo.com/oauth2/authorize?client_id=1967296247&redirect_uri=http%3A%2F%2Fweibo.pp.cc%2Fmember.php%3Fmod%3Dbind%26action%3Daccess%26type%3Dsina%26app%3Dtime%26sinav%3D3&response_type=code";
 		fd.get(ppOauthUrl);
 		WebElement userIdWe = fd.findElement(By.cssSelector("input[id=\"userId\"]"));
+		userIdWe.clear();
 		userIdWe.sendKeys("yitest0805@sina.com");
 		WebElement passwdWe = fd.findElement(By.cssSelector("input[id=\"passwd\"]"));
+		passwdWe.clear();
 		passwdWe.sendKeys("andy0805");
 		WebElement submitWe = fd.findElement(By.cssSelector("a[node-type=\"submit\"]"));
 		submitWe.click();
