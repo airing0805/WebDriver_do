@@ -8,15 +8,21 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import com.andy.weiboDriver.webDriver.WebDriverUtil;
 import com.andy.weiboDriver.webDriver.WeiboSina;
 
-public class Tuitu {
+public class HuFenBang {
 
+	/*
+	 * TODO,只是复制过来了，还没有修改代码
+	 * 一键关注页面：http://www.weibo01.com/reward_website/earn_score
+	 * 一键关注代码：
+	 * <button class="mutualFollowBtn1" style="margin:0px; vertical-align:middle; float:right;" onclick="batchFollowWeibo();">一键关注</button>
+	 */
 	// http://tuitu.sinaapp.com/weibo/?ref=appmy
 	public static void main(String[] args) {
 		WebDriver fd = new FirefoxDriver();
 		String username = "yitest0805@sina.com";
 		String password = "andy0805";
 		new WeiboSina().login(fd, username, password);
-		Tuitu tu = new Tuitu();
+		HuFenBang tu = new HuFenBang();
 		// 先弄积分再继续推
 		tu.getScoreFlow(fd);
 		System.out.println(10);

@@ -46,9 +46,9 @@ public class Qiuzf {
 				break;
 			}
 			if(flag ){
-				continue;
-			}else{
 				break;
+			}else{
+				continue;
 			}
 		}
 	}
@@ -115,6 +115,9 @@ public class Qiuzf {
 			String buttonText = divWe.getText();
 			if (buttonText.contains("已关注")) {
 				break;
+			}else if (buttonText.contains("请重试")) {
+				System.out.println("请重试");
+				return false;
 			}
 		}
 		// 跳转到iframe外部，领取积分
@@ -122,9 +125,10 @@ public class Qiuzf {
 		fd.findElement(By.id("addMark")).click();
 		// 确认积分
 		WebElement alertWe = WebDriverUtil.findElement4Wait(fd, By.id("tu_dialog_body"), 10);
-		boolean flag = alertWe.getText().contains("领分无效");
+		String alertStr = alertWe.getText();
+		boolean flag = !(alertStr.contains("领分无效"));
+		System.out.println(alertStr+"\n"+ flag);
 		alertWe.findElement(By.cssSelector("a[class=\"btn\"]")).click();
-		System.out.println("完成一键" + flag);
 		return flag;
 	}
 

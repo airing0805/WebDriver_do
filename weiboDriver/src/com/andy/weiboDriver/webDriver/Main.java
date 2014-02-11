@@ -18,50 +18,50 @@ public class Main {
 		int caseNum = 3;
 		if (null != args && args.length > 0) {
 			caseNum = Integer.parseInt(args[0]);
-		} 
+		}
 		List<Object> weiboList = XMLConfig.getConfig().getList("weibo.weibo_username");
 		int weiboNum = weiboList.size();
 		WebDriver fd = new FirefoxDriver();
-		if(caseNum==0){
-			 new DriverWeiboQQ().getMessageFlow(fd, weiboNum);
-		}else if(caseNum==1){
+		if (caseNum == 0) {
+			new DriverWeiboQQ().getMessageFlow(fd, weiboNum);
+		} else if (caseNum == 1) {
 			new WeiboSendAtPP().sendAtPPFlow(fd, weiboNum);
-		}else if(caseNum==2){
+		} else if (caseNum == 2) {
 			new DriverWeiboQQ().getMessageFlow(fd, weiboNum);
 			new WeiboSendAtPP().sendAtPPFlow(fd, weiboNum);
-		}else if(caseNum==3){
-			iterateGetScore(fd,weiboNum);
+		} else if (caseNum == 3) {
+			iterateGetScore(fd, weiboNum);
 		}
-		
+
 		fd.quit();
 	}
-	
-	public static void iterateGetScore(WebDriver fd,int weiboNum){
-		
-		while(true){
-			for(int i=0;i<weiboNum;i++){
-				String username = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_username");
-				String password = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_password");
-				new WeiboSina().login(fd, username, password);
-				//最多只到十页，有一页成功就退出
-				new Tuitu().getScoreFlow(fd);
-				new Qiuzf().getScoreFlow(fd);
-				new Tuimi().getScoreFlow(fd);
-			}
+
+	public static void iterateGetScore(WebDriver fd, int weiboNum) {
+
+		while (true) {
 			try {
-				//进入等待
+				for (int i = 0; i < weiboNum; i++) {
+					String username = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_username");
+					String password = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_password");
+					new WeiboSina().login(fd, username, password);
+					// 一键关注最多只到十页，有一页成功就退出
+					boolean flag = true;
+//					boolean flag = new Tuitu().getScoreFlow(fd);
+					// 关注过多，
+					if (!flag)
+						return;
+					Thread.sleep(1000);
+					new Qiuzf().getScoreFlow(fd);
+					Thread.sleep(1000);
+					new Tuimi().getScoreFlow(fd);
+				}
+				// 进入等待
 				System.out.println("进入等待" + new Date().toString());
-				Thread.sleep(1800000);
+				Thread.sleep(18000000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
-	
-	
-
-
-
 
 }

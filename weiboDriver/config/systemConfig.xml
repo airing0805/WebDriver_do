@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <systemConfig>
-	
+	<!-- 时间间隔 -->	
 	<timer_diff>25</timer_diff>
+	<!-- 是否运行浏览器 true:运行浏览器，false:不运行浏览器-->
+	<firefoxRun>true</firefoxRun>
+	<!-- 升序asc，页码越来越大;降序desc，页码越来越小 -->
 	<sendMessageOrder>desc</sendMessageOrder>
-	<sendMessageOrder_r>升序asc，页码越来越大;降序desc，页码越来越小</sendMessageOrder_r>
+	<!-- 页面抓取数量最大值 -->
 	<QQSpiderPage>100</QQSpiderPage>
 	
 	<weibo>
