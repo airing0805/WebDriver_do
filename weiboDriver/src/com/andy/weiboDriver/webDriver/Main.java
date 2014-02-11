@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.configuration.ConfigurationException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import com.andy.weiboDriver.fansApp.Qiuzf;
 import com.andy.weiboDriver.fansApp.Tuimi;
@@ -20,11 +21,18 @@ public class Main {
 			caseNum = Integer.parseInt(args[0]);
 		}
 		List<Object> weiboList = XMLConfig.getConfig().getList("weibo.weibo_username");
+		String firefoxRun = XMLConfig.getConfig().getString("firefoxRun");
 		int weiboNum = weiboList.size();
-		WebDriver fd = new FirefoxDriver();
-		if (caseNum == 0) {
-			new DriverWeiboQQ().getMessageFlow(fd, weiboNum);
-		} else if (caseNum == 1) {
+		WebDriver fd = null;
+		if("false".equals(firefoxRun)){
+			fd = new HtmlUnitDriver();
+		}else{
+			fd = new FirefoxDriver();
+			
+		}
+		if(caseNum==0){
+			 new DriverWeiboQQ().getMessageFlow(fd, weiboNum);
+		}else if(caseNum==1){
 			new WeiboSendAtPP().sendAtPPFlow(fd, weiboNum);
 		} else if (caseNum == 2) {
 			new DriverWeiboQQ().getMessageFlow(fd, weiboNum);
