@@ -1,5 +1,7 @@
 package com.andy.weiboDriver.fansApp;
 
+import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -56,11 +58,12 @@ public class Tuimi {
 	}
 
 	public void gotoOneKeyPage(WebDriver fd) {
-//		String url = "http://apps.weibo.com/tuimimi";
-//		fd.get(url);
+		String url1 = "http://tuimi.sinaapp.com";
+		fd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		WebDriverUtil.getUrl(fd, url1);
 //		WebDriverUtil.findElement4Wait(fd, By.id("apps"), 10);
-		String url = "http://tuimi.sinaapp.com/onekeyfl";
-		WebDriverUtil.getUrl(fd, url);
+		String url2 = "http://tuimi.sinaapp.com/onekeyfl";
+		WebDriverUtil.getUrl(fd, url2);
 	}
 
 	public void switchToIframe(WebDriver fd) {
@@ -69,7 +72,7 @@ public class Tuimi {
 			try {
 				Thread.sleep(100);
 				// 一直等到页面加载完成
-				WebElement oneKeyAttentionWe = WebDriverUtil.findElement4Wait(fd, By.cssSelector("div[id=\"oneKeyAttention\"]"), 10);
+				WebElement oneKeyAttentionWe = WebDriverUtil.findElement4Wait(fd, By.cssSelector("div[id=\"oneKeyAttention\"]"), -1);
 				// 等到可以找到iframe,然后进入到iframe里面,还真的必须要等，
 				WebElement iframeWe = WebDriverUtil.findElement4Wait(oneKeyAttentionWe, By.tagName("iframe"), 10);
 				fd.switchTo().frame(iframeWe);

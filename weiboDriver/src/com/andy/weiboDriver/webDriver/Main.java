@@ -15,7 +15,7 @@ import com.andy.weiboDriver.util.XMLConfig;
 public class Main {
 	public static void main(String[] args) throws ConfigurationException, InterruptedException {
 
-		int caseNum = 3;
+		int caseNum = 0;
 		if (null != args && args.length > 0) {
 			caseNum = Integer.parseInt(args[0]);
 		}
@@ -45,8 +45,8 @@ public class Main {
 					String password = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_password");
 					new WeiboSina().login(fd, username, password);
 					// 一键关注最多只到十页，有一页成功就退出
-					boolean flag = true;
-//					boolean flag = new Tuitu().getScoreFlow(fd);
+//					boolean flag = true;
+					boolean flag = new Tuitu().getScoreFlow(fd);
 					// 关注过多，
 					if (!flag)
 						return;
