@@ -58,14 +58,15 @@ public class Qiuzf {
 	}
 
 	public void gotoOneKeyPage(WebDriver fd) {
-		// String url = "http://apps.weibo.com/tuimimi";
-		// fd.get(url);
+		//好奇怪，非要点一下通过微博登录
+//		 String url1 = "http://qiuzf.sinaapp.com";
+//		 fd.get(url1);
 		// WebDriverUtil.findElement4Wait(fd, By.id("apps"), 10);
 		fd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-		String url = "https://api.weibo.com/oauth2/authorize?client_id=245891426&redirect_uri=http%3A%2F%2Fqiuzf.sinaapp.com%2Fcallback.php&response_type=code&state=sina";
-		fd.get(url);
-		url = "http://qiuzf.sinaapp.com/onekeyfl";
-		fd.get(url);
+		String url2 = "https://api.weibo.com/oauth2/authorize?client_id=245891426&redirect_uri=http%3A%2F%2Fqiuzf.sinaapp.com%2Fcallback.php&response_type=code&state=sina";
+		fd.get(url2);
+		String url3 = "http://qiuzf.sinaapp.com/onekeyfl";
+		WebDriverUtil.getUrl(fd, url3);
 	}
 
 	public void switchToIframe(WebDriver fd) {
@@ -120,6 +121,11 @@ public class Qiuzf {
 				return false;
 			}
 		}
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		// 跳转到iframe外部，领取积分
 		fd.switchTo().defaultContent();
 		fd.findElement(By.id("addMark")).click();
@@ -127,7 +133,7 @@ public class Qiuzf {
 		WebElement alertWe = WebDriverUtil.findElement4Wait(fd, By.id("tu_dialog_body"), 10);
 		String alertStr = alertWe.getText();
 		boolean flag = !(alertStr.contains("领分无效"));
-		System.out.println(alertStr+"\n"+ flag);
+		System.out.println("结果: "+ flag);
 		alertWe.findElement(By.cssSelector("a[class=\"btn\"]")).click();
 		return flag;
 	}

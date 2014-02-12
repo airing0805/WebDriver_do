@@ -1,4 +1,4 @@
-package com.andy.weiboDriver.webDriver;
+package com.andy.weiboDriver.doMain;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -10,19 +10,19 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
+import com.andy.weiboDriver.fansApp.HuFenBang;
+import com.andy.weiboDriver.fansApp.HuTuiLianMeng;
 import com.andy.weiboDriver.fansApp.Qiuzf;
 import com.andy.weiboDriver.fansApp.Tuimi;
 import com.andy.weiboDriver.fansApp.Tuitu;
 import com.andy.weiboDriver.util.FileUtil;
 import com.andy.weiboDriver.util.XMLConfig;
+import com.andy.weiboDriver.webDriver.WebDriverUtil;
+import com.andy.weiboDriver.webDriver.WeiboSina;
 
-public class Main {
+public class GetScore {
 	public static void main(String[] args) throws ConfigurationException, InterruptedException {
 
-		int caseNum = 3;
-		if (null != args && args.length > 0) {
-			caseNum = Integer.parseInt(args[0]);
-		}
 		List<Object> weiboList = XMLConfig.getConfig().getList("weibo.weibo_username");
 		String firefoxRun = XMLConfig.getConfig().getString("firefoxRun");
 		int weiboNum = weiboList.size();
@@ -31,18 +31,9 @@ public class Main {
 			fd = new HtmlUnitDriver();
 		}else{
 			fd = new FirefoxDriver();
-			
 		}
-		if(caseNum==0){
-			 new DriverWeiboQQ().getMessageFlow(fd, weiboNum);
-		}else if(caseNum==1){
-			new WeiboSendAtPP().sendAtPPFlow(fd, weiboNum);
-		} else if (caseNum == 2) {
-			new DriverWeiboQQ().getMessageFlow(fd, weiboNum);
-			new WeiboSendAtPP().sendAtPPFlow(fd, weiboNum);
-		} else if (caseNum == 3) {
-			iterateGetScore(fd, weiboNum);
-		}
+		
+		iterateGetScore(fd, weiboNum);
 
 		fd.quit();
 	}
@@ -70,7 +61,7 @@ public class Main {
 					
 					boolean flag = new Tuitu().getScoreFlow(fd);
 					numT =WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
-					fileMess = sf1.format(new Date())+ ":本次关注:" + (numT - num);
+					fileMess = sf1.format(new Date())+ "_总共关注："+numT +" _本次关注:" + (numT - num)+"\n";
 					System.out.println(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
@@ -81,7 +72,7 @@ public class Main {
 					
 					new Qiuzf().getScoreFlow(fd);
 					numT =WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
-					fileMess = sf1.format(new Date())+ ":本次关注:" + (numT - num);
+					fileMess = sf1.format(new Date())+ "_总共关注："+numT +" _本次关注:" + (numT - num)+"\n";
 					System.out.println(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
@@ -89,10 +80,30 @@ public class Main {
 					
 					new Tuimi().getScoreFlow(fd);
 					numT =WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
-					fileMess = sf1.format(new Date())+ ":本次关注:" + (numT - num);
+					fileMess = sf1.format(new Date())+ "_总共关注："+numT +" _本次关注:" + (numT - num)+"\n";
 					System.out.println(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
+					Thread.sleep(1000*60*10);
+
+					flag = new HuTuiLianMeng().getScoreFlow(fd);
+					numT =WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
+					fileMess = sf1.format(new Date())+ "_总共关注："+numT +" _本次关注:" + (numT - num)+"\n";
+					System.out.println(fileMess);
+					FileUtil.write2FileEnd(path, fileMess);
+					num = numT;
+					if (!flag)
+						return;
+					Thread.sleep(1000*60*10);
+
+					flag = new HuFenBang().getScoreFlow(fd);
+					numT =WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
+					fileMess = sf1.format(new Date())+ "_总共关注："+numT +" _本次关注:" + (numT - num)+"\n";
+					System.out.println(fileMess);
+					FileUtil.write2FileEnd(path, fileMess);
+					num = numT;
+					if (!flag)
+						return;
 					Thread.sleep(1000*60*10);
 				}
 			} catch (InterruptedException e) {

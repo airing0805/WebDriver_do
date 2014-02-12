@@ -12,9 +12,10 @@ public class HuFenBang {
 
 	/*
 	 * TODO,只是复制过来了，还没有修改代码
-	 * 一键关注页面：http://www.weibo01.com/reward_website/earn_score
-	 * 一键关注代码：
-	 * <button class="mutualFollowBtn1" style="margin:0px; vertical-align:middle; float:right;" onclick="batchFollowWeibo();">一键关注</button>
+	 * 一键关注页面：http://www.weibo01.com/reward_website/earn_score 一键关注代码： <button
+	 * class="mutualFollowBtn1"
+	 * style="margin:0px; vertical-align:middle; float:right;"
+	 * onclick="batchFollowWeibo();">一键关注</button>
 	 */
 	// http://tuitu.sinaapp.com/weibo/?ref=appmy
 	public static void main(String[] args) {
@@ -27,8 +28,8 @@ public class HuFenBang {
 		tu.getScoreFlow(fd);
 		System.out.println(10);
 	}
-	
-	public boolean getScoreFlow(WebDriver fd){
+
+	public boolean getScoreFlow(WebDriver fd) {
 		boolean flag = oneKeyScore(fd);
 		startSpread(fd);
 		System.out.println("完成一个app关注");
@@ -36,30 +37,35 @@ public class HuFenBang {
 	}
 
 	private void startSpread(WebDriver fd) {
-		String url = "http://tuitu.sinaapp.com/weibo/space";
+		String url = "http://www.weibo01.com/reward_website/my_reward";
 		fd = WebDriverUtil.getUrl(fd, url);
-		WebElement startWe = fd.findElement(By.id("play_0_968770"));
-		if(startWe.isDisplayed()){
+		WebElement ifollowManageWe = fd.findElement(By.id("ifollowManage"));
+		WebElement  startWe = ifollowManageWe.findElements(By.cssSelector("td.moneyManageBtn")).get(0);
+		if (startWe.getText().contains("关闭")) {
 			startWe.click();
 		}
 	}
 
-	//一键关注全部，然后翻页
+	// 一键关注全部，然后翻页
 	private boolean oneKeyScore(WebDriver fd) {
-		String url = "http://tuitu.sinaapp.com/weibo/task";
-		fd = WebDriverUtil.getUrl(fd, url);
-		WebElement followAllBtnWe = WebDriverUtil.findElement4Wait(fd,By.id("follow_all_btn"),2);
+		String url1 = "http://apps.weibo.com/fansreward";
+		fd = WebDriverUtil.getUrl(fd, url1);
+		String url2 = "http://www.weibo01.com/reward_website/earn_score";
+		fd = WebDriverUtil.getUrl(fd, url2);
+		WebElement scoreAreaWe = WebDriverUtil.findElement4Wait(fd, By.id("earnFollowScoreArea"), 2);
+		WebElement followAllBtnWe = WebDriverUtil.findElement4Wait(scoreAreaWe, By.cssSelector("button.mutualFollowBtn1"), 2);
 		followAllBtnWe.click();
-		WebElement overWe = WebDriverUtil.findElement4Wait(fd,By.cssSelector("div.tu_msg_wrap.tu_msg_ico_2"),1);
-		if(null !=overWe && overWe.isDisplayed()){
-			System.out.println("今天关注的太多了，明天再试试吧");
-			return false;
-		}
 		while (true) {
+			WebElement overWe = WebDriverUtil.findElement4Wait(fd, By.id("messageContent"), 1);
+			if (null != overWe && overWe.isDisplayed() && overWe.getText().contains("多了")) {
+				System.out.println("今天关注的太多了，明天再试试吧");
+				return false;
+			}
 			try {
 				Thread.sleep(1000);
-				followAllBtnWe = fd.findElement(By.id("loading"));
-				if (!followAllBtnWe.isDisplayed()) {
+//				followAllBtnWe = fd.findElement(By.id("loading"));
+				//判断弹出窗口是否一直存在
+				if (!overWe.isDisplayed()) {
 					break;
 				}
 			} catch (InterruptedException e) {
@@ -68,7 +74,7 @@ public class HuFenBang {
 			}
 
 		}
-		fd.findElement(By.cssSelector("a[class=\"next\"]")).click();
+		fd.findElement(By.cssSelector("div[id=\"earnPageNav\"] >  a.jumpPageBtn")).click();
 		return true;
 	}
 }

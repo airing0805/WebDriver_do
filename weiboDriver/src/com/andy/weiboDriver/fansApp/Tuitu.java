@@ -42,9 +42,11 @@ public class Tuitu {
 
 	//一键关注全部，然后翻页
 	private boolean oneKeyScore(WebDriver fd) {
-		String url = "http://tuitu.sinaapp.com/weibo/task";
-		fd = WebDriverUtil.getUrl(fd, url);
-		WebElement followAllBtnWe = WebDriverUtil.findElement4Wait(fd,By.id("follow_all_btn"),2);
+		String url1 = "http://apps.weibo.com/tuituoo";
+		fd = WebDriverUtil.getUrl(fd, url1);
+		String url2 = "http://tuitu.sinaapp.com/weibo/task";
+		fd = WebDriverUtil.getUrl(fd, url2);
+		WebElement followAllBtnWe = WebDriverUtil.findElement4Wait(fd,By.id("follow_all_btn"),10);
 		followAllBtnWe.click();
 		List<WebElement> userWEList = fd.findElements(By.cssSelector("div.fusers.clearfix > div.fuser.left"));
 		System.out.println("将要批量关注 : "+ userWEList.size());

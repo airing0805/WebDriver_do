@@ -81,6 +81,11 @@ public class WebDriverUtil {
 	
 	public static WebDriver getUrl(WebDriver fd,String url){
 		while(true){
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			String currentUrl = fd.getCurrentUrl();
 			if(currentUrl.contains(url)){
 				return fd;

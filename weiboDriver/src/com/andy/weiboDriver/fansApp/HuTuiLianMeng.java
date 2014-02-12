@@ -44,9 +44,9 @@ public class HuTuiLianMeng {
 	}
 
 	private void startSpread(WebDriver fd) {
-		String url = "http://tuitu.sinaapp.com/weibo/space";
+		String url = "http://hufen.tlianmeng.com/welcome/mytg";
 		fd = WebDriverUtil.getUrl(fd, url);
-		WebElement startWe = fd.findElement(By.id("play_0_968770"));
+		WebElement startWe = fd.findElement(By.id("play_0_61373"));
 		if(startWe.isDisplayed()){
 			startWe.click();
 		}
@@ -54,16 +54,18 @@ public class HuTuiLianMeng {
 
 	//一键关注全部，然后翻页
 	private boolean oneKeyScore(WebDriver fd) {
-		String url = "http://tuitu.sinaapp.com/weibo/task";
+		String url1 = "http://apps.weibo.com/wbhutui";
+		fd = WebDriverUtil.getUrl(fd, url1);
+		String url = "http://hufen.tlianmeng.com/welcome/getjifen?action=follows";
 		fd = WebDriverUtil.getUrl(fd, url);
 		WebElement followAllBtnWe = WebDriverUtil.findElement4Wait(fd,By.id("follow_all_btn"),2);
 		followAllBtnWe.click();
-		WebElement overWe = WebDriverUtil.findElement4Wait(fd,By.cssSelector("div.tu_msg_wrap.tu_msg_ico_2"),1);
-		if(null !=overWe && overWe.isDisplayed()){
-			System.out.println("今天关注的太多了，明天再试试吧");
-			return false;
-		}
 		while (true) {
+			WebElement overWe = WebDriverUtil.findElement4Wait(fd,By.cssSelector("div.tu_msg_window"),1);
+			if(null !=overWe && overWe.isDisplayed() && overWe.getText().contains("上限")){
+				System.out.println("今天关注的太多了，明天再试试吧");
+				return false;
+			}
 			try {
 				Thread.sleep(1000);
 				followAllBtnWe = fd.findElement(By.id("loading"));

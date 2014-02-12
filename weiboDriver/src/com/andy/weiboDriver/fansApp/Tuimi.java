@@ -113,6 +113,11 @@ public class Tuimi {
 				return false;
 			}
 		}
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		// 跳转到iframe外部，领取积分
 		fd.switchTo().defaultContent();
 		fd.findElement(By.id("addMark")).click();
@@ -120,9 +125,9 @@ public class Tuimi {
 		WebElement alertWe = WebDriverUtil.findElement4Wait(fd, By.id("tu_dialog_body"), 10);
 		String alertStr = alertWe.getText();
 		boolean flag = !(alertStr.contains("领分无效"));
-		System.out.println(alertStr+"\n"+ flag);
+		System.out.println("结果："+ flag);
 		alertWe.findElement(By.cssSelector("a[class=\"btn\"]")).click();
-		return !flag;
+		return flag;
 	}
 
 	public void nextOneKeyAttention(WebDriver fd) {
