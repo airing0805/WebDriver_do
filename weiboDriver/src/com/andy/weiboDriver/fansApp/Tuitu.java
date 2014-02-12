@@ -1,5 +1,7 @@
 package com.andy.weiboDriver.fansApp;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -44,12 +46,14 @@ public class Tuitu {
 		fd = WebDriverUtil.getUrl(fd, url);
 		WebElement followAllBtnWe = WebDriverUtil.findElement4Wait(fd,By.id("follow_all_btn"),2);
 		followAllBtnWe.click();
-		WebElement overWe = WebDriverUtil.findElement4Wait(fd,By.cssSelector("div.tu_msg_wrap.tu_msg_ico_2"),1);
-		if(null !=overWe && overWe.isDisplayed()){
-			System.out.println("今天关注的太多了，明天再试试吧");
-			return false;
-		}
+		List<WebElement> userWEList = fd.findElements(By.cssSelector("div.fusers.clearfix > div.fuser.left"));
+		System.out.println("将要批量关注 : "+ userWEList.size());
 		while (true) {
+			WebElement overWe = WebDriverUtil.findElement4Wait(fd,By.cssSelector("div.tu_msg_wrap.tu_msg_ico_2"),1);
+			if(null !=overWe && overWe.isDisplayed()&& overWe.getText().contains("太多了")){
+				System.out.println("今天关注的太多了，明天再试试吧");
+				return false;
+			}
 			try {
 				Thread.sleep(1000);
 				followAllBtnWe = fd.findElement(By.id("loading"));
