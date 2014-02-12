@@ -57,7 +57,7 @@ public class WeiboSendAtPP {
 
 
 	private void iterateMessage(WebDriver fd, String[][] messArr) throws InterruptedException, ConfigurationException {
-		WebElement timer_diffWe = WebDriverUtil.findElement4Wait(fd, By.id("timer_diff_1"), -1);
+		WebElement timer_diffWe = WebDriverUtil.findElement4Wait(fd, By.id("timer_diff_1"), 10);
 		timer_diffWe.clear();
 		timer_diffWe.sendKeys(XMLConfig.getConfig().getString("timer_diff"));
 		String order = XMLConfig.getConfig().getString("SendMessageOrder");
@@ -106,7 +106,7 @@ public class WeiboSendAtPP {
 
 	private boolean ppSendTime(WebDriver fd, String message, String picUrl) throws InterruptedException {
 		// 页面显示
-		WebDriverUtil.findElement4Wait(fd, By.cssSelector("textarea[id=\"content_1\"]"), -1);
+		WebDriverUtil.findElement4Wait(fd, By.cssSelector("textarea[id=\"content_1\"]"), 10);
 		// 显示图片提示方式
 		((JavascriptExecutor) fd).executeScript("$('#show_pic_list_1').show();");
 		Thread.sleep(100);

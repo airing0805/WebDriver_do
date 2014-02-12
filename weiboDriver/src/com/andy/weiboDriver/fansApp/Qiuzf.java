@@ -74,7 +74,7 @@ public class Qiuzf {
 			try {
 				Thread.sleep(100);
 				// 一直等到页面加载完成
-				WebElement oneKeyAttentionWe = WebDriverUtil.findElement4Wait(fd, By.cssSelector("div[id=\"oneKeyAttention\"]"), -1);
+				WebElement oneKeyAttentionWe = WebDriverUtil.findElement4Wait(fd, By.cssSelector("div[id=\"oneKeyAttention\"]"), 10);
 				// 等到可以找到iframe,然后进入到iframe里面,还真的必须要等，
 				WebElement iframeWe = WebDriverUtil.findElement4Wait(oneKeyAttentionWe, By.tagName("iframe"), 10);
 				fd.switchTo().frame(iframeWe);

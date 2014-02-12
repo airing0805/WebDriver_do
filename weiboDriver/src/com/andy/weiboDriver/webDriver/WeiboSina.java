@@ -61,7 +61,7 @@ public class WeiboSina {
 //		fd.get("http://www.weibo.com");
 		fd.get("http://weibo.com/logout.php");
 		By usernameBy = By.cssSelector("input[node-type=\"username\"]");
-		WebElement usernameWe = WebDriverUtil.findElement4Wait(fd,usernameBy,-1);
+		WebElement usernameWe = WebDriverUtil.findElement4Wait(fd,usernameBy,10);
 		usernameWe.clear();
 		usernameWe.sendKeys(username);
 		WebElement passwordWe = fd.findElement(By.cssSelector("input[node-type=\"password\"]"));

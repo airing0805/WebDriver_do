@@ -59,8 +59,8 @@ public class Main {
 					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 					SimpleDateFormat sf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					System.out.println(sf1.format(new Date()));
-					path  += username+ sf.format(new Date());
-					String fileMess = username+"\n";
+					path  += username + sf.format(new Date()) + ".txt";
+					String fileMess = username + "\n";
 					FileUtil.write2FileEnd(path, fileMess);
 					new WeiboSina().login(fd, username, password);
 					num =WebDriverUtil.getNumInfoAtLogin(fd);
@@ -93,9 +93,6 @@ public class Main {
 					num = numT;
 					Thread.sleep(1000*60*10);
 				}
-				// 进入等待
-				System.out.println("进入等待" + new Date().toString());
-				Thread.sleep(18000000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
