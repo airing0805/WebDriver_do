@@ -15,6 +15,8 @@ import com.andy.weiboDriver.webDriver.WeiboSina;
 //互粉加加
 public class Qiuzf {
 
+	int getPage = 0; 
+	
 	public static void main(String[] args) {
 		WebDriver fd = new FirefoxDriver();
 		String username = "yitest0805@sina.com";
@@ -31,8 +33,10 @@ public class Qiuzf {
 
 	//最多只到十页，有一页成功就退出
 	public boolean getScoreFlow(WebDriver fd) {
+		int temPage = 0; 
+		gotoOneKeyPage(fd);
 		for(int i=0 ; i<=10 ;i++){
-			gotoOneKeyPage(fd);
+			temPage += 1;
 			switchToIframe(fd);
 			boolean flag = oneKeyAttention(fd);
 			nextOneKeyAttention(fd,i+2);
@@ -46,8 +50,13 @@ public class Qiuzf {
 				break;
 			}
 			if(flag ){
-				return flag;
+				if((getPage !=0 && temPage ==getPage )|| getPage ==0){
+					return flag;
+				}else{
+					continue;
+				}
 			}else{
+				temPage -=1;
 				continue;
 			}
 		}
@@ -56,6 +65,10 @@ public class Qiuzf {
 
 	public Qiuzf() {
 		super();
+	}
+
+	public Qiuzf(int i) {
+		getPage = i;
 	}
 
 	public void gotoOneKeyPage(WebDriver fd) {
@@ -119,6 +132,7 @@ public class Qiuzf {
 				break;
 			}else if (buttonText.contains("请重试")) {
 				System.out.println("请重试");
+				fd.switchTo().defaultContent();
 				return false;
 			}
 		}
@@ -129,7 +143,16 @@ public class Qiuzf {
 		}
 		// 跳转到iframe外部，领取积分
 		fd.switchTo().defaultContent();
-		fd.findElement(By.id("addMark")).click();
+		WebElement addMarkWe = fd.findElement(By.id("addMark"));
+		addMarkWe.click();
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		if(addMarkWe.getText().contains("稍候")){
+			addMarkWe.click();
+		}
 		// 确认积分
 		WebElement alertWe = WebDriverUtil.findElement4Wait(fd, By.id("tu_dialog_body"), 10);
 		String alertStr = alertWe.getText();

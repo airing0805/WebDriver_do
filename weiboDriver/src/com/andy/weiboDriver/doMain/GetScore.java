@@ -70,6 +70,7 @@ public class GetScore {
 					int aa = appList.indexOf(nextStartAppName);
 					boolean flag = false;
 					
+					//推兔一键最多12个
 					System.out.println("start:" + sf1.format(new Date()));
 					flag = new Tuitu().getScoreFlow(fd);
 					numT = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
@@ -81,9 +82,10 @@ public class GetScore {
 					if (!flag)
 						return;
 					Thread.sleep(1000 * 60 * 15);
-
+					
+					//互粉加加 一键一页最多7个
 					System.out.println("start:" + sf1.format(new Date()));
-					flag = new Qiuzf().getScoreFlow(fd);
+					flag = new Qiuzf(2).getScoreFlow(fd);
 					numT = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
 					fileMess = sf1.format(new Date()) + "_总共关注：" + numT + " _本次关注:" + (numT - num) + "\n";
 					System.out.println(fileMess);
@@ -91,8 +93,9 @@ public class GetScore {
 					num = numT;
 					Thread.sleep(1000 * 60 * 15);
 
+					//推米 一键一页最多7个
 					System.out.println("start:" + sf1.format(new Date()));
-					flag = new Tuimi().getScoreFlow(fd);
+					flag = new Tuimi(2).getScoreFlow(fd);
 					numT = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
 					fileMess = sf1.format(new Date()) + "_总共关注：" + numT + " _本次关注:" + (numT - num) + "\n";
 					System.out.println(fileMess);
@@ -100,6 +103,7 @@ public class GetScore {
 					num = numT;
 					Thread.sleep(1000 * 60 * 15);
 
+					//互推联盟 一键一页最多12个
 					System.out.println("start:" + sf1.format(new Date()));
 					flag = new HuTuiLianMeng().getScoreFlow(fd);
 					numT = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
@@ -111,6 +115,7 @@ public class GetScore {
 						return;
 					Thread.sleep(1000 * 60 * 15);
 
+					//互粉赏金榜一键一页最多16个
 					System.out.println("start:" + sf1.format(new Date()));
 					flag = new HuFenBang().getScoreFlow(fd);
 					numT = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
