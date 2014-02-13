@@ -102,8 +102,8 @@ public class WebDriverUtil {
 	
 	public static int getNumInfoAtUrl(WebDriver fd,String url){
 		getUrl(fd,url);
-		WebElement infoDiv =  findElement4Wait(fd,By.cssSelector("ul.user_atten.clearfix.user_atten_l"),5);
-		WebElement followWe = findElement4Wait(infoDiv,By.cssSelector("a.S_func1 > strong[node-type=\"follow\"]"),5);
+		WebElement infoDiv =  findElement4Wait(fd,By.cssSelector("ul.user_atten.clearfix.user_atten_l"),10);
+		WebElement followWe = findElement4Wait(infoDiv,By.cssSelector("a.S_func1 > strong[node-type=\"follow\"]"),10);
 		int num = Integer.parseInt(followWe.getText());
 		System.out.println("关注:" + num);
 		WebElement fansWe = infoDiv.findElement(By.cssSelector("a.S_func1 > strong[node-type=\"fans\"]"));
@@ -112,8 +112,8 @@ public class WebDriverUtil {
 	}
 	
 	public static int getNumInfoAtLogin(WebDriver fd){
-		WebElement infoDiv = findElement4Wait(fd,  By.cssSelector("div[id=\"pl_rightmod_myinfo\"] > ul"),5);
-		WebElement followWe = findElement4Wait(infoDiv,By.cssSelector("a.S_func1 > strong[node-type=\"follow\"]"),5);
+		WebElement infoDiv = findElement4Wait(fd,  By.cssSelector("div[id=\"pl_rightmod_myinfo\"] > ul"),10);
+		WebElement followWe = findElement4Wait(infoDiv,By.cssSelector("a.S_func1 > strong[node-type=\"follow\"]"),10);
 		int num = Integer.parseInt(followWe.getText());
 		System.out.println("关注:" + num);
 		WebElement fansWe = infoDiv.findElement(By.cssSelector("a.S_func1 > strong[node-type=\"fans\"]"));

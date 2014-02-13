@@ -30,7 +30,7 @@ public class Tuimi {
 	}
 	
 	//最多只到十页，有一页成功就退出
-	public void getScoreFlow(WebDriver fd){
+	public boolean getScoreFlow(WebDriver fd){
 		for(int i=0 ; i<=10 ;i++){
 			gotoOneKeyPage(fd);
 			switchToIframe(fd);
@@ -46,11 +46,12 @@ public class Tuimi {
 				break;
 			}
 			if(flag ){
-				break;
+				return flag;
 			}else{
 				continue;
 			}
 		}
+		return false;
 	}
 
 	public Tuimi() {
@@ -95,6 +96,11 @@ public class Tuimi {
 		WebElement divWe = WebDriverUtil.findElement4Wait(fd, By.cssSelector("div[class=\"btn_con\"]"), 100);
 		WebElement oneKeyButton = WebDriverUtil.findElement4Wait(divWe, By.cssSelector("a[class=\"btngreen_l\"]"), 100);
 		oneKeyButton.click();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
 		// 确认关注
 		Alert alert = fd.switchTo().alert();
 		alert.accept();
