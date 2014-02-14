@@ -42,7 +42,7 @@ public class GetScore {
 	//TODO对于一键关注16个的应用要区分标注出来，半小时的限制会突破30
 	public static void iterateGetScore(WebDriver fd, int weiboNum) {
 		List<String> appList = new ArrayList<String>();
-		String nextStartAppName = "Tuitu";
+//		String nextStartAppName = "Tuitu";
 		appList.add("Tuitu");
 		appList.add("Qiuzf");
 		appList.add("Tuimi");
@@ -67,7 +67,7 @@ public class GetScore {
 					num = WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
 					// 一键关注最多只到十页，有一页成功就退出
 					// boolean flag = true;
-					int aa = appList.indexOf(nextStartAppName);
+//					int aa = appList.indexOf(nextStartAppName);
 					boolean flag = false;
 					
 					//推兔一键最多12个

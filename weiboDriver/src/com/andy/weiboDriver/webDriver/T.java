@@ -18,41 +18,10 @@ import com.andy.weiboDriver.util.FileUtil;
 public class T {
 
 	public static void main(String[] args) throws ClientProtocolException, IOException{
-//		Request request = Request.Get("http://weibo.com/u/3944924952");
-		// 核心应用类   
-	       @SuppressWarnings({ "resource" })
-		HttpClient httpClient = new DefaultHttpClient();   
-	  
-	        // HTTP请求   
-	        HttpUriRequest request =   
-	                new HttpGet("http://t.qq.com/zhichangyy");   
-	  
-	        // 打印请求信息   
-	        System.out.println(request.getRequestLine()); 
-	        
-	        HttpResponse response = httpClient.execute(request);   
-//	        StringEntity myEntity = new StringEntity("important message",
-//	        		ContentType.create("text/plain", "UTF-8"));
-//	        response.setEntity(myEntity);
-            // 打印响应信息   
-//            System.out.println(response.getStatusLine()); 
-            HttpEntity he = response.getEntity();
-            String aa = EntityUtils.toString(he);
-            System.out.println("Response content:"  
-                    + new String(aa.getBytes("UTF-8"),"UTF-8"));
-            FileUtil.write2FileEnd(System.getProperty("user.dir")+"/aa.txt", new String(aa.getBytes("UTF-8"),"UTF-8"));
-//		CloseableHttpClient httpclient = HttpClients.createDefault();
-//		RequestConfig requestConfig = RequestConfig.custom()
-//		.setSocketTimeout(1000)
-//		.setConnectTimeout(1000)
-//		.build();
-//		HttpGet httpget1 = new HttpGet("http://weibo.com/u/3944924952");
-//		httpget1.setConfig(requestConfig);
-//		CloseableHttpResponse response1 = httpclient.execute(httpget1, context);
-//		try {
-//		HttpEntity entity1 = response1.getEntity();
-//		} finally {
-//		response1.close();
-//		}
+		String aa = "aa?bb";
+		String bb = "aabb";
+		System.out.println(aa.substring(0,1));
+		System.out.println(bb.split("\\u003F")[0]);
+
 	}
 }

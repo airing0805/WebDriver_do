@@ -74,7 +74,6 @@ public class Tuimi {
 
 	public void gotoOneKeyPage(WebDriver fd) {
 		String url1 = "http://tuimi.sinaapp.com";
-		fd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		WebDriverUtil.getUrl(fd, url1);
 //		WebDriverUtil.findElement4Wait(fd, By.id("apps"), 10);
 		String url2 = "http://tuimi.sinaapp.com/onekeyfl";

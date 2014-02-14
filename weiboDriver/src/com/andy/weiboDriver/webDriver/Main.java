@@ -64,7 +64,7 @@ public class Main {
 					String fileMess = username + "\n";
 					FileUtil.write2FileEnd(path, fileMess);
 					new WeiboSina().login(fd, username, password);
-					num =WebDriverUtil.getNumInfoAtLogin(fd);
+					num =WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
 					// 一键关注最多只到十页，有一页成功就退出
 //					boolean flag = true;
 					

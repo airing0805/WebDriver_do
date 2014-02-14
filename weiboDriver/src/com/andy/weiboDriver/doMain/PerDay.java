@@ -2,7 +2,6 @@ package com.andy.weiboDriver.doMain;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,14 +10,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
-import com.andy.weiboDriver.fansApp.HuFenBang;
-import com.andy.weiboDriver.fansApp.HuTuiLianMeng;
-import com.andy.weiboDriver.fansApp.Qiuzf;
-import com.andy.weiboDriver.fansApp.Tuimi;
-import com.andy.weiboDriver.fansApp.Tuitu;
 import com.andy.weiboDriver.util.FileUtil;
 import com.andy.weiboDriver.util.XMLConfig;
-import com.andy.weiboDriver.webDriver.WebDriverUtil;
 import com.andy.weiboDriver.webDriver.WeiboSina;
 
 public class PerDay {

@@ -4,8 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import com.andy.weiboDriver.util.XMLConfig;
-
 public class WebDriverUtil {
 
 	/**
@@ -78,45 +76,41 @@ public class WebDriverUtil {
 		}
 		return we2;
 	}
-	
-	public static WebDriver getUrl(WebDriver fd,String url){
-		while(true){
+
+	public static WebDriver getUrl(WebDriver fd, String url) {
+		String urlSub = url.split("\\u003F")[0];
+		if(urlSub.endsWith("/")){
+			urlSub = urlSub.substring(0, urlSub.length()-1);
+		}
+		for(int i=0;i<100;i++){
 			try {
 				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			String currentUrl = fd.getCurrentUrl();
-			if(currentUrl.contains(url)){
-				return fd;
-			}else{
-				fd.get(url);
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e) {
-					continue;
+				String currentUrl = fd.getCurrentUrl();
+				String currentUrlSub = currentUrl.split("\\u003F")[0];
+				//地址要相等
+				if(currentUrlSub.endsWith("/")){
+					currentUrlSub = currentUrlSub.substring(0, currentUrlSub.length()-1);
 				}
+				if (urlSub.equals(currentUrlSub)) {
+					return fd;
+				} else {
+					fd.get(url);
+					Thread.sleep(500);
+				}
+			} catch (InterruptedException e) {
+				continue;
 			}
 		}
+		return fd;
 	}
-	
-	public static int getNumInfoAtUrl(WebDriver fd,String url){
-		getUrl(fd,url);
-		WebElement infoDiv =  findElement4Wait(fd,By.cssSelector("ul.user_atten.clearfix.user_atten_l"),10);
-		WebElement followWe = findElement4Wait(infoDiv,By.cssSelector("a.S_func1 > strong[node-type=\"follow\"]"),10);
+
+	public static int getNumInfoAtUrl(WebDriver fd, String url) {
+		getUrl(fd, url);
+		WebElement infoDiv = findElement4Wait(fd, By.id("Pl_Official_Header__1"), 10);
+		WebElement followWe = findElement4Wait(infoDiv, By.cssSelector("strong[node-type=\"follow\"]"), 10);
 		int num = Integer.parseInt(followWe.getText());
 		System.out.println("关注:" + num);
-		WebElement fansWe = infoDiv.findElement(By.cssSelector("a.S_func1 > strong[node-type=\"fans\"]"));
-		System.out.println("粉丝:" + fansWe.getText());
-		return num;
-	}
-	
-	public static int getNumInfoAtLogin(WebDriver fd){
-		WebElement infoDiv = findElement4Wait(fd,  By.cssSelector("div[id=\"pl_rightmod_myinfo\"] > ul"),10);
-		WebElement followWe = findElement4Wait(infoDiv,By.cssSelector("a.S_func1 > strong[node-type=\"follow\"]"),10);
-		int num = Integer.parseInt(followWe.getText());
-		System.out.println("关注:" + num);
-		WebElement fansWe = infoDiv.findElement(By.cssSelector("a.S_func1 > strong[node-type=\"fans\"]"));
+		WebElement fansWe = infoDiv.findElement(By.cssSelector("strong[node-type=\"fans\"]"));
 		System.out.println("粉丝:" + fansWe.getText());
 		return num;
 	}

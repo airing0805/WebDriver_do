@@ -46,7 +46,7 @@ public class Tuitu {
 		fd = WebDriverUtil.getUrl(fd, url1);
 		String url2 = "http://tuitu.sinaapp.com/weibo/task";
 		fd = WebDriverUtil.getUrl(fd, url2);
-		WebElement followAllBtnWe = WebDriverUtil.findElement4Wait(fd,By.id("follow_all_btn"),10);
+		WebElement followAllBtnWe = WebDriverUtil.findElement4Wait(fd,By.id("follow_all_btn"),20);
 		followAllBtnWe.click();
 		List<WebElement> userWEList = fd.findElements(By.cssSelector("div.fusers.clearfix > div.fuser.left"));
 		System.out.println("将要批量关注 : "+ userWEList.size());
