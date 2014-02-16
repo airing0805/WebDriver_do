@@ -34,8 +34,8 @@ public class Tuitu {
 	private void startSpread(WebDriver fd) {
 		String url = "http://tuitu.sinaapp.com/weibo/space";
 		fd = WebDriverUtil.getUrl(fd, url);
-		WebElement startWe = fd.findElement(By.id("play_0_968770"));
-		if(startWe.isDisplayed()){
+		WebElement startWe = WebDriverUtil.findElement4Wait(fd, By.id("play_0_968770"),1);
+		if(null != startWe && startWe.isDisplayed()){
 			startWe.click();
 		}
 	}

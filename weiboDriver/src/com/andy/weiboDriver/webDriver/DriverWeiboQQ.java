@@ -50,13 +50,13 @@ public class DriverWeiboQQ {
 		StringBuffer messageBuffer = new StringBuffer();
 		By closeLoginBy = By.cssSelector("div[class=\"DWrap\"] > a.DClose.close");
 		WebElement closeLoginElement = WebDriverUtil.findElement4Wait(fd, closeLoginBy, 2);
-		if (null != closeLoginElement) {
+		if (null != closeLoginElement && closeLoginElement.isDisplayed()) {
 			closeLoginElement.click();
 		}
 		// 点击原创等待加载
 		By originalBy = By.xpath("//*[@id=\"userAppTab\"]/ul/li[2]/a");
 		WebElement originalWe = WebDriverUtil.findElement4Wait(fd, originalBy, 1);
-		if (null != closeLoginElement) {
+		if (null != originalWe && originalWe.isDisplayed() ) {
 			String text = originalWe.getText();
 			if (text.contains("原创")) {
 				originalWe.click();
@@ -100,7 +100,7 @@ public class DriverWeiboQQ {
 	private void doNextPage(WebDriver fd, int startPage) throws ConfigurationException, InterruptedException {
 		int pageConf = Integer.parseInt(XMLConfig.getConfig().getString("QQSpiderPage"));
 		if (pageConf != startPage) {
-			WebElement pageNavWe = fd.findElement(By.xpath("//*[@id=\"pageNav\"]"));
+			WebElement pageNavWe = fd.findElement(By.id("pageNav"));
 			List<WebElement> pageLinkWeList = pageNavWe.findElements(By.tagName("a"));
 			int nextPageNum = startPage + 1;
 			for (WebElement pageLinkWe : pageLinkWeList) {

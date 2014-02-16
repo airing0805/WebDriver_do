@@ -48,6 +48,20 @@ public class GetScore {
 		appList.add("Tuimi");
 		appList.add("HuTuiLianMeng");
 		appList.add("HuFenBang");
+		while(true){
+			int startDay = XMLConfig.getConfig().getInt("startDay");
+			SimpleDateFormat sf = new SimpleDateFormat("dd");
+			if(startDay == Integer.parseInt(sf.format(new Date()))){
+				break;
+			}else{
+				try {
+					Thread.sleep(1000*60*5);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
 		while (true) {
 			try {
 				for (int i = 0; i < weiboNum; i++) {
@@ -60,7 +74,7 @@ public class GetScore {
 					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 					SimpleDateFormat sf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					System.out.println(sf1.format(new Date()));
-					path += username + sf.format(new Date()) + ".txt";
+					path += username + sf.format(new Date()) + "_getScore.txt";
 					String fileMess = username + "\n";
 					FileUtil.write2FileEnd(path, fileMess);
 					new WeiboSina().login(fd, username, password);
@@ -71,6 +85,7 @@ public class GetScore {
 					boolean flag = false;
 					
 					//推兔一键最多12个
+					//http://apps.weibo.com/tuituoo
 					System.out.println("start:" + sf1.format(new Date()));
 					flag = new Tuitu().getScoreFlow(fd);
 					numT = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);

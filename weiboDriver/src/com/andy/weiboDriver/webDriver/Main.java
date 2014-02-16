@@ -19,7 +19,7 @@ import com.andy.weiboDriver.util.XMLConfig;
 public class Main {
 	public static void main(String[] args) throws ConfigurationException, InterruptedException {
 
-		int caseNum = 3;
+		int caseNum = 0;
 		if (null != args && args.length > 0) {
 			caseNum = Integer.parseInt(args[0]);
 		}

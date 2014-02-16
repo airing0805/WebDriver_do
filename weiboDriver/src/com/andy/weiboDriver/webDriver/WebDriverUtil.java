@@ -20,14 +20,14 @@ public class WebDriverUtil {
 		if (num < 0) {
 			num = 1000;
 		}
-		for (int i = 0; i < num * 10; i++) {
+		for (int i = 0; i < num * 2; i++) {
 			try {
 				we = wd.findElement(by);
 				if (null != we)
 					break;
 			} catch (RuntimeException e) {
 				try {
-					Thread.sleep(100);
+					Thread.sleep(500);
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 					continue;
@@ -60,14 +60,14 @@ public class WebDriverUtil {
 		if (num < 0) {
 			num = 1000;
 		}
-		for (int i = 0; i < num * 10; i++) {
+		for (int i = 0; i < num * 2; i++) {
 			try {
 				we2 = we.findElement(by);
 				if (null != we)
 					break;
 			} catch (RuntimeException e) {
 				try {
-					Thread.sleep(100);
+					Thread.sleep(500);
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 					continue;
@@ -92,6 +92,8 @@ public class WebDriverUtil {
 					currentUrlSub = currentUrlSub.substring(0, currentUrlSub.length()-1);
 				}
 				if (urlSub.equals(currentUrlSub)) {
+					fd.navigate().refresh();
+					Thread.sleep(3000);
 					return fd;
 				} else {
 					fd.get(url);

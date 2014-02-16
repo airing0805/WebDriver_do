@@ -8,13 +8,14 @@
 	<sendMessageOrder>desc</sendMessageOrder>
 	<!-- 页面抓取数量最大值 -->
 	<QQSpiderPage>100</QQSpiderPage>
+	<startDay>15</startDay>
 	
 	<weibo>
-		<weibo_username>yitest0805@sina.com</weibo_username>
-		<weibo_url>http://weibo.com/u/3961753167</weibo_url>
-		<weibo_no>3961753167</weibo_no>
+		<weibo_username>zy166688@163.com</weibo_username>
+		<weibo_url>http://weibo.com/u/5025337190</weibo_url>
+		<weibo_no>5025337190</weibo_no>
 		<weibo_password>andy0805</weibo_password>
-		<pp_username>zhaoyuan01@126.com</pp_username>
+		<pp_username>z254436159@sina.com</pp_username>
 		<pp_password>andy0805</pp_password>
 		<pp_address>
 			<QQAddress>http://t.qq.com/yangpushuan</QQAddress>
@@ -31,6 +32,7 @@
 	<address>
 		<advert>
 			<address></address>
+			<QQAddress>http://e.t.qq.com/style-china</QQAddress>
 			<QQAddress>http://t.qq.com/zhichangyulu</QQAddress>
 			<QQAddress>http://t.qq.com/zhichangyy</QQAddress>
 			<QQAddress>http://t.qq.com/weiboimetu</QQAddress>
