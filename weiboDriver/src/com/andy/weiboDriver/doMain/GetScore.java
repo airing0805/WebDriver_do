@@ -4,7 +4,9 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.openqa.selenium.WebDriver;
@@ -66,6 +68,7 @@ public class GetScore {
 			try {
 				for (int i = 0; i < weiboNum; i++) {
 					String path = System.getProperty("user.dir") + File.separator;
+					Map<String,Integer> map = new HashMap<String,Integer>();
 					int num = 0;
 					int numT = 0;
 					String username = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_username");
@@ -78,7 +81,8 @@ public class GetScore {
 					String fileMess = username + "\n";
 					FileUtil.write2FileEnd(path, fileMess);
 					new WeiboSina().login(fd, username, password);
-					num = WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
+					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
+					num = map.get("关注");
 					// 一键关注最多只到十页，有一页成功就退出
 					// boolean flag = true;
 //					int aa = appList.indexOf(nextStartAppName);
@@ -88,8 +92,9 @@ public class GetScore {
 					//http://apps.weibo.com/tuituoo
 					System.out.println("start:" + sf1.format(new Date()));
 					flag = new Tuitu().getScoreFlow(fd);
-					numT = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
-					fileMess = sf1.format(new Date()) + "_总共关注：" + numT + " _本次关注:" + (numT - num) + "\n";
+					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
+					numT = map.get("关注");
+					fileMess = sf1.format(new Date()) + "_总关注：" + numT +"_总粉丝："+map.get("粉丝")+ " _本次关注:" + (numT - num) + "\n";
 					System.out.println(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
@@ -101,8 +106,9 @@ public class GetScore {
 					//互粉加加 一键一页最多7个
 					System.out.println("start:" + sf1.format(new Date()));
 					flag = new Qiuzf(2).getScoreFlow(fd);
-					numT = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
-					fileMess = sf1.format(new Date()) + "_总共关注：" + numT + " _本次关注:" + (numT - num) + "\n";
+					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
+					numT = map.get("关注");
+					fileMess = sf1.format(new Date()) + "_总关注：" + numT +"_总粉丝："+map.get("粉丝")+ " _本次关注:" + (numT - num) + "\n";
 					System.out.println(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
@@ -111,8 +117,9 @@ public class GetScore {
 					//推米 一键一页最多7个
 					System.out.println("start:" + sf1.format(new Date()));
 					flag = new Tuimi(2).getScoreFlow(fd);
-					numT = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
-					fileMess = sf1.format(new Date()) + "_总共关注：" + numT + " _本次关注:" + (numT - num) + "\n";
+					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
+					numT = map.get("关注");
+					fileMess = sf1.format(new Date()) + "_总关注：" + numT +"_总粉丝："+map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
 					System.out.println(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
@@ -121,8 +128,9 @@ public class GetScore {
 					//互推联盟 一键一页最多12个
 					System.out.println("start:" + sf1.format(new Date()));
 					flag = new HuTuiLianMeng().getScoreFlow(fd);
-					numT = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
-					fileMess = sf1.format(new Date()) + "_总共关注：" + numT + " _本次关注:" + (numT - num) + "\n";
+					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
+					numT = map.get("关注");
+					fileMess = sf1.format(new Date()) + "_总关注：" + numT +"_总粉丝："+map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
 					System.out.println(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
@@ -133,8 +141,9 @@ public class GetScore {
 					//互粉赏金榜一键一页最多16个
 					System.out.println("start:" + sf1.format(new Date()));
 					flag = new HuFenBang().getScoreFlow(fd);
-					numT = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
-					fileMess = sf1.format(new Date()) + "_总共关注：" + numT + " _本次关注:" + (numT - num) + "\n";
+					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
+					numT = map.get("关注");
+					fileMess = sf1.format(new Date()) + "_总关注：" + numT +"_总粉丝："+map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
 					System.out.println(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;

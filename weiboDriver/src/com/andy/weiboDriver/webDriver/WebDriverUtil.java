@@ -1,5 +1,8 @@
 package com.andy.weiboDriver.webDriver;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -106,7 +109,7 @@ public class WebDriverUtil {
 		return fd;
 	}
 
-	public static int getNumInfoAtUrl(WebDriver fd, String url) {
+	public static Map<String,Integer> getNumInfoAtUrl(WebDriver fd, String url) {
 		getUrl(fd, url);
 		WebElement infoDiv = findElement4Wait(fd, By.id("Pl_Official_Header__1"), 10);
 		WebElement followWe = findElement4Wait(infoDiv, By.cssSelector("strong[node-type=\"follow\"]"), 10);
@@ -114,7 +117,10 @@ public class WebDriverUtil {
 		System.out.println("关注:" + num);
 		WebElement fansWe = infoDiv.findElement(By.cssSelector("strong[node-type=\"fans\"]"));
 		System.out.println("粉丝:" + fansWe.getText());
-		return num;
+		Map<String,Integer > map = new HashMap<String,Integer>();
+		map.put("关注",num);
+		map.put("关注",Integer.parseInt(fansWe.getText()));
+		return map;
 	}
 
 }

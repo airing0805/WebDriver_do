@@ -3,7 +3,9 @@ package com.andy.weiboDriver.webDriver;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.openqa.selenium.WebDriver;
@@ -17,6 +19,7 @@ import com.andy.weiboDriver.util.FileUtil;
 import com.andy.weiboDriver.util.XMLConfig;
 
 public class Main {
+
 	public static void main(String[] args) throws ConfigurationException, InterruptedException {
 
 		int caseNum = 0;
@@ -52,6 +55,7 @@ public class Main {
 			try {
 				for (int i = 0; i < weiboNum; i++) {
 					String path = System.getProperty("user.dir") + File.separator;
+					Map<String, Integer> map = new HashMap<String,Integer>();
 					int num = 0 ;
 					int numT =0;
 					String username = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_username");
@@ -64,12 +68,14 @@ public class Main {
 					String fileMess = username + "\n";
 					FileUtil.write2FileEnd(path, fileMess);
 					new WeiboSina().login(fd, username, password);
-					num =WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
+					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
+					num = map.get("关注");
 					// 一键关注最多只到十页，有一页成功就退出
 //					boolean flag = true;
 					
 					boolean flag = new Tuitu().getScoreFlow(fd);
-					numT =WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
+					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
+					numT = map.get("关注");
 					fileMess = sf1.format(new Date())+ ":本次关注:" + (numT - num);
 					System.out.println(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
@@ -80,7 +86,8 @@ public class Main {
 					Thread.sleep(1000*60*10);
 					
 					new Qiuzf().getScoreFlow(fd);
-					numT =WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
+					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
+					numT = map.get("关注");
 					fileMess = sf1.format(new Date())+ ":本次关注:" + (numT - num);
 					System.out.println(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
@@ -88,7 +95,8 @@ public class Main {
 					Thread.sleep(1000*60*10);
 					
 					new Tuimi().getScoreFlow(fd);
-					numT =WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
+					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
+					numT = map.get("关注");
 					fileMess = sf1.format(new Date())+ ":本次关注:" + (numT - num);
 					System.out.println(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
