@@ -1,7 +1,6 @@
 package com.andy.weiboDriver.fansApp;
 
-import java.util.concurrent.TimeUnit;
-
+import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -14,6 +13,8 @@ import com.andy.weiboDriver.webDriver.WeiboSina;
 
 //推米互粉
 public class Tuimi {
+	private static Logger logger = Logger.getLogger( Tuimi.class);
+	
 
 	int getPage = 0;
 	public static void main(String[] args) {
@@ -27,7 +28,7 @@ public class Tuimi {
 //		tu.switchToIframe(fd);
 //		tu.oneKeyAttention(fd);
 //		tu.nextOneKeyAttention(fd);
-		System.out.println(10);
+		logger.info(10);
 	}
 
 
@@ -47,7 +48,7 @@ public class Tuimi {
 				e.printStackTrace();
 			}
 			if(i==10){
-				System.out.println("没有可以一键关注的了");
+				logger.info("没有可以一键关注的了");
 				break;
 			}
 			if(flag ){
@@ -128,7 +129,7 @@ public class Tuimi {
 			if (buttonText.contains("已关注")) {
 				break;
 			}else if (buttonText.contains("请重试")) {
-				System.out.println("请重试");
+				logger.info("请重试");
 				fd.switchTo().defaultContent();
 				return false;
 			}
@@ -154,7 +155,7 @@ public class Tuimi {
 		WebElement alertWe = WebDriverUtil.findElement4Wait(fd, By.id("tu_dialog_body"), 10);
 		String alertStr = alertWe.getText();
 		boolean flag = !(alertStr.contains("领分无效"));
-		System.out.println("结果："+ flag);
+		logger.info("结果："+ flag);
 		alertWe.findElement(By.cssSelector("a[class=\"btn\"]")).click();
 		return flag;
 	}

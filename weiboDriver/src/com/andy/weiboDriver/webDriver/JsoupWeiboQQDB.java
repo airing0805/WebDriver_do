@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -21,6 +22,8 @@ import com.andy.weiboDriver.entity.QQWeiboMessage;
 import com.andy.weiboDriver.entity.constant.QQWeiboConstant;
 
 public class JsoupWeiboQQDB {
+	private static Logger logger = Logger.getLogger(  JsoupWeiboQQDB.class);
+	
 	QQWeiboDao weiboDao = new QQWeiboDao();
 	QQWeiboMessageDao weiboMessageDao = new QQWeiboMessageDao();
 
@@ -37,7 +40,7 @@ public class JsoupWeiboQQDB {
 		qqs.setMESSAGE_STATE(QQWeiboConstant.QQWEIBO_GETMESSAGE + QQWeiboConstant.SEPARTOR + dateStr);
 		qqs.setLAST_CRAWL_TIME(new java.sql.Date(new Date().getTime()));
 		weiboDb.weiboDao.updateState(qqs);
-		// System.out.println(doc.toString());
+		// logger.info(doc.toString());
 	}
 
 	public void geturl(int num, String urlHead, String url) throws IOException {
@@ -54,7 +57,7 @@ public class JsoupWeiboQQDB {
 			int pageN = Integer.parseInt(a.get(i).text());
 			//TODO 要删除判断条件
 			if (pageN == num + 1) {
-				System.out.println(pageN);
+				logger.info(pageN);
 				geturl(pageN, urlHead, hrefAA);
 				break;
 			}
@@ -140,7 +143,7 @@ public class JsoupWeiboQQDB {
 
 	@Test
 	public void t() {
-		System.out.println(Integer.parseInt("00"));
+		logger.info(Integer.parseInt("00"));
 
 	}
 
@@ -157,11 +160,11 @@ public class JsoupWeiboQQDB {
 			Element el = els.get(i).select("div[class=msgCnt]").get(0);
 			Element el2 = els.get(i).select("div[class=mediaWrap] > div >a.pic").get(0);
 			Element el3 = els.get(i).select("a[class=time]").get(0);
-			System.out.println(el.text() + "\n\n");
-			System.out.println(el2.attr("href") + "\n\n");
-			System.out.println(el3.attr("title") + "\n\n");
-			System.out.println(el3.parent().html() + "\n\n");
-			System.out.println(el3.text() + "\n\n");
+			logger.info(el.text() + "\n\n");
+			logger.info(el2.attr("href") + "\n\n");
+			logger.info(el3.attr("title") + "\n\n");
+			logger.info(el3.parent().html() + "\n\n");
+			logger.info(el3.text() + "\n\n");
 			if (i > 0) {
 				break;
 			}

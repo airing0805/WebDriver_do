@@ -3,12 +3,14 @@ package com.andy.weiboDriver.webDriver;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class WebDriverUtil {
 
+	private static Logger logger = Logger.getLogger(  WebDriverUtil.class);
 	/**
 	 * driver范围内，在一定时间内查找元素，传入秒时间
 	 * 
@@ -95,8 +97,6 @@ public class WebDriverUtil {
 					currentUrlSub = currentUrlSub.substring(0, currentUrlSub.length()-1);
 				}
 				if (urlSub.equals(currentUrlSub)) {
-					fd.navigate().refresh();
-					Thread.sleep(3000);
 					return fd;
 				} else {
 					fd.get(url);
@@ -114,9 +114,9 @@ public class WebDriverUtil {
 		WebElement infoDiv = findElement4Wait(fd, By.id("Pl_Official_Header__1"), 10);
 		WebElement followWe = findElement4Wait(infoDiv, By.cssSelector("strong[node-type=\"follow\"]"), 10);
 		int num = Integer.parseInt(followWe.getText());
-		System.out.println("关注:" + num);
+		logger.info("关注:" + num);
 		WebElement fansWe = infoDiv.findElement(By.cssSelector("strong[node-type=\"fans\"]"));
-		System.out.println("粉丝:" + fansWe.getText());
+		logger.info("粉丝:" + fansWe.getText());
 		Map<String,Integer > map = new HashMap<String,Integer>();
 		map.put("关注",num);
 		map.put("关注",Integer.parseInt(fansWe.getText()));

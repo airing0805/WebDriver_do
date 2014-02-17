@@ -94,7 +94,7 @@ public class QQWeiboMessageDao {
 	@Test
 	public void getSefListTest() {
 //		List<QQWeiboMessage> qqsList = queryAll();
-//		System.out.println(qqsList.toString());
+//		logger.info(qqsList.toString());
 	}
 
 	public List<QQWeiboMessage> getSefList(List<Map<String, String>> rsList) {

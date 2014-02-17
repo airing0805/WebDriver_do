@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
@@ -15,6 +16,8 @@ import com.andy.weiboDriver.util.XMLConfig;
 import com.andy.weiboDriver.webDriver.WeiboSina;
 
 public class PerDay {
+	private static Logger logger = Logger.getLogger( PerDay.class);
+	
 	public static void main(String[] args) throws ConfigurationException, InterruptedException {
 
 		List<Object> weiboList = XMLConfig.getConfig().getList("weibo.weibo_username");
@@ -48,26 +51,26 @@ public class PerDay {
 			String notesboard = "http://weibo.com/notesboard";
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 			SimpleDateFormat sf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			System.out.println(sf1.format(new Date()));
+			logger.info(sf1.format(new Date()));
 			path += username + sf.format(new Date()) + ".txt";
 			String fileMess = username + "\n";
 			FileUtil.write2FileEnd(path, fileMess);
 			new WeiboSina().login(fd, username, password);
-			System.out.println(sf1.format(new Date()));
+			logger.info(sf1.format(new Date()));
 			fd.get(weiboUrl);
-			System.out.println(sf1.format(new Date()));
+			logger.info(sf1.format(new Date()));
 			fd.get(weiboFans);
-			System.out.println(sf1.format(new Date()));
+			logger.info(sf1.format(new Date()));
 			fd.get(weiboFollow);
-			System.out.println(sf1.format(new Date()));
+			logger.info(sf1.format(new Date()));
 			fd.get(atMe);
-			System.out.println(sf1.format(new Date()));
+			logger.info(sf1.format(new Date()));
 			fd.get(mess);
-			System.out.println(sf1.format(new Date()));
+			logger.info(sf1.format(new Date()));
 			fd.get(comment);
-			System.out.println(sf1.format(new Date()));
+			logger.info(sf1.format(new Date()));
 			fd.get(notesboard);
-			System.out.println(sf1.format(new Date()));
+			logger.info(sf1.format(new Date()));
 		}
 	}
 

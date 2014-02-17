@@ -11,11 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 
 import com.andy.weiboDriver.entity.QQWeibo;
 
 public class QQWeiboDao {
+	
+	private static Logger logger = Logger.getLogger(  QQWeiboDao.class);
 
 	public void insertState(QQWeibo qqState) {
 		try {
@@ -72,7 +75,7 @@ public class QQWeiboDao {
 	@Test
 	public void getSefListTest() {
 		 List<QQWeibo>  qqsList = queryByState("初始");
-		 System.out.println(qqsList.size());
+		 logger.info(qqsList.size());
 	}
 
 	public List<QQWeibo> queryByState(String MESSAGE_STATE) {

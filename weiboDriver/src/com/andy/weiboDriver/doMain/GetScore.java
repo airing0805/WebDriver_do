@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
@@ -24,6 +25,9 @@ import com.andy.weiboDriver.webDriver.WebDriverUtil;
 import com.andy.weiboDriver.webDriver.WeiboSina;
 
 public class GetScore {
+	
+	private static Logger logger = Logger.getLogger(GetScore.class);
+	
 	public static void main(String[] args) throws ConfigurationException, InterruptedException {
 
 		List<Object> weiboList = XMLConfig.getConfig().getList("weibo.weibo_username");
@@ -66,6 +70,7 @@ public class GetScore {
 		
 		while (true) {
 			try {
+				
 				for (int i = 0; i < weiboNum; i++) {
 					String path = System.getProperty("user.dir") + File.separator;
 					Map<String,Integer> map = new HashMap<String,Integer>();
@@ -76,7 +81,7 @@ public class GetScore {
 					String weiboUrl = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_url");
 					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 					SimpleDateFormat sf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-					System.out.println(sf1.format(new Date()));
+					logger.info(sf1.format(new Date()));
 					path += username + sf.format(new Date()) + "_getScore.txt";
 					String fileMess = username + "\n";
 					FileUtil.write2FileEnd(path, fileMess);
@@ -90,12 +95,12 @@ public class GetScore {
 					
 					//推兔一键最多12个
 					//http://apps.weibo.com/tuituoo
-					System.out.println("start:" + sf1.format(new Date()));
+					logger.info("start:" + sf1.format(new Date()));
 					flag = new Tuitu().getScoreFlow(fd);
 					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
 					numT = map.get("关注");
 					fileMess = sf1.format(new Date()) + "_总关注：" + numT +"_总粉丝："+map.get("粉丝")+ " _本次关注:" + (numT - num) + "\n";
-					System.out.println(fileMess);
+					logger.info(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
 					// 关注过多，
@@ -104,34 +109,34 @@ public class GetScore {
 					Thread.sleep(1000 * 60 * 15);
 					
 					//互粉加加 一键一页最多7个
-					System.out.println("start:" + sf1.format(new Date()));
+					logger.info("start:" + sf1.format(new Date()));
 					flag = new Qiuzf(2).getScoreFlow(fd);
 					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
 					numT = map.get("关注");
 					fileMess = sf1.format(new Date()) + "_总关注：" + numT +"_总粉丝："+map.get("粉丝")+ " _本次关注:" + (numT - num) + "\n";
-					System.out.println(fileMess);
+					logger.info(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
 					Thread.sleep(1000 * 60 * 15);
 
 					//推米 一键一页最多7个
-					System.out.println("start:" + sf1.format(new Date()));
+					logger.info("start:" + sf1.format(new Date()));
 					flag = new Tuimi(2).getScoreFlow(fd);
 					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
 					numT = map.get("关注");
 					fileMess = sf1.format(new Date()) + "_总关注：" + numT +"_总粉丝："+map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
-					System.out.println(fileMess);
+					logger.info(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
 					Thread.sleep(1000 * 60 * 15);
 
 					//互推联盟 一键一页最多12个
-					System.out.println("start:" + sf1.format(new Date()));
+					logger.info("start:" + sf1.format(new Date()));
 					flag = new HuTuiLianMeng().getScoreFlow(fd);
 					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
 					numT = map.get("关注");
 					fileMess = sf1.format(new Date()) + "_总关注：" + numT +"_总粉丝："+map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
-					System.out.println(fileMess);
+					logger.info(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
 					if (!flag)
@@ -139,20 +144,35 @@ public class GetScore {
 					Thread.sleep(1000 * 60 * 15);
 
 					//互粉赏金榜一键一页最多16个
-					System.out.println("start:" + sf1.format(new Date()));
+					logger.info("start:" + sf1.format(new Date()));
 					flag = new HuFenBang().getScoreFlow(fd);
 					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
 					numT = map.get("关注");
 					fileMess = sf1.format(new Date()) + "_总关注：" + numT +"_总粉丝："+map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
-					System.out.println(fileMess);
+					logger.info(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
 					if (!flag)
 						return;
 					Thread.sleep(1000 * 60 * 15);
 				}
+			} catch (RuntimeException e) {
+				logger.info(e.getMessage(), e);
+				try {
+					Thread.sleep(1000 * 60 * 15);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				continue;
+				
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				logger.info(e.getMessage(), e);
+				try {
+					Thread.sleep(1000 * 60 * 15);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				continue;
 			}
 		}
 	}

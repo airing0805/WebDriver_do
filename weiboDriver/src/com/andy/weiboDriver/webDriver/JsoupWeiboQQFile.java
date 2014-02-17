@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -14,11 +15,13 @@ import org.jsoup.select.Elements;
 import com.andy.weiboDriver.util.FileUtil;
 
 public class JsoupWeiboQQFile {
+	private static Logger logger = Logger.getLogger(  JsoupWeiboQQFile.class);
+	
 	public static void main(String[] args) throws ClientProtocolException, IOException {
 		String url = "http://t.qq.com/zhichangyy";
 		List<String> aa = new ArrayList<String>();
 		 geturl(aa,url ) ;
-		// System.out.println(doc.toString());
+		// logger.info(doc.toString());
 	}
 	
 	public static void  geturl(List<String> aa,String url ) throws IOException{
@@ -68,8 +71,8 @@ public class JsoupWeiboQQFile {
 		for (int i = 0; i < els.size(); i++) {
 			Element el = els.get(i).select("div[class=msgCnt]").get(0);
 			Element el2 = els.get(i).select("div[class=mediaWrap] > div >a.pic").get(0);
-			System.out.println(el.text() + "\n\n");
-			System.out.println(el2.attr("href") + "\n\n");
+			logger.info(el.text() + "\n\n");
+			logger.info(el2.attr("href") + "\n\n");
 		}
 	}
 }

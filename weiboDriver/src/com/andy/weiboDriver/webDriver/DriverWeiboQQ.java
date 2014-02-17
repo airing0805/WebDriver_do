@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,7 +13,9 @@ import com.andy.weiboDriver.util.FileUtil;
 import com.andy.weiboDriver.util.XMLConfig;
 
 public class DriverWeiboQQ {
-
+	
+	private static Logger logger = Logger.getLogger(  DriverWeiboQQ.class);
+	
 	public DriverWeiboQQ() {
 		super();
 	}
@@ -22,18 +25,18 @@ public class DriverWeiboQQ {
 			long start = System.currentTimeMillis();
 			
 			String username = XMLConfig.getConfig().getString("weibo(" + i + ").pp_username");
-			System.out.println(username);
+			logger.info(username);
 			String path = System.getProperty("user.dir") + File.separator + username + ".txt";
 			List<Object> addressList = XMLConfig.getConfig().getList("weibo(" + i + ").pp_address.QQAddress");
 			new File(path).delete();
 			for (int j = 0; j < addressList.size(); j++) {
 				String url = XMLConfig.getConfig().getString("weibo(" + i + ").pp_address.QQAddress(" + j + ")");
-				System.out.println(url);
+				logger.info(url);
 				fd.get(url);
 				int pageConf = Integer.parseInt(XMLConfig.getConfig().getString("QQSpiderPage"));
 				for(int k =0;k<pageConf;k++){
 					String message = getMessage(fd);
-					System.out.println(message);
+					logger.info(message);
 					doNextPage(fd, k+1);
 					FileUtil.write2FileEnd(path, message);
 				}
@@ -41,7 +44,7 @@ public class DriverWeiboQQ {
 			
 			long end = System.currentTimeMillis();
 			long total = end - start;
-			System.out.println(total);
+			logger.info(total);
 		}
 	}
 

@@ -15,9 +15,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 
 public class ResourceUtil {
+	private static Logger logger = Logger.getLogger(  ResourceUtil.class);
 	
 	@Test
 	public void test() throws SQLException, ParseException{
@@ -27,10 +29,10 @@ public class ResourceUtil {
 //		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //		java.util.Date startDate = sf.parse("2013-02-02 10:10:10");
 //		java.util.Date endDate = sf.parse("2013-05-05 10:10:10");
-//		System.out.println(startDate+"\n\n"+endDate);
+//		logger.info(startDate+"\n\n"+endDate);
 //		Timestamp startDate2 = new Timestamp(startDate.getTime());
 //		Timestamp endDate2 = new Timestamp(endDate.getTime());
-//		System.out.println(startDate2+"\n\n"+endDate2);
+//		logger.info(startDate2+"\n\n"+endDate2);
 //		prep.setString(1,   "1900-01-01 0:0:0");
 //		prep.setString(2, "asf");
 //		prep.setString(3, "1900-01-01 10:10:10");
@@ -40,7 +42,7 @@ public class ResourceUtil {
 		PreparedStatement stat = conn.prepareStatement("SELECT  * FROM QQ_WEIBO_MESSAGE;"); 
 		ResultSet rs = stat.executeQuery();  
 		rs.next();
-		System.out.println(rs.getString("ID"));
+		logger.info(rs.getString("ID"));
 		close(rs,stat,conn);
 	}
 
@@ -52,10 +54,10 @@ public class ResourceUtil {
 			Connection conn = DriverManager.getConnection("jdbc:sqlite:"+path+File.separator+"DB/databases.db");
 			return conn;
 		} catch (ClassNotFoundException e) {
-			System.out.println("failed to register driver.");
+			logger.info("failed to register driver.");
 			throw new RuntimeException(e);
 		} catch (SQLException e) {
-			System.out.println("failed to execute sql.");
+			logger.info("failed to execute sql.");
 			throw new RuntimeException(e);
 		}
 	}
@@ -84,7 +86,7 @@ public class ResourceUtil {
         }catch(SQLException e){
         	e.printStackTrace();
         }
-//        System.out.println(list.toString());
+//        logger.info(list.toString());
         return list;   
 }  
 	
@@ -95,10 +97,10 @@ public class ResourceUtil {
 			Connection conn = DriverManager.getConnection("jdbc:sqlite:"+path+File.separator+"DB/databasesTest.db");
 			return conn;
 		} catch (ClassNotFoundException e) {
-			System.out.println("failed to register driver.");
+			logger.info("failed to register driver.");
 			throw new RuntimeException(e);
 		} catch (SQLException e) {
-			System.out.println("failed to execute sql.");
+			logger.info("failed to execute sql.");
 			throw new RuntimeException(e);
 		}
 	}

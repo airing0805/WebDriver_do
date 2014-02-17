@@ -1,5 +1,6 @@
 package com.andy.weiboDriver.fansApp;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,6 +10,8 @@ import com.andy.weiboDriver.webDriver.WebDriverUtil;
 import com.andy.weiboDriver.webDriver.WeiboSina;
 
 public class HuFenBang {
+	private static Logger logger = Logger.getLogger(  HuFenBang.class);
+	
 
 	/*
 	 * TODO,只是复制过来了，还没有修改代码
@@ -26,13 +29,13 @@ public class HuFenBang {
 		HuFenBang tu = new HuFenBang();
 		// 先弄积分再继续推
 		tu.getScoreFlow(fd);
-		System.out.println(10);
+		logger.info(10);
 	}
 
 	public boolean getScoreFlow(WebDriver fd) {
 		boolean flag = oneKeyScore(fd);
 		startSpread(fd);
-		System.out.println("完成一个app关注");
+		logger.info("完成一个app关注");
 		return flag;
 	}
 
@@ -58,7 +61,7 @@ public class HuFenBang {
 		while (true) {
 			WebElement overWe = WebDriverUtil.findElement4Wait(fd, By.id("messageContent"), 1);
 			if (null != overWe && overWe.isDisplayed() && overWe.getText().contains("多了")) {
-				System.out.println("今天关注的太多了，明天再试试吧");
+				logger.info("今天关注的太多了，明天再试试吧");
 				return false;
 			}
 			try {

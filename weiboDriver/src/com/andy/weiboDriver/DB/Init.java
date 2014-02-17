@@ -4,10 +4,15 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import org.apache.log4j.Logger;
+
 import com.andy.weiboDriver.entity.QQWeibo;
 import com.andy.weiboDriver.entity.constant.QQWeiboConstant;
 
 public class Init {
+	
+	private static Logger logger = Logger.getLogger(  Init.class);
+	
 	QQWeiboDao weiboDao = new QQWeiboDao();
 
 	public static void main(String[] args) throws ParseException {
@@ -27,6 +32,6 @@ public class Init {
 		qqs.setMESSAGE_STATE(QQWeiboConstant.QQWEIBO_INIT);
 		weiboDao.insertState(qqs);
 		QQWeibo qqs2 = weiboDao.queryStateByUrl(URL);
-		System.out.println(qqs2.getMESSAGE_STATE());
+		logger.info(qqs2.getMESSAGE_STATE());
 	}
 }

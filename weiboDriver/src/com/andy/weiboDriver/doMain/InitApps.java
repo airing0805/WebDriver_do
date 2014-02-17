@@ -5,19 +5,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import com.andy.weiboDriver.util.FileUtil;
 import com.andy.weiboDriver.util.XMLConfig;
-import com.andy.weiboDriver.webDriver.WebDriverUtil;
 import com.andy.weiboDriver.webDriver.WeiboSina;
 
 public class InitApps {
-
+	private static Logger logger = Logger.getLogger( InitApps.class);
+	
 	public static void main(String[] args) {
 		List<Object> weiboList = XMLConfig.getConfig().getList("weibo.weibo_username");
 		String firefoxRun = XMLConfig.getConfig().getString("firefoxRun");
@@ -45,7 +45,7 @@ public class InitApps {
 					String weiboUrl = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_url");
 					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 					SimpleDateFormat sf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-					System.out.println(sf1.format(new Date()));
+					logger.info(sf1.format(new Date()));
 					path += username + sf.format(new Date()) + "_init.txt";
 					String fileMess = username + "\n";
 					FileUtil.write2FileEnd(path, fileMess);

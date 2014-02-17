@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
@@ -19,7 +20,8 @@ import com.andy.weiboDriver.util.FileUtil;
 import com.andy.weiboDriver.util.XMLConfig;
 
 public class Main {
-
+	private static Logger logger = Logger.getLogger(  Main.class);
+	
 	public static void main(String[] args) throws ConfigurationException, InterruptedException {
 
 		int caseNum = 0;
@@ -63,7 +65,7 @@ public class Main {
 					String weiboUrl = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_url");
 					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 					SimpleDateFormat sf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-					System.out.println(sf1.format(new Date()));
+					logger.info(sf1.format(new Date()));
 					path  += username + sf.format(new Date()) + ".txt";
 					String fileMess = username + "\n";
 					FileUtil.write2FileEnd(path, fileMess);
@@ -77,7 +79,7 @@ public class Main {
 					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
 					numT = map.get("关注");
 					fileMess = sf1.format(new Date())+ ":本次关注:" + (numT - num);
-					System.out.println(fileMess);
+					logger.info(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
 					// 关注过多，
@@ -89,7 +91,7 @@ public class Main {
 					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
 					numT = map.get("关注");
 					fileMess = sf1.format(new Date())+ ":本次关注:" + (numT - num);
-					System.out.println(fileMess);
+					logger.info(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
 					Thread.sleep(1000*60*10);
@@ -98,7 +100,7 @@ public class Main {
 					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
 					numT = map.get("关注");
 					fileMess = sf1.format(new Date())+ ":本次关注:" + (numT - num);
-					System.out.println(fileMess);
+					logger.info(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
 					Thread.sleep(1000*60*10);

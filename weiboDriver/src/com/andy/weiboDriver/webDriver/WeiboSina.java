@@ -3,6 +3,7 @@ package com.andy.weiboDriver.webDriver;
 import java.io.File;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -11,6 +12,8 @@ import org.openqa.selenium.WebElement;
 import com.andy.weiboDriver.util.FileUtil;
 
 public class WeiboSina {
+	
+	private static Logger logger = Logger.getLogger(  WeiboSina.class);
 	
 	//自己的首页发微博
 	public void SendMessage(WebDriver fd, String message) throws InterruptedException{
@@ -99,14 +102,14 @@ public class WeiboSina {
 		Thread.sleep(5000);
 		List<WebElement> weList =fd.findElement(By.cssSelector("ul[node-type=\"userListBox\"]")).findElements(By.cssSelector(" a[class=\"W_f14 S_func1\"]"));
 		
-		System.out.println(weList.size());
+		logger.info(weList.size());
 		String filepath =System.getProperty("user.dir")+File.separator+"aa.txt";
 		String text = "";
 		for(WebElement we:weList){
 			text =text+ we.getText()+"--@@##--"+we.getAttribute("href")+"\n";
 		}
-		System.out.println(filepath);
-		System.out.println(text);
+		logger.info(filepath);
+		logger.info(text);
 		FileUtil.write2FileEnd(filepath, text);
 		
 	}

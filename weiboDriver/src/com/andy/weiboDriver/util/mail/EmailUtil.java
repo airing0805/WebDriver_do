@@ -8,10 +8,13 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Store;
 
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 public class EmailUtil {
+	private static Logger logger = Logger.getLogger(  EmailUtil.class);
+	
 	public static void main(String[] args) throws Exception {
 		String username="zy166688";
 		String password ="andy0805";
@@ -25,7 +28,7 @@ public class EmailUtil {
 		Session session = Session.getDefaultInstance(props);
 		Store store = session.getStore("pop3");
 		store.connect("pop3.163.com", username, password);
-		System.out.println(store.isConnected());
+		logger.info(store.isConnected());
 
 		// 返回文件夹对象
 		Folder folder = store.getFolder("INBOX");
@@ -44,10 +47,10 @@ public class EmailUtil {
 				href = doc.getElementsByTag("a").get(0).attr("href");
 				break;
 			}
-//			System.out.println(message[i].getSubject());
-//			System.out.println(message[i].getContentType());
-//			System.out.println(message[i].getContent().toString());
-//			System.out.println("-----------------------------------------");
+//			logger.info(message[i].getSubject());
+//			logger.info(message[i].getContentType());
+//			logger.info(message[i].getContent().toString());
+//			logger.info("-----------------------------------------");
 		}
 		folder.close(true);
 		store.close();

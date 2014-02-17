@@ -3,6 +3,7 @@ package com.andy.weiboDriver.webDriver;
 import java.io.File;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -15,6 +16,8 @@ import com.andy.weiboDriver.util.FileUtil;
 import com.andy.weiboDriver.util.XMLConfig;
 
 public class WeiboSendAtPP {
+	private static Logger logger = Logger.getLogger(  WeiboSendAtPP.class);
+	
 	
 	public WeiboSendAtPP() {
 		super();
@@ -26,7 +29,7 @@ public class WeiboSendAtPP {
 			
 			String username = XMLConfig.getConfig().getString("weibo(" + i + ").pp_username");
 			String password = XMLConfig.getConfig().getString("weibo(" + i + ").pp_password");
-			System.out.println(username);
+			logger.info(username);
 			String path = System.getProperty("user.dir") + File.separator + username + ".txt";
 			StringBuffer sb = FileUtil.readFileByLines(path);
 			String[][] messArr = str2Arr(sb.toString());
@@ -36,7 +39,7 @@ public class WeiboSendAtPP {
 
 			long end = System.currentTimeMillis();
 			long total = end - start;
-			System.out.println(total);
+			logger.info(total);
 		}
 	}
 
@@ -78,7 +81,7 @@ public class WeiboSendAtPP {
 					break;
 				}
 			} catch (Exception e) {
-				System.out.println("desc 失败的内容 ：" + messArr[i][0]);
+				logger.info("desc 失败的内容 ：" + messArr[i][0]);
 				e.printStackTrace();
 				i -=1;
 				continue;
@@ -96,7 +99,7 @@ public class WeiboSendAtPP {
 					break;
 				}
 			} catch (Exception e) {
-				System.out.println("asc 失败的内容 ：" + messArr[i][0]);
+				logger.info("asc 失败的内容 ：" + messArr[i][0]);
 				e.printStackTrace();
 				i +=1;
 				continue;

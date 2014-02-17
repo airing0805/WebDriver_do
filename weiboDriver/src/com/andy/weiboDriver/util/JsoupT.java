@@ -3,6 +3,7 @@ package com.andy.weiboDriver.util;
 import java.io.IOException;
 import java.util.Iterator;
 
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -10,12 +11,13 @@ import org.jsoup.select.Elements;
 import org.junit.Test;
 
 public class JsoupT {
-
+	private static Logger logger = Logger.getLogger(  JsoupT.class);
+	
 	// @Test
 	public void getBaiDuDoc() {
 		String url = "http://www.baidu.com/link?url=OLaP4gTB_-IHGemUj1qxYGGGC6kd8er-C7K9Vz0XXFq1Agti0IR7OShc1dF0l9Wq5dz-bQxihdZWzAByd_NOPVVpa8rT-x3DhGEbqHAv39q";
 		Document doc = getDoc(url);
-		System.out.println(doc.html());
+		logger.info(doc.html());
 	}
 
 	// @Test
@@ -26,10 +28,10 @@ public class JsoupT {
 		Elements newE = body.getElementsByTag("a");
 		for (Iterator<Element> it = newE.iterator(); it.hasNext();) {
 			Element aTag = it.next();
-			System.out.println(aTag.text());
-			System.out.println(aTag.attr("href") + "\n");
+			logger.info(aTag.text());
+			logger.info(aTag.attr("href") + "\n");
 		}
-		// System.out.println(newE.html());
+		// logger.info(newE.html());
 	}
 
 	@Test
@@ -39,7 +41,7 @@ public class JsoupT {
 		Document doc = getDoc(url);
 		Element el = getSinaArti( doc);
 
-		System.out.println(el.html());
+		logger.info(el.html());
 	}
 
 	public Document getDoc(String url) {
@@ -66,7 +68,7 @@ public class JsoupT {
 		els.remove(num-1);
 		els.remove(num-2);
 		els.remove(num-3);
-		System.out.println(els.toString());
+		logger.info(els.toString());
 		return el;
 
 	}

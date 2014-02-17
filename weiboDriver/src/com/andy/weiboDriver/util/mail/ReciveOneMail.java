@@ -1,14 +1,36 @@
 package com.andy.weiboDriver.util.mail;
-import java.io.*;   
-import java.text.*;   
-import java.util.*;   
-import javax.mail.*;   
-import javax.mail.internet.*;   
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Properties;
+
+import javax.mail.BodyPart;
+import javax.mail.Flags;
+import javax.mail.Folder;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Part;
+import javax.mail.Session;
+import javax.mail.Store;
+import javax.mail.URLName;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
+
+import org.apache.log4j.Logger;
   
 /**  
  * 有一封邮件就需要建立一个ReciveMail对象  
  */  
-public class ReciveOneMail {   
+public class ReciveOneMail {
+	
+	private static Logger logger = Logger.getLogger(  ReciveOneMail.class);
+	
     private MimeMessage mimeMessage = null;   
     private String saveAttachPath = ""; //附件下载后的存放目录   
     private StringBuffer bodytext = new StringBuffer();//存放邮件内容   
@@ -115,7 +137,7 @@ public class ReciveOneMail {
         boolean conname = false;   
         if (nameindex != -1)   
             conname = true;   
-        System.out.println("CONTENTTYPE: " + contenttype);   
+        logger.info("CONTENTTYPE: " + contenttype);   
         if (part.isMimeType("text/plain") && !conname) {   
             bodytext.append((String) part.getContent());   
         } else if (part.isMimeType("text/html") && !conname) {   
@@ -158,11 +180,11 @@ public class ReciveOneMail {
         boolean isnew = false;   
         Flags flags = ((Message) mimeMessage).getFlags();   
         Flags.Flag[] flag = flags.getSystemFlags();   
-        System.out.println("flags's length: " + flag.length);   
+        logger.info("flags's length: " + flag.length);   
         for (int i = 0; i < flag.length; i++) {   
             if (flag[i] == Flags.Flag.SEEN) {   
                 isnew = true;   
-                System.out.println("seen Message.......");   
+                logger.info("seen Message.......");   
                 break;   
             }   
         }   
@@ -274,7 +296,7 @@ public class ReciveOneMail {
             storedir = "/tmp";  
         }  
         File storefile = new File(storedir + separator + fileName);  
-        System.out.println("storefile's path: " + storefile.toString());  
+        logger.info("storefile's path: " + storefile.toString());  
         // for(int i=0;storefile.exists();i++){  
         // storefile = new File(storedir+separator+fileName+i);  
         // }  
@@ -312,26 +334,26 @@ public class ReciveOneMail {
         Folder folder = store.getFolder("INBOX");  
         folder.open(Folder.READ_ONLY);  
         Message message[] = folder.getMessages();  
-        System.out.println("Messages's length: " + message.length);  
+        logger.info("Messages's length: " + message.length);  
         ReciveOneMail pmm = null;  
         for (int i = 0; i < message.length; i++) {  
-            System.out.println("======================");  
+            logger.info("======================");  
             pmm = new ReciveOneMail((MimeMessage) message[i]);  
-            System.out.println("Message " + i + " subject: " + pmm.getSubject());  
-            System.out.println("Message " + i + " sentdate: "+ pmm.getSentDate());  
-            System.out.println("Message " + i + " replysign: "+ pmm.getReplySign());  
-            System.out.println("Message " + i + " hasRead: " + pmm.isNew());  
-            System.out.println("Message " + i + "  containAttachment: "+ pmm.isContainAttach((Part) message[i]));  
-            System.out.println("Message " + i + " form: " + pmm.getFrom());  
-            System.out.println("Message " + i + " to: "+ pmm.getMailAddress("to"));  
-            System.out.println("Message " + i + " cc: "+ pmm.getMailAddress("cc"));  
-            System.out.println("Message " + i + " bcc: "+ pmm.getMailAddress("bcc"));  
+            logger.info("Message " + i + " subject: " + pmm.getSubject());  
+            logger.info("Message " + i + " sentdate: "+ pmm.getSentDate());  
+            logger.info("Message " + i + " replysign: "+ pmm.getReplySign());  
+            logger.info("Message " + i + " hasRead: " + pmm.isNew());  
+            logger.info("Message " + i + "  containAttachment: "+ pmm.isContainAttach((Part) message[i]));  
+            logger.info("Message " + i + " form: " + pmm.getFrom());  
+            logger.info("Message " + i + " to: "+ pmm.getMailAddress("to"));  
+            logger.info("Message " + i + " cc: "+ pmm.getMailAddress("cc"));  
+            logger.info("Message " + i + " bcc: "+ pmm.getMailAddress("bcc"));  
             pmm.setDateFormat("yy年MM月dd日 HH:mm");  
-            System.out.println("Message " + i + " sentdate: "+ pmm.getSentDate());  
-            System.out.println("Message " + i + " Message-ID: "+ pmm.getMessageId());  
+            logger.info("Message " + i + " sentdate: "+ pmm.getSentDate());  
+            logger.info("Message " + i + " Message-ID: "+ pmm.getMessageId());  
             // 获得邮件内容===============  
             pmm.getMailContent((Part) message[i]);  
-            System.out.println("Message " + i + " bodycontent: \r\n"  
+            logger.info("Message " + i + " bodycontent: \r\n"  
                     + pmm.getBodyText());  
             pmm.setAttachPath("c:\\");   
             pmm.saveAttachMent((Part) message[i]);   

@@ -2,6 +2,7 @@ package com.andy.weiboDriver.fansApp;
 
 import java.util.concurrent.TimeUnit;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -14,6 +15,8 @@ import com.andy.weiboDriver.webDriver.WeiboSina;
 
 //互粉加加
 public class Qiuzf {
+	private static Logger logger = Logger.getLogger(  Qiuzf.class);
+	
 
 	int getPage = 0; 
 	
@@ -28,7 +31,7 @@ public class Qiuzf {
 		// tu.switchToIframe(fd);
 		// tu.oneKeyAttention(fd);
 		// tu.nextOneKeyAttention(fd);
-		System.out.println(10);
+		logger.info(10);
 	}
 
 	//最多只到十页，有一页成功就退出
@@ -46,7 +49,7 @@ public class Qiuzf {
 				e.printStackTrace();
 			}
 			if(i==10){
-				System.out.println("没有可以一键关注的了");
+				logger.info("没有可以一键关注的了");
 				break;
 			}
 			if(flag ){
@@ -131,7 +134,7 @@ public class Qiuzf {
 			if (buttonText.contains("已关注")) {
 				break;
 			}else if (buttonText.contains("请重试")) {
-				System.out.println("请重试");
+				logger.info("请重试");
 				fd.switchTo().defaultContent();
 				return false;
 			}
@@ -157,7 +160,7 @@ public class Qiuzf {
 		WebElement alertWe = WebDriverUtil.findElement4Wait(fd, By.id("tu_dialog_body"), 10);
 		String alertStr = alertWe.getText();
 		boolean flag = !(alertStr.contains("领分无效"));
-		System.out.println("结果: "+ flag);
+		logger.info("结果: "+ flag);
 		alertWe.findElement(By.cssSelector("a[class=\"btn\"]")).click();
 		return flag;
 	}
