@@ -1,10 +1,15 @@
 package com.andy.weiboDriver.webDriver;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -29,6 +34,7 @@ public class WebDriverUtil {
 			try {
 				we = wd.findElement(by);
 				if (null != we)
+					Thread.sleep(1000);
 					break;
 			} catch (RuntimeException e) {
 				try {
@@ -37,6 +43,8 @@ public class WebDriverUtil {
 					e1.printStackTrace();
 					continue;
 				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 		return we;
@@ -69,6 +77,7 @@ public class WebDriverUtil {
 			try {
 				we2 = we.findElement(by);
 				if (null != we)
+					Thread.sleep(1000);
 					break;
 			} catch (RuntimeException e) {
 				try {
@@ -77,11 +86,14 @@ public class WebDriverUtil {
 					e1.printStackTrace();
 					continue;
 				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 		return we2;
 	}
 
+	//对iframe的内容单独显示在浏览器的时候，有时候容易跑回到微博主题的iframe内。
 	public static WebDriver getUrl(WebDriver fd, String url) {
 		String urlSub = url.split("\\u003F")[0];
 		if(urlSub.endsWith("/")){
@@ -119,8 +131,18 @@ public class WebDriverUtil {
 		logger.info("粉丝:" + fansWe.getText());
 		Map<String,Integer > map = new HashMap<String,Integer>();
 		map.put("关注",num);
-		map.put("关注",Integer.parseInt(fansWe.getText()));
+		map.put("粉丝",Integer.parseInt(fansWe.getText()));
 		return map;
 	}
+	
+	public void takeScreenShot(WebDriver fd){  
+		String path = System.getProperty("user.dir") + File.separator;
+        File scrFile = ((TakesScreenshot)fd).getScreenshotAs(OutputType.FILE);  
+        try {  
+            FileUtils.copyFile(scrFile, new File(path+ System.currentTimeMillis()));  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        }  
+    }
 
 }

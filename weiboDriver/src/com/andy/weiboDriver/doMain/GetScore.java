@@ -117,6 +117,9 @@ public class GetScore {
 					logger.info(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
+					// 关注过多，
+					if (!flag)
+						return;
 					Thread.sleep(1000 * 60 * 15);
 
 					//推米 一键一页最多7个
@@ -128,6 +131,9 @@ public class GetScore {
 					logger.info(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
+					// 关注过多，
+					if (!flag)
+						return;
 					Thread.sleep(1000 * 60 * 15);
 
 					//互推联盟 一键一页最多12个

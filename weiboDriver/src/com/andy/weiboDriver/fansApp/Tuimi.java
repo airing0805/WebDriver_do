@@ -13,52 +13,50 @@ import com.andy.weiboDriver.webDriver.WeiboSina;
 
 //推米互粉
 public class Tuimi {
-	private static Logger logger = Logger.getLogger( Tuimi.class);
-	
+	private static Logger logger = Logger.getLogger(Tuimi.class);
 
 	int getPage = 0;
+
 	public static void main(String[] args) {
 		WebDriver fd = new FirefoxDriver();
 		String username = "yitest0805@sina.com";
 		String password = "andy0805";
 		new WeiboSina().login(fd, username, password);
 		Tuimi tu = new Tuimi();
-		tu.getScoreFlow( fd);
-//		
-//		tu.switchToIframe(fd);
-//		tu.oneKeyAttention(fd);
-//		tu.nextOneKeyAttention(fd);
+		tu.getScoreFlow(fd);
+		//
+		// tu.switchToIframe(fd);
+		// tu.oneKeyAttention(fd);
+		// tu.nextOneKeyAttention(fd);
 		logger.info(10);
 	}
 
-
-	
-	//最多只到十页，有一页成功就退出
-	public boolean getScoreFlow(WebDriver fd){
-		int  temPage = 0;
+	// 最多只到十页，有一页成功就退出
+	public boolean getScoreFlow(WebDriver fd) {
+		int temPage = 0;
 		gotoOneKeyPage(fd);
-		for(int i=0 ; i<=10 ;i++){
-			temPage +=1;
+		for (int i = 0; i <= 10; i++) {
+			temPage += 1;
 			switchToIframe(fd);
-			boolean flag =oneKeyAttention(fd);
+			boolean flag = oneKeyAttention(fd);
 			nextOneKeyAttention(fd);
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			if(i==10){
+			if (i == 10) {
 				logger.info("没有可以一键关注的了");
 				break;
 			}
-			if(flag ){
-				if((getPage !=0 && temPage ==getPage )|| getPage ==0){
+			if (flag) {
+				if ((getPage != 0 && temPage == getPage) || getPage == 0) {
 					return flag;
-				}else{
+				} else {
 					continue;
 				}
-			}else{
-				temPage -=1;
+			} else {
+				temPage -= 1;
 				continue;
 			}
 		}
@@ -70,13 +68,13 @@ public class Tuimi {
 	}
 
 	public Tuimi(int i) {
-		getPage =i;
+		getPage = i;
 	}
 
 	public void gotoOneKeyPage(WebDriver fd) {
 		String url1 = "http://tuimi.sinaapp.com";
 		WebDriverUtil.getUrl(fd, url1);
-//		WebDriverUtil.findElement4Wait(fd, By.id("apps"), 10);
+		// WebDriverUtil.findElement4Wait(fd, By.id("apps"), 10);
 		String url2 = "http://tuimi.sinaapp.com/onekeyfl";
 		WebDriverUtil.getUrl(fd, url2);
 	}
@@ -95,11 +93,12 @@ public class Tuimi {
 				// 要处理iframe加载的时间
 				WebElement buttonParentWe = WebDriverUtil.findElement4Wait(fd, By.cssSelector("div[class=\"tsina_batconcern\"]"), 100);
 				buttonParentText = buttonParentWe.getText();
+				if (buttonParentText.contains("一键关注")) {
+					Thread.sleep(1000);
+					break;
+				}
 			} catch (InterruptedException e) {
 			} catch (StaleElementReferenceException e) {
-			}
-			if (buttonParentText.contains("一键关注")) {
-				break;
 			}
 			fd.switchTo().defaultContent();
 		}
@@ -129,7 +128,7 @@ public class Tuimi {
 			String buttonText = divWe.getText();
 			if (buttonText.contains("已关注")) {
 				break;
-			}else if (buttonText.contains("请重试")) {
+			} else if (buttonText.contains("请重试")) {
 				logger.info("请重试");
 				fd.switchTo().defaultContent();
 				return false;
@@ -149,14 +148,14 @@ public class Tuimi {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		if(addMarkWe.getText().contains("稍候")){
+		if (addMarkWe.getText().contains("稍候")) {
 			addMarkWe.click();
 		}
 		// 确认积分
 		WebElement alertWe = WebDriverUtil.findElement4Wait(fd, By.id("tu_dialog_body"), 10);
 		String alertStr = alertWe.getText();
 		boolean flag = !(alertStr.contains("领分无效"));
-		logger.info("结果："+ flag);
+		logger.info("结果：" + flag);
 		alertWe.findElement(By.cssSelector("a[class=\"btn\"]")).click();
 		return flag;
 	}
