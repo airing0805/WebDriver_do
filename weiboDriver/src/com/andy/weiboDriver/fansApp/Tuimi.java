@@ -116,8 +116,9 @@ public class Tuimi {
 			e1.printStackTrace();
 		}
 		// 确认关注
-		Alert alert = fd.switchTo().alert();
-		alert.accept();
+		fd.switchTo().activeElement().click();
+//		Alert alert = fd.switchTo().alert();
+//		alert.accept();
 		// 等待关注成功
 		while (true) {
 			try {
