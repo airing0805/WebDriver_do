@@ -50,26 +50,10 @@ public class InitApps {
 					String fileMess = username + "\n";
 					FileUtil.write2FileEnd(path, fileMess);
 					new WeiboSina().login(fd, username, password);
-					if("http://weibo.com/nguide/interests".equals(fd.getCurrentUrl().split("\\u003F")[0])){
-						fd.findElements(By.className("fav_tag_sel")).get(3).findElement(By.tagName("a")).click();
-						for(int j=0;j<10;j++){
-							int size = fd.findElements(By.cssSelector("div[node-type=\"interest_list\"]")).size();
-							if(2 <= size ){
-								break;
-							}else{
-								Thread.sleep(500);
-							}
-						}
-						for(int j=0;j<10;j++){
-							int size = fd.findElements(By.cssSelector("div[node-type=\"interest_list\"]")).size();
-							if(2 <= size ){
-								break;
-							}else{
-								Thread.sleep(500);
-							}
-						}
-						fd.findElement(By.cssSelector("a[action-type=\"W_btn_big\"]")).click();
-					}
+					
+					
+					selectInterest(fd);
+					
 					Thread.sleep(0);
 				}
 			} catch (InterruptedException e) {
@@ -77,6 +61,29 @@ public class InitApps {
 			}
 		}
 
+	}
+	
+	public static void selectInterest(WebDriver fd) throws InterruptedException{
+		if("http://weibo.com/nguide/interests".equals(fd.getCurrentUrl().split("\\u003F")[0])){
+			fd.findElements(By.className("fav_tag_sel")).get(3).findElement(By.tagName("a")).click();
+			for(int j=0;j<10;j++){
+				int size = fd.findElements(By.cssSelector("div[node-type=\"interest_list\"]")).size();
+				if(2 <= size ){
+					break;
+				}else{
+					Thread.sleep(500);
+				}
+			}
+			for(int j=0;j<10;j++){
+				int size = fd.findElements(By.cssSelector("div[node-type=\"interest_list\"]")).size();
+				if(2 <= size ){
+					break;
+				}else{
+					Thread.sleep(500);
+				}
+			}
+			fd.findElement(By.cssSelector("a[action-type=\"W_btn_big\"]")).click();
+		}
 	}
 
 }

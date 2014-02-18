@@ -1,10 +1,15 @@
 package com.andy.weiboDriver.webDriver;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -88,6 +93,7 @@ public class WebDriverUtil {
 		return we2;
 	}
 
+	//对iframe的内容单独显示在浏览器的时候，有时候容易跑回到微博主题的iframe内。
 	public static WebDriver getUrl(WebDriver fd, String url) {
 		String urlSub = url.split("\\u003F")[0];
 		if(urlSub.endsWith("/")){
@@ -128,5 +134,15 @@ public class WebDriverUtil {
 		map.put("粉丝",Integer.parseInt(fansWe.getText()));
 		return map;
 	}
+	
+	public void takeScreenShot(WebDriver fd){  
+		String path = System.getProperty("user.dir") + File.separator;
+        File scrFile = ((TakesScreenshot)fd).getScreenshotAs(OutputType.FILE);  
+        try {  
+            FileUtils.copyFile(scrFile, new File(path+ System.currentTimeMillis()));  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        }  
+    }
 
 }
