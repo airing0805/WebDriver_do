@@ -100,11 +100,12 @@ public class Qiuzf {
 				// 要处理iframe加载的时间
 				WebElement buttonParentWe = WebDriverUtil.findElement4Wait(fd, By.cssSelector("div[class=\"tsina_batconcern\"]"), 100);
 				buttonParentText = buttonParentWe.getText();
+				if (buttonParentText.contains("一键关注")) {
+					Thread.sleep(1000);
+					break;
+				}
 			} catch (InterruptedException e) {
 			} catch (StaleElementReferenceException e) {
-			}
-			if (buttonParentText.contains("一键关注")) {
-				break;
 			}
 			fd.switchTo().defaultContent();
 		}

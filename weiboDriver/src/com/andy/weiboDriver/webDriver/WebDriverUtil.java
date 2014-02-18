@@ -29,6 +29,7 @@ public class WebDriverUtil {
 			try {
 				we = wd.findElement(by);
 				if (null != we)
+					Thread.sleep(1000);
 					break;
 			} catch (RuntimeException e) {
 				try {
@@ -37,6 +38,8 @@ public class WebDriverUtil {
 					e1.printStackTrace();
 					continue;
 				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 		return we;
@@ -69,6 +72,7 @@ public class WebDriverUtil {
 			try {
 				we2 = we.findElement(by);
 				if (null != we)
+					Thread.sleep(1000);
 					break;
 			} catch (RuntimeException e) {
 				try {
@@ -77,6 +81,8 @@ public class WebDriverUtil {
 					e1.printStackTrace();
 					continue;
 				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 		return we2;
@@ -119,7 +125,7 @@ public class WebDriverUtil {
 		logger.info("粉丝:" + fansWe.getText());
 		Map<String,Integer > map = new HashMap<String,Integer>();
 		map.put("关注",num);
-		map.put("关注",Integer.parseInt(fansWe.getText()));
+		map.put("粉丝",Integer.parseInt(fansWe.getText()));
 		return map;
 	}
 
