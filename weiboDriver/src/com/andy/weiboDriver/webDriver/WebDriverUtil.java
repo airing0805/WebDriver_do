@@ -135,11 +135,11 @@ public class WebDriverUtil {
 		return map;
 	}
 	
-	public void takeScreenShot(WebDriver fd){  
-		String path = System.getProperty("user.dir") + File.separator;
+	public static void takeScreenShot(WebDriver fd){  
+		String path = System.getProperty("user.dir") + File.separator+"screenShot_";
         File scrFile = ((TakesScreenshot)fd).getScreenshotAs(OutputType.FILE);  
         try {  
-            FileUtils.copyFile(scrFile, new File(path+ System.currentTimeMillis()));  
+            FileUtils.copyFile(scrFile, new File(path+ System.currentTimeMillis()+".png"));  
         } catch (IOException e) {  
             e.printStackTrace();  
         }  

@@ -163,6 +163,7 @@ public class GetScore {
 					Thread.sleep(1000 * 60 * 15);
 				}
 			} catch (RuntimeException e) {
+				WebDriverUtil.takeScreenShot(fd);
 				logger.info(e.getMessage(), e);
 				try {
 					Thread.sleep(1000 * 60 * 15);
@@ -172,6 +173,7 @@ public class GetScore {
 				continue;
 				
 			} catch (InterruptedException e) {
+				WebDriverUtil.takeScreenShot(fd);
 				logger.info(e.getMessage(), e);
 				try {
 					Thread.sleep(1000 * 60 * 15);

@@ -16,8 +16,8 @@ import com.andy.weiboDriver.util.XMLConfig;
 import com.andy.weiboDriver.webDriver.WeiboSina;
 
 public class PerDay {
-	private static Logger logger = Logger.getLogger( PerDay.class);
-	
+	private static Logger logger = Logger.getLogger(PerDay.class);
+
 	public static void main(String[] args) throws ConfigurationException, InterruptedException {
 
 		List<Object> weiboList = XMLConfig.getConfig().getList("weibo.weibo_username");
@@ -36,15 +36,16 @@ public class PerDay {
 	}
 
 	// TODO对于一键关注16个的应用要区分标注出来，半小时的限制会突破30
+	@SuppressWarnings("unused")
 	public static void iterateGetPage(WebDriver fd, int weiboNum) {
 		for (int i = 0; i < weiboNum; i++) {
 			String path = System.getProperty("user.dir") + File.separator;
 			String username = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_username");
 			String password = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_password");
 			String weiboNO = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_no");
-			String  weiboUrl = "http://weibo.com/u/"+weiboNO;
-			String weiboFans = "http://weibo.com/"+weiboNO+"/myfans";
-			String weiboFollow = "http://weibo.com/"+weiboNO+"/myfollow";
+			String weiboUrl = "http://weibo.com/u/" + weiboNO;
+			String weiboFans = "http://weibo.com/" + weiboNO + "/myfans";
+			String weiboFollow = "http://weibo.com/" + weiboNO + "/myfollow";
 			String atMe = "http://weibo.com/at/weibo";
 			String mess = "http://weibo.com/messages";
 			String comment = "http://weibo.com/comment/inbox";
@@ -56,21 +57,23 @@ public class PerDay {
 			String fileMess = username + "\n";
 			FileUtil.write2FileEnd(path, fileMess);
 			new WeiboSina().login(fd, username, password);
-			logger.info(sf1.format(new Date()));
-			fd.get(weiboUrl);
-			logger.info(sf1.format(new Date()));
-			fd.get(weiboFans);
-			logger.info(sf1.format(new Date()));
-			fd.get(weiboFollow);
-			logger.info(sf1.format(new Date()));
-			fd.get(atMe);
-			logger.info(sf1.format(new Date()));
-			fd.get(mess);
-			logger.info(sf1.format(new Date()));
-			fd.get(comment);
-			logger.info(sf1.format(new Date()));
-			fd.get(notesboard);
-			logger.info(sf1.format(new Date()));
+			if (false) {
+				logger.info(sf1.format(new Date()));
+				fd.get(weiboUrl);
+				logger.info(sf1.format(new Date()));
+				fd.get(weiboFans);
+				logger.info(sf1.format(new Date()));
+				fd.get(weiboFollow);
+				logger.info(sf1.format(new Date()));
+				fd.get(atMe);
+				logger.info(sf1.format(new Date()));
+				fd.get(mess);
+				logger.info(sf1.format(new Date()));
+				fd.get(comment);
+				logger.info(sf1.format(new Date()));
+				fd.get(notesboard);
+				logger.info(sf1.format(new Date()));
+			}
 		}
 	}
 

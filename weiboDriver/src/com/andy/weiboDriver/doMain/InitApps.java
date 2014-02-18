@@ -85,5 +85,45 @@ public class InitApps {
 			fd.findElement(By.cssSelector("a[action-type=\"W_btn_big\"]")).click();
 		}
 	}
+	
+	public static boolean addApp(WebDriver fd){
+		fd.get("http://app.weibo.com/my");
+		//死亡用户清除
+		fd.get("https://api.weibo.com/oauth2/authorize?response_type=token&client_id=1050823112&redirect_uri=http%3A%2F%2Fapps.weibo.com%2Fkilldie");
+		//取消关注管理
+		fd.get("https://api.weibo.com/oauth2/authorize?response_type=token&client_id=2801105842&redirect_uri=http%3A%2F%2Fapps.weibo.com%2Fcancels");
+		
+		
+		//互粉加加
+		fd.get("https://api.weibo.com/oauth2/authorize?client_id=245891426&redirect_ur…ttp%3A%2F%2Fqiuzf.sinaapp.com%2Fcallback.php&response_type=code&state=sina");
+		//推兔
+		fd.get("https://api.weibo.com/oauth2/authorize?response_type=token&client_id=4071554311&redirect_uri=http%3A%2F%2Fapps.weibo.com%2Ftuituoo");
+		//推米
+		fd.get("https://api.weibo.com/oauth2/authorize?response_type=token&client_id=2372363467&redirect_uri=http%3A%2F%2Fapps.weibo.com%2Ftuimimi");
+		//互推联盟		
+		fd.get("https://api.weibo.com/oauth2/authorize?response_type=token&client_id=2819702316&redirect_uri=http%3A%2F%2Fapps.weibo.com%2Fwbhutui");
+		//互粉赏金榜
+		fd.get("https://api.weibo.com/oauth2/authorize?response_type=token&client_id=4227115430&redirect_uri=http%3A%2F%2Fapps.weibo.com%2Ffansreward%2F");
+		
+		//优推推互粉
+		fd.get("https://api.weibo.com/oauth2/authorize?response_type=token&client_id=3904763163&redirect_uri=http%3A%2F%2Fapps.weibo.com%2Fzhuanqi");
+		//互推达人
+		fd.get("https://api.weibo.com/oauth2/authorize?client_id=1040961737&redirect_uri=http%3A%2F%2Fhutuidaren.sinaapp.com%2F&response_type=code&forcelogin=false");
+		//推狗
+		//推客啦
+		//加加米
+		
+		//皮皮时光机
+		
+		//美丽传说可爱多
+		
+		
+		
+		
+		
+		return false;
+		
+		
+	}
 
 }
