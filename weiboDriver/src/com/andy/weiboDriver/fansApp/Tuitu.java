@@ -37,7 +37,7 @@ public class Tuitu {
 	private void startSpread(WebDriver fd) {
 		String url = "http://tuitu.sinaapp.com/weibo/space";
 		fd = WebDriverUtil.getUrl(fd, url);
-		WebElement startWe = WebDriverUtil.findElement4Wait(fd, By.id("play_0_968770"),1);
+		WebElement startWe = fd.findElement(By.cssSelector("div[id=\"myfollow\"] > table > tbody > tr >td > a[title=\"点击开启推广\"]"));
 		if(null != startWe && startWe.isDisplayed()){
 			startWe.click();
 		}
@@ -54,11 +54,11 @@ public class Tuitu {
 		List<WebElement> userWEList = fd.findElements(By.cssSelector("div.fusers.clearfix > div.fuser.left"));
 		logger.info("将要批量关注 : "+ userWEList.size());
 		while (true) {
-			WebElement overWe = WebDriverUtil.findElement4Wait(fd,By.cssSelector("div.tu_msg_wrap.tu_msg_ico_2"),1);
-			if(null !=overWe && overWe.isDisplayed()&& overWe.getText().contains("太多了")){
-				logger.info("今天关注的太多了，明天再试试吧");
-				return false;
-			}
+//			WebElement overWe = WebDriverUtil.findElement4Wait(fd,By.cssSelector("div.tu_msg_wrap.tu_msg_ico_2"),1);
+//			if(null !=overWe && overWe.isDisplayed()&& overWe.getText().contains("太多了")){
+//				logger.info("今天关注的太多了，明天再试试吧");
+//				return false;
+//			}
 			try {
 				Thread.sleep(1000);
 				followAllBtnWe = fd.findElement(By.id("loading"));

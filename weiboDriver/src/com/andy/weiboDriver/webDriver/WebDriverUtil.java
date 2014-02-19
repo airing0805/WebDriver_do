@@ -34,7 +34,7 @@ public class WebDriverUtil {
 			try {
 				we = wd.findElement(by);
 				if (null != we)
-					Thread.sleep(1000);
+					we = wd.findElement(by);
 					break;
 			} catch (RuntimeException e) {
 				try {
@@ -43,9 +43,7 @@ public class WebDriverUtil {
 					e1.printStackTrace();
 					continue;
 				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			} 
 		}
 		return we;
 	}
@@ -77,7 +75,7 @@ public class WebDriverUtil {
 			try {
 				we2 = we.findElement(by);
 				if (null != we)
-					Thread.sleep(1000);
+					we2 = we.findElement(by);
 					break;
 			} catch (RuntimeException e) {
 				try {
@@ -86,9 +84,7 @@ public class WebDriverUtil {
 					e1.printStackTrace();
 					continue;
 				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			} 
 		}
 		return we2;
 	}
