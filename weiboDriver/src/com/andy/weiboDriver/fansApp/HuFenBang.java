@@ -45,7 +45,8 @@ public class HuFenBang {
 		WebElement ifollowManageWe = fd.findElement(By.id("ifollowManage"));
 		WebElement  startWe = ifollowManageWe.findElements(By.cssSelector("td.moneyManageBtn")).get(0);
 		if (startWe.getText().contains("关闭")) {
-			startWe.click();
+			WebElement  startA = startWe.findElement(By.tagName("a"));
+			startA.click();
 		}
 	}
 

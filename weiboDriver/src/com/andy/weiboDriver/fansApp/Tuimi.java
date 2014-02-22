@@ -109,13 +109,9 @@ public class Tuimi {
 		WebElement divWe = WebDriverUtil.findElement4Wait(fd, By.cssSelector("div[class=\"btn_con\"]"), 100);
 		WebElement oneKeyButton = WebDriverUtil.findElement4Wait(divWe, By.cssSelector("a[class=\"btngreen_l\"]"), 100);
 		oneKeyButton.click();
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
+
 		// 确认关注
-//		fd.switchTo().activeElement().click();
+		WebDriverUtil.waitAlert(fd);
 		Alert alert = fd.switchTo().alert();
 		alert.accept();
 		// 等待关注成功

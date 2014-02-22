@@ -14,6 +14,9 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Sleeper;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class WebDriverUtil {
 
@@ -121,13 +124,32 @@ public class WebDriverUtil {
 	}
 	
 	public static void getUrl(WebDriver driver,String url,By by) {
-		int actionCount =10;
+		int actionCount =100;
 	    boolean inited = false;  
 	    int maxLoadTime =100;
-	    int index = 0, timeout = 10;  
+	    int index = 0, timeout = 20;  
 	    while (!inited && index < actionCount){  
-	        timeout = (index == actionCount - 1) ? maxLoadTime : 10;//最后一次跳转使用最大的默认超时时间  
-	        inited = navigateAndLoad(driver,url,timeout,by);  
+	        timeout = (index == actionCount - 1) ? maxLoadTime : 20;//最后一次跳转使用最大的默认超时时间  
+	        inited = navigateAndLoad(driver,url,timeout);
+	        if(!inited ){
+				logger.info("timeout");
+				continue;
+			}
+	        inited = isCurrentUrl(driver, url);
+	        if(!inited ){
+				continue;
+			}
+	        inited = hasElement(driver, by);
+	        if(!inited ){
+				logger.info("没有找到 element");
+				continue;
+			}
+	        inited = driver.findElement(by).isDisplayed();
+	        
+	        if(!inited ){
+				logger.info("没有找到 element");
+				continue;
+			}
 	        index ++;  
 	    }  
 	    if (!inited && index == actionCount){//最终跳转失败则抛出运行时异常，退出运行  
@@ -135,30 +157,41 @@ public class WebDriverUtil {
 	    }  
 	}
 	
-	private static boolean navigateAndLoad(WebDriver driver,String url ,int timeout ,By by ){  
+	public static void waitAlert(WebDriver driver){
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		wait.until(ExpectedConditions.alertIsPresent());
+	}
+	
+	public static void wait(WebDriver driver,int time){
+		new WebDriverWait(driver, 0,time);
+	}
+	
+	private static boolean isCurrentUrl(WebDriver driver,String url) {
+
+        String urlSub = url.split("\\u003F")[0];
+		if(urlSub.endsWith("/")){
+			urlSub = urlSub.substring(0, urlSub.length()-1);
+		}
+		
+        String currentUrl = driver.getCurrentUrl();
+		String currentUrlSub = currentUrl.split("\\u003F")[0];
+		//地址要相等
+		if(currentUrlSub.endsWith("/")){
+			currentUrlSub = currentUrlSub.substring(0, currentUrlSub.length()-1);
+		}
+		if (!urlSub.equals(currentUrlSub)) {
+			logger.info("地址不相等哦，请求地址："+urlSub+"；当前地址："+currentUrl);
+			return false;
+		}else{
+			return true;
+		}
+	}
+
+	private static boolean navigateAndLoad(WebDriver driver,String url ,int timeout ){  
 	    try {  
-	        driver.manage().timeouts().pageLoadTimeout(timeout, TimeUnit.SECONDS);  
+	        driver.manage().timeouts().pageLoadTimeout(timeout, TimeUnit.SECONDS);
 	        driver.get(url);  
 	        
-	        String urlSub = url.split("\\u003F")[0];
-			if(urlSub.endsWith("/")){
-				urlSub = urlSub.substring(0, urlSub.length()-1);
-			}
-			
-	        String currentUrl = driver.getCurrentUrl();
-			String currentUrlSub = currentUrl.split("\\u003F")[0];
-			//地址要相等
-			if(currentUrlSub.endsWith("/")){
-				currentUrlSub = currentUrlSub.substring(0, currentUrlSub.length()-1);
-			}
-			if (!urlSub.equals(currentUrlSub)) {
-				return false;
-			}
-			
-			WebElement el = driver.findElement(by);
-			if(null == el){
-				return false;
-			}
 	    } catch (TimeoutException e) {  
 	        return false;//超时的情况下返回false  
 	    } catch (Exception e) {  
@@ -179,17 +212,8 @@ public class WebDriverUtil {
 		for(int i=0;i<100;i++){
 			try {
 				Thread.sleep(500);
-				String currentUrl = fd.getCurrentUrl();
-				String currentUrlSub = currentUrl.split("\\u003F")[0];
-				//地址要相等
-				if(currentUrlSub.endsWith("/")){
-					currentUrlSub = currentUrlSub.substring(0, currentUrlSub.length()-1);
-				}
-				if (urlSub.equals(currentUrlSub)) {
-					return fd;
-				} else {
-					fd.get(url);
-					Thread.sleep(500);
+				if(!isCurrentUrl(fd,url)){
+					continue;
 				}
 			} catch (InterruptedException e) {
 				continue;

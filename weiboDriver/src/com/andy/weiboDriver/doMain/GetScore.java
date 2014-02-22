@@ -23,9 +23,9 @@ import com.andy.weiboDriver.webDriver.WebDriverUtil;
 import com.andy.weiboDriver.webDriver.WeiboSina;
 
 public class GetScore {
-	
+
 	private static Logger logger = Logger.getLogger(GetScore.class);
-	
+
 	public static void main(String[] args) throws ConfigurationException, InterruptedException {
 
 		List<Object> weiboList = XMLConfig.getConfig().getList("weibo.weibo_username");
@@ -43,34 +43,33 @@ public class GetScore {
 		fd.quit();
 	}
 
-	//TODO对于一键关注16个的应用要区分标注出来，半小时的限制会突破30
+	// TODO对于一键关注16个的应用要区分标注出来，半小时的限制会突破30
 	public static void iterateGetScore(WebDriver fd, int weiboNum) {
 		List<String> appList = new ArrayList<String>();
-//		String nextStartAppName = "Tuitu";
+		// String nextStartAppName = "Tuitu";
 		appList.add("Tuitu");
 		appList.add("Qiuzf");
 		appList.add("Tuimi");
 		appList.add("HuTuiLianMeng");
 		appList.add("HuFenBang");
-		while(true){
+		while (true) {
 			int startDay = XMLConfig.getConfig().getInt("startDay");
 			SimpleDateFormat sf = new SimpleDateFormat("dd");
-			if(startDay == Integer.parseInt(sf.format(new Date()))){
+			if (startDay == Integer.parseInt(sf.format(new Date()))) {
 				break;
-			}else{
+			} else {
 				try {
-					Thread.sleep(1000*60*5);
+					Thread.sleep(1000 * 60 * 5);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
 		}
-		
+
 		while (true) {
 			try {
-				
 				for (int i = 0; i < weiboNum; i++) {
-					Map<String,Integer> map = new HashMap<String,Integer>();
+					Map<String, Integer> map = new HashMap<String, Integer>();
 					int num = 0;
 					int numT = 0;
 					String username = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_username");
@@ -79,94 +78,109 @@ public class GetScore {
 					SimpleDateFormat sf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					logger.info(sf1.format(new Date()));
 					String fileMess = username + "\n";
-					logger.info( fileMess);
+					logger.info(fileMess);
 					new WeiboSina().login(fd, username, password);
-					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
+					map = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
 					num = map.get("关注");
 					// 一键关注最多只到十页，有一页成功就退出
 					// boolean flag = true;
-//					int aa = appList.indexOf(nextStartAppName);
+					// int aa = appList.indexOf(nextStartAppName);
 					boolean flag = false;
-					
-					//推兔一键最多12个
-					//http://apps.weibo.com/tuituoo
-					logger.info("start:" + sf1.format(new Date()));
-					flag = new Tuitu().getScoreFlow(fd);
-					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
-					numT = map.get("关注");
-					fileMess = sf1.format(new Date()) + "_总关注：" + numT +"_总粉丝："+map.get("粉丝")+ " _本次关注:" + (numT - num) + "\n";
-					logger.info(fileMess);
-					num = numT;
-					// 关注过多，
-					if (!flag)
-						return;
-					Thread.sleep(1000 * 60 * 15);
-					
-					//互粉加加 一键一页最多7个
-					logger.info("start:" + sf1.format(new Date()));
-					flag = new Qiuzf(2).getScoreFlow(fd);
-					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
-					numT = map.get("关注");
-					fileMess = sf1.format(new Date()) + "_总关注：" + numT +"_总粉丝："+map.get("粉丝")+ " _本次关注:" + (numT - num) + "\n";
-					logger.info(fileMess);
-					num = numT;
-					// 关注过多，
-					if (!flag)
-						return;
-					Thread.sleep(1000 * 60 * 15);
 
-					//推米 一键一页最多7个
-					logger.info("start:" + sf1.format(new Date()));
-					flag = new Tuimi(2).getScoreFlow(fd);
-					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
-					numT = map.get("关注");
-					fileMess = sf1.format(new Date()) + "_总关注：" + numT +"_总粉丝："+map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
-					logger.info(fileMess);
-					num = numT;
-					// 关注过多，
-					if (!flag)
-						return;
-					Thread.sleep(1000 * 60 * 15);
+					try {
+						// 推兔一键最多12个
+						// http://apps.weibo.com/tuituoo
+						logger.info("start:" + sf1.format(new Date()));
+						flag = new Tuitu().getScoreFlow(fd);
+						map = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
+						numT = map.get("关注");
+						fileMess = sf1.format(new Date()) + "_总关注：" + numT + "_总粉丝：" + map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
+						logger.info(fileMess);
+						num = numT;
+						// 关注过多，
+						if (!flag)
+							return;
+					} catch (Exception e) {
+						WebDriverUtil.takeScreenShot(fd);
+						logger.info(e.getMessage(), e);
+					}
+					Thread.sleep(1000 * 60 * 16);
 
-					//互推联盟 一键一页最多12个
-					logger.info("start:" + sf1.format(new Date()));
-					flag = new HuTuiLianMeng().getScoreFlow(fd);
-					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
-					numT = map.get("关注");
-					fileMess = sf1.format(new Date()) + "_总关注：" + numT +"_总粉丝："+map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
-					logger.info(fileMess);
-					num = numT;
-					if (!flag)
-						return;
-					Thread.sleep(1000 * 60 * 15);
+					try {
+						// 互粉加加 一键一页最多7个
+						logger.info("start:" + sf1.format(new Date()));
+						flag = new Qiuzf(2).getScoreFlow(fd);
+						map = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
+						numT = map.get("关注");
+						fileMess = sf1.format(new Date()) + "_总关注：" + numT + "_总粉丝：" + map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
+						logger.info(fileMess);
+						num = numT;
+						// 关注过多，
+						if (!flag)
+							return;
+					}  catch (Exception e) {
+						WebDriverUtil.takeScreenShot(fd);
+						logger.info(e.getMessage(), e);
+					}
+					Thread.sleep(1000 * 60 * 16);
 
-					//互粉赏金榜一键一页最多16个
-					logger.info("start:" + sf1.format(new Date()));
-					flag = new HuFenBang().getScoreFlow(fd);
-					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
-					numT = map.get("关注");
-					fileMess = sf1.format(new Date()) + "_总关注：" + numT +"_总粉丝："+map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
-					logger.info(fileMess);
-					num = numT;
-					if (!flag)
-						return;
-					Thread.sleep(1000 * 60 * 15);
+					try {
+						// 推米 一键一页最多7个
+						logger.info("start:" + sf1.format(new Date()));
+						flag = new Tuimi(2).getScoreFlow(fd);
+						map = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
+						numT = map.get("关注");
+						fileMess = sf1.format(new Date()) + "_总关注：" + numT + "_总粉丝：" + map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
+						logger.info(fileMess);
+						num = numT;
+						// 关注过多，
+						if (!flag)
+							return;
+					}  catch (Exception e) {
+						WebDriverUtil.takeScreenShot(fd);
+						logger.info(e.getMessage(), e);
+					}
+					Thread.sleep(1000 * 60 * 16);
+
+					try {
+						// 互推联盟 一键一页最多12个
+						logger.info("start:" + sf1.format(new Date()));
+						flag = new HuTuiLianMeng().getScoreFlow(fd);
+						map = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
+						numT = map.get("关注");
+						fileMess = sf1.format(new Date()) + "_总关注：" + numT + "_总粉丝：" + map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
+						logger.info(fileMess);
+						num = numT;
+						if (!flag)
+							return;
+					} catch (Exception e) {
+						WebDriverUtil.takeScreenShot(fd);
+						logger.info(e.getMessage(), e);
+					}
+					Thread.sleep(1000 * 60 * 16);
+
+					try {
+						// 互粉赏金榜一键一页最多16个
+						logger.info("start:" + sf1.format(new Date()));
+						flag = new HuFenBang().getScoreFlow(fd);
+						map = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
+						numT = map.get("关注");
+						fileMess = sf1.format(new Date()) + "_总关注：" + numT + "_总粉丝：" + map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
+						logger.info(fileMess);
+						num = numT;
+						if (!flag)
+							return;
+					}  catch (Exception e) {
+						WebDriverUtil.takeScreenShot(fd);
+						logger.info(e.getMessage(), e);
+					}
+					Thread.sleep(1000 * 60 * 16);
 				}
-			} catch (RuntimeException e) {
-				WebDriverUtil.takeScreenShot(fd);
-				logger.info(e.getMessage(), e);
-				try {
-					Thread.sleep(1000 * 60 * 15);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				continue;
-				
 			} catch (InterruptedException e) {
 				WebDriverUtil.takeScreenShot(fd);
 				logger.info(e.getMessage(), e);
 				try {
-					Thread.sleep(1000 * 60 * 15);
+					Thread.sleep(1000 * 60 * 16);
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
