@@ -6,7 +6,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.log4j.Logger;
 
 
-@SuppressWarnings("deprecation")
 public class T {
 	private static Logger logger = Logger.getLogger(  T.class);
 	

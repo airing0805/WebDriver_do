@@ -23,7 +23,7 @@
 		</pp_address>
 	</weibo>
 	
-	<weibo>
+<!-- 	<weibo>
 		<weibo_username>yitest08051@sina.com</weibo_username>
 		<weibo_url>http://weibo.com/u/3944924952</weibo_url>
 		<weibo_no>3944924952</weibo_no>
@@ -33,7 +33,8 @@
 		<pp_address>
 			<QQAddress>http://t.qq.com/geilivable</QQAddress>
 		</pp_address>
-	</weibo>
+	</weibo> -->
+	
 	<!-- 
 	<weibo>
 		<weibo_username>zy166688@163.com</weibo_username>

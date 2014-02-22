@@ -1,6 +1,5 @@
 package com.andy.weiboDriver.doMain;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,7 +18,6 @@ import com.andy.weiboDriver.fansApp.HuTuiLianMeng;
 import com.andy.weiboDriver.fansApp.Qiuzf;
 import com.andy.weiboDriver.fansApp.Tuimi;
 import com.andy.weiboDriver.fansApp.Tuitu;
-import com.andy.weiboDriver.util.FileUtil;
 import com.andy.weiboDriver.util.XMLConfig;
 import com.andy.weiboDriver.webDriver.WebDriverUtil;
 import com.andy.weiboDriver.webDriver.WeiboSina;
@@ -72,19 +70,16 @@ public class GetScore {
 			try {
 				
 				for (int i = 0; i < weiboNum; i++) {
-					String path = System.getProperty("user.dir") + File.separator;
 					Map<String,Integer> map = new HashMap<String,Integer>();
 					int num = 0;
 					int numT = 0;
 					String username = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_username");
 					String password = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_password");
 					String weiboUrl = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_url");
-					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 					SimpleDateFormat sf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					logger.info(sf1.format(new Date()));
-					path += username + sf.format(new Date()) + "_getScore.txt";
 					String fileMess = username + "\n";
-					FileUtil.write2FileEnd(path, fileMess);
+					logger.info( fileMess);
 					new WeiboSina().login(fd, username, password);
 					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
 					num = map.get("关注");
@@ -101,7 +96,6 @@ public class GetScore {
 					numT = map.get("关注");
 					fileMess = sf1.format(new Date()) + "_总关注：" + numT +"_总粉丝："+map.get("粉丝")+ " _本次关注:" + (numT - num) + "\n";
 					logger.info(fileMess);
-					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
 					// 关注过多，
 					if (!flag)
@@ -115,7 +109,6 @@ public class GetScore {
 					numT = map.get("关注");
 					fileMess = sf1.format(new Date()) + "_总关注：" + numT +"_总粉丝："+map.get("粉丝")+ " _本次关注:" + (numT - num) + "\n";
 					logger.info(fileMess);
-					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
 					// 关注过多，
 					if (!flag)
@@ -129,7 +122,6 @@ public class GetScore {
 					numT = map.get("关注");
 					fileMess = sf1.format(new Date()) + "_总关注：" + numT +"_总粉丝："+map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
 					logger.info(fileMess);
-					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
 					// 关注过多，
 					if (!flag)
@@ -143,7 +135,6 @@ public class GetScore {
 					numT = map.get("关注");
 					fileMess = sf1.format(new Date()) + "_总关注：" + numT +"_总粉丝："+map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
 					logger.info(fileMess);
-					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
 					if (!flag)
 						return;
@@ -156,7 +147,6 @@ public class GetScore {
 					numT = map.get("关注");
 					fileMess = sf1.format(new Date()) + "_总关注：" + numT +"_总粉丝："+map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
 					logger.info(fileMess);
-					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
 					if (!flag)
 						return;

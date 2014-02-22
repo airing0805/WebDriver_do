@@ -48,8 +48,8 @@ public class HuTuiLianMeng {
 
 	private void startSpread(WebDriver fd) {
 		String url = "http://hufen.tlianmeng.com/welcome/mytg";
-		fd = WebDriverUtil.getUrl(fd, url);
-		WebElement startWe = fd.findElement(By.cssSelector("div[id=\"myfollow\"] > table > tbody > tr >td > a[title=\"推广中,点击暂停推广\"]"));
+		WebDriverUtil.getUrl(fd, url,By.cssSelector("div[id=\"myfollow\"] > table > tbody > tr >td > a[title=\"停止中,点击开启推广\"]"));
+		WebElement startWe = fd.findElement(By.cssSelector("div[id=\"myfollow\"] > table > tbody > tr >td > a[title=\"停止中,点击开启推广\"]"));
 //		WebElement startWe = WebDriverUtil.findElement4Wait(fd,By.id("play_0_61373"),1);
 		if(null !=startWe && startWe.isDisplayed()){
 			startWe.click();
@@ -58,14 +58,14 @@ public class HuTuiLianMeng {
 
 	//一键关注全部，然后翻页
 	private boolean oneKeyScore(WebDriver fd) {
-		String url1 = "http://apps.weibo.com/wbhutui";
-		fd = WebDriverUtil.getUrl(fd, url1);
+//		String url1 = "http://apps.weibo.com/wbhutui";
+//		WebDriverUtil.getUrl(fd, url1);
 		String url = "http://hufen.tlianmeng.com/welcome/getjifen?action=follows";
-		fd = WebDriverUtil.getUrl(fd, url);
-		WebElement followAllBtnWe = WebDriverUtil.findElement4Wait(fd,By.id("follow_all_btn"),2);
+		WebDriverUtil.getUrl(fd, url,By.id("follow_all_btn"));
+		WebElement followAllBtnWe = WebDriverUtil.findElement4Wait(fd,By.id("follow_all_btn"),3);
 		followAllBtnWe.click();
 		while (true) {
-			WebElement overWe = WebDriverUtil.findElement4Wait(fd,By.cssSelector("div.tu_msg_window"),1);
+			WebElement overWe = WebDriverUtil.getElementOrNot(fd,By.cssSelector("div.tu_msg_window"));
 			if(null !=overWe && overWe.isDisplayed() && overWe.getText().contains("上限")){
 				logger.info("今天关注的太多了，明天再试试吧");
 				return false;

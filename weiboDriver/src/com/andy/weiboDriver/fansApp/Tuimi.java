@@ -73,10 +73,10 @@ public class Tuimi {
 
 	public void gotoOneKeyPage(WebDriver fd) {
 		String url1 = "http://tuimi.sinaapp.com";
-		WebDriverUtil.getUrl(fd, url1);
+		fd.get(url1);
 		// WebDriverUtil.findElement4Wait(fd, By.id("apps"), 10);
 		String url2 = "http://tuimi.sinaapp.com/onekeyfl";
-		WebDriverUtil.getUrl(fd, url2);
+		fd.get(url2);
 	}
 
 	public void switchToIframe(WebDriver fd) {

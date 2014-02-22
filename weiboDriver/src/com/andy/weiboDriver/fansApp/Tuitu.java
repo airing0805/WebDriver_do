@@ -36,7 +36,7 @@ public class Tuitu {
 
 	private void startSpread(WebDriver fd) {
 		String url = "http://tuitu.sinaapp.com/weibo/space";
-		fd = WebDriverUtil.getUrl(fd, url);
+		WebDriverUtil.getUrl(fd, url,By.cssSelector("div[id=\"myfollow\"] > table > tbody > tr >td > a[title=\"点击开启推广\"]"));
 		WebElement startWe = fd.findElement(By.cssSelector("div[id=\"myfollow\"] > table > tbody > tr >td > a[title=\"点击开启推广\"]"));
 		if(null != startWe && startWe.isDisplayed()){
 			startWe.click();
@@ -45,10 +45,10 @@ public class Tuitu {
 
 	//一键关注全部，然后翻页
 	private boolean oneKeyScore(WebDriver fd) {
-		String url1 = "http://apps.weibo.com/tuituoo";
-		fd = WebDriverUtil.getUrl(fd, url1);
+//		String url1 = "http://apps.weibo.com/tuituoo";
+//		WebDriverUtil.getUrl(fd, url1);
 		String url2 = "http://tuitu.sinaapp.com/weibo/task";
-		fd = WebDriverUtil.getUrl(fd, url2);
+		WebDriverUtil.getUrl(fd, url2,By.id("follow_all_btn"));
 		WebElement followAllBtnWe = WebDriverUtil.findElement4Wait(fd,By.id("follow_all_btn"),20);
 		followAllBtnWe.click();
 		List<WebElement> userWEList = fd.findElements(By.cssSelector("div.fusers.clearfix > div.fuser.left"));

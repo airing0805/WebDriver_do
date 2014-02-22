@@ -83,7 +83,8 @@ public class Qiuzf {
 		String url2 = "https://api.weibo.com/oauth2/authorize?client_id=245891426&redirect_uri=http%3A%2F%2Fqiuzf.sinaapp.com%2Fcallback.php&response_type=code&state=sina";
 		fd.get(url2);
 		String url3 = "http://qiuzf.sinaapp.com/onekeyfl";
-		WebDriverUtil.getUrl(fd, url3);
+//		WebDriverUtil.getUrl(fd, url3);
+		fd.get(url3);
 	}
 
 	public void switchToIframe(WebDriver fd) {

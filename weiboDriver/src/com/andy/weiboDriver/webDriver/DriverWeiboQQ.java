@@ -1,6 +1,8 @@
 package com.andy.weiboDriver.webDriver;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -26,7 +28,8 @@ public class DriverWeiboQQ {
 			
 			String username = XMLConfig.getConfig().getString("weibo(" + i + ").pp_username");
 			logger.info(username);
-			String path = System.getProperty("user.dir") + File.separator + username + ".txt";
+			String day = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+			String path = System.getProperty("user.dir") + File.separator + username + "-"+day+".txt";
 			List<Object> addressList = XMLConfig.getConfig().getList("weibo(" + i + ").pp_address.QQAddress");
 			new File(path).delete();
 			for (int j = 0; j < addressList.size(); j++) {
@@ -52,7 +55,7 @@ public class DriverWeiboQQ {
 	private String getMessage(WebDriver fd) throws InterruptedException, ConfigurationException {
 		StringBuffer messageBuffer = new StringBuffer();
 		By closeLoginBy = By.cssSelector("div[class=\"DWrap\"] > a.DClose.close");
-		WebElement closeLoginElement = WebDriverUtil.findElement4Wait(fd, closeLoginBy, 2);
+		WebElement closeLoginElement = WebDriverUtil.getElementOrNot(fd, closeLoginBy);
 		if (null != closeLoginElement && closeLoginElement.isDisplayed()) {
 			closeLoginElement.click();
 		}

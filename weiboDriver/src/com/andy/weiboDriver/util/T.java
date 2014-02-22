@@ -3,8 +3,6 @@ package com.andy.weiboDriver.util;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
-import com.andy.weiboDriver.doMain.GetScore;
-
 public class T {
 
 	private static Logger logger = Logger.getLogger(T.class);

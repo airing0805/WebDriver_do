@@ -41,7 +41,7 @@ public class HuFenBang {
 
 	private void startSpread(WebDriver fd) {
 		String url = "http://www.weibo01.com/reward_website/my_reward";
-		fd = WebDriverUtil.getUrl(fd, url);
+		WebDriverUtil.getUrl(fd, url,By.id("ifollowManage"));
 		WebElement ifollowManageWe = fd.findElement(By.id("ifollowManage"));
 		WebElement  startWe = ifollowManageWe.findElements(By.cssSelector("td.moneyManageBtn")).get(0);
 		if (startWe.getText().contains("关闭")) {
@@ -51,15 +51,15 @@ public class HuFenBang {
 
 	// 一键关注全部，然后翻页
 	private boolean oneKeyScore(WebDriver fd) {
-		String url1 = "http://apps.weibo.com/fansreward";
-		fd = WebDriverUtil.getUrl(fd, url1);
+//		String url1 = "http://apps.weibo.com/fansreward";
+//		WebDriverUtil.getUrl(fd, url1);
 		String url2 = "http://www.weibo01.com/reward_website/earn_score";
-		fd = WebDriverUtil.getUrl(fd, url2);
-		WebElement scoreAreaWe = WebDriverUtil.findElement4Wait(fd, By.id("earnFollowScoreArea"), 2);
-		WebElement followAllBtnWe = WebDriverUtil.findElement4Wait(scoreAreaWe, By.cssSelector("button.mutualFollowBtn1"), 2);
+		WebDriverUtil.getUrl(fd, url2,By.id("earnFollowScoreArea"));
+		WebElement scoreAreaWe = WebDriverUtil.findElement4Wait(fd, By.id("earnFollowScoreArea"), 3);
+		WebElement followAllBtnWe = WebDriverUtil.findElement4Wait(scoreAreaWe, By.cssSelector("button.mutualFollowBtn1"), 3);
 		followAllBtnWe.click();
 		while (true) {
-			WebElement overWe = WebDriverUtil.findElement4Wait(fd, By.id("messageContent"), 1);
+			WebElement overWe = WebDriverUtil.getElementOrNot(fd,By.id("messageContent"));
 			if (null != overWe && overWe.isDisplayed() && overWe.getText().contains("多了")) {
 				logger.info("今天关注的太多了，明天再试试吧");
 				return false;

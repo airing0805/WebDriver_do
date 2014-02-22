@@ -4,12 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -30,7 +32,7 @@ public class WebDriverUtil {
 		if (num < 0) {
 			num = 1000;
 		}
-		for (int i = 0; i < num * 2; i++) {
+		for (int i = 0; i < num ; i++) {
 			try {
 				we = wd.findElement(by);
 				if (null != we)
@@ -47,8 +49,37 @@ public class WebDriverUtil {
 		}
 		return we;
 	}
+	
+	public static WebElement getElementOrNot(WebElement wddddd, By by) {
+		WebElement we = null;
+		try {
+			we = wddddd.findElement(by);
+		} catch (RuntimeException e) {
+			return null;
+		}
+		return we;
+	}
+	
+	public static WebElement getElementOrNot(WebDriver wddddd, By by) {
+		WebElement we = null;
+		try {
+			we = wddddd.findElement(by);
+		} catch (RuntimeException e) {
+			return null;
+		}
+		return we;
+	}
 
 	public static boolean hasElement(WebElement wddddd, By by) {
+		try {
+			wddddd.findElement(by);
+		} catch (RuntimeException e) {
+			return false;
+		}
+		return true;
+	}
+	
+	public static boolean hasElement(WebDriver wddddd, By by) {
 		try {
 			wddddd.findElement(by);
 		} catch (RuntimeException e) {
@@ -71,7 +102,7 @@ public class WebDriverUtil {
 		if (num < 0) {
 			num = 1000;
 		}
-		for (int i = 0; i < num * 2; i++) {
+		for (int i = 0; i < num ; i++) {
 			try {
 				we2 = we.findElement(by);
 				if (null != we)
@@ -88,9 +119,59 @@ public class WebDriverUtil {
 		}
 		return we2;
 	}
+	
+	public static void getUrl(WebDriver driver,String url,By by) {
+		int actionCount =10;
+	    boolean inited = false;  
+	    int maxLoadTime =100;
+	    int index = 0, timeout = 10;  
+	    while (!inited && index < actionCount){  
+	        timeout = (index == actionCount - 1) ? maxLoadTime : 10;//最后一次跳转使用最大的默认超时时间  
+	        inited = navigateAndLoad(driver,url,timeout,by);  
+	        index ++;  
+	    }  
+	    if (!inited && index == actionCount){//最终跳转失败则抛出运行时异常，退出运行  
+	        throw new RuntimeException("can not get the url [" + url + "] after retry " + actionCount + "times!");  
+	    }  
+	}
+	
+	private static boolean navigateAndLoad(WebDriver driver,String url ,int timeout ,By by ){  
+	    try {  
+	        driver.manage().timeouts().pageLoadTimeout(timeout, TimeUnit.SECONDS);  
+	        driver.get(url);  
+	        
+	        String urlSub = url.split("\\u003F")[0];
+			if(urlSub.endsWith("/")){
+				urlSub = urlSub.substring(0, urlSub.length()-1);
+			}
+			
+	        String currentUrl = driver.getCurrentUrl();
+			String currentUrlSub = currentUrl.split("\\u003F")[0];
+			//地址要相等
+			if(currentUrlSub.endsWith("/")){
+				currentUrlSub = currentUrlSub.substring(0, currentUrlSub.length()-1);
+			}
+			if (!urlSub.equals(currentUrlSub)) {
+				return false;
+			}
+			
+			WebElement el = driver.findElement(by);
+			if(null == el){
+				return false;
+			}
+	    } catch (TimeoutException e) {  
+	        return false;//超时的情况下返回false  
+	    } catch (Exception e) {  
+	        logger.info(e.getMessage(),e);
+	        return false;
+	    }finally{  
+	        driver.manage().timeouts().pageLoadTimeout(100, TimeUnit.SECONDS);  
+	    }  
+	    return true;
+	}
 
 	//对iframe的内容单独显示在浏览器的时候，有时候容易跑回到微博主题的iframe内。
-	public static WebDriver getUrl(WebDriver fd, String url) {
+	public static WebDriver getUrl1(WebDriver fd, String url) {
 		String urlSub = url.split("\\u003F")[0];
 		if(urlSub.endsWith("/")){
 			urlSub = urlSub.substring(0, urlSub.length()-1);
@@ -118,7 +199,7 @@ public class WebDriverUtil {
 	}
 
 	public static Map<String,Integer> getNumInfoAtUrl(WebDriver fd, String url) {
-		getUrl(fd, url);
+		getUrl(fd, url,By.id("Pl_Official_Header__1"));
 		WebElement infoDiv = findElement4Wait(fd, By.id("Pl_Official_Header__1"), 10);
 		WebElement followWe = findElement4Wait(infoDiv, By.cssSelector("strong[node-type=\"follow\"]"), 10);
 		int num = Integer.parseInt(followWe.getText());

@@ -194,7 +194,8 @@ public class ReciveOneMail {
     /**  
      * 判断此邮件是否包含附件  
      */  
-    public boolean isContainAttach(Part part) throws Exception {   
+    @SuppressWarnings("unused")
+	public boolean isContainAttach(Part part) throws Exception {   
         boolean attachflag = false;   
         String contentType = part.getContentType();   
         if (part.isMimeType("multipart/*")) {   

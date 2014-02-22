@@ -45,17 +45,19 @@ public class WeiboSendAtPP {
 
 	private String[][] str2Arr(String message) {
 		String[] messArr = message.split("~mashang~");
-		String[][] messArr2 = new String[messArr.length][2];
-		for (int i = 0; i < messArr.length; i++) {
-			String[] messArr3 = messArr[i].split("~laiqian~");
-			messArr2[i][0] = messArr3[0];
-			if (messArr3.length > 1) {
-				messArr2[i][1] = messArr3[1];
+		String[][] mashangArr = new String[messArr.length][2];
+		int num = messArr.length;
+		for (int i = 0; i < num; i++) {
+			
+			String[] laiqianArr = messArr[i].split("~laiqian~");
+			mashangArr[i][0] = laiqianArr[0];
+			if (laiqianArr.length > 1) {
+				mashangArr[i][1] = laiqianArr[1];
 			} else {
-				messArr2[i][1] = "";
+				mashangArr[i][1] = "";
 			}
 		}
-		return messArr2;
+		return mashangArr;
 	}
 
 
@@ -63,7 +65,7 @@ public class WeiboSendAtPP {
 		WebElement timer_diffWe = WebDriverUtil.findElement4Wait(fd, By.id("timer_diff_1"), 10);
 		timer_diffWe.clear();
 		timer_diffWe.sendKeys(XMLConfig.getConfig().getString("timer_diff"));
-		String order = XMLConfig.getConfig().getString("SendMessageOrder");
+		String order = XMLConfig.getConfig().getString("sendMessageOrder");
 		if("desc".equals(order)){
 			ppSentDesc(fd,messArr);
 		}else if("asc".equals(order)){
@@ -72,8 +74,9 @@ public class WeiboSendAtPP {
 	}
 	
 	public void ppSentDesc(WebDriver fd, String[][] messArr){
-
-		for (int i = messArr.length-1; i > 0; i++) {
+		int num = messArr.length;
+		for (int i = messArr.length-1; i > 0; i--) {
+			logger.info("总共_"+num+"条"+"_发送"+(i+1)+"条");
 			try {
 				boolean flag = ppSendTime(fd, messArr[i][0], messArr[i][1]);
 				//到达15天跳出迭代
@@ -90,8 +93,9 @@ public class WeiboSendAtPP {
 	}
 	
 	public void ppSentAsc(WebDriver fd, String[][] messArr){
-
+		int num = messArr.length;
 		for (int i = 0; i < messArr.length; i++) {
+			logger.info("总共_"+num+"条"+"_发送"+(i+1)+"条");
 			try {
 				boolean flag = ppSendTime(fd, messArr[i][0], messArr[i][1]);
 				//到达15天跳出迭代
@@ -119,8 +123,8 @@ public class WeiboSendAtPP {
 			picMoveWe2.sendKeys(Keys.DOWN);
 			new Actions(fd).moveToElement(picMoveWe2).build().perform();
 		}
-		Thread.sleep(50);
-		WebElement picLink = WebDriverUtil.findElement4Wait(fd, By.cssSelector("a[id=\"open_pic_url_1\"]"), 1);
+		Thread.sleep(100);
+		WebElement picLink = WebDriverUtil.getElementOrNot(fd, By.cssSelector("a[id=\"open_pic_url_1\"]"));
 		if (null != picUrl && picUrl.length() > 0) {
 			// 显示图片提示窗口
 			picLink.click();
@@ -149,13 +153,14 @@ public class WeiboSendAtPP {
 		// 等待重复内容的提示
 		Thread.sleep(3000);
 		//关闭提示窗口		
-		WebElement closeHas = WebDriverUtil.findElement4Wait(fd, By.cssSelector("a[id=\"dialog_close\"]"), 1);
+		WebElement closeHas = WebDriverUtil.getElementOrNot(fd, By.cssSelector("a[id=\"dialog_close\"]"));
 		if (null != closeHas && closeHas.isDisplayed()) {
 			closeHas.click();
 			//是否到达15天控制范围
-			WebElement messageContent = WebDriverUtil.findElement4Wait(fd, By.cssSelector("input[id=\"dialog_message\"]"), 1);
+			WebElement messageContent = WebDriverUtil.getElementOrNot(fd, By.cssSelector("input[id=\"dialog_message\"]"));
 			if(null != messageContent && messageContent.isDisplayed()){
 				messageContent.getText().contains("15天");
+				logger.info("满15天了");
 				return false;
 			}
 			// 等待一下，让图片地址自动关闭。
@@ -163,7 +168,7 @@ public class WeiboSendAtPP {
 		}
 		MessageWe.clear();
 		// 上传完成后，关闭图片，防止中断。
-		WebElement picClose = WebDriverUtil.findElement4Wait(fd, By.cssSelector("strong[id=\"insert_picture_preview_1\"] > a"), 2);
+		WebElement picClose = WebDriverUtil.getElementOrNot(fd, By.cssSelector("strong[id=\"insert_picture_preview_1\"] > a"));
 		if (null != picClose && picClose.isDisplayed()) {
 			picClose.click();
 		}
@@ -175,7 +180,8 @@ public class WeiboSendAtPP {
 			Select minuteSelect = new Select(fd.findElement(By.cssSelector("select[id=\"minute_1\"]")));
 			minuteSelect.selectByVisibleText("30");
 		}
-		return false;
+		//只有满了15天才返回false
+		return true;
 	}
 
 	@SuppressWarnings("unused")
@@ -240,7 +246,7 @@ public class WeiboSendAtPP {
 		String ppUrl = "http://login.pp.cc/logout.html?redirect=http://weibo.pp.cc/logout.php";
 		fd.get(ppUrl);
 		// 先保证退出
-		WebDriverUtil.findElement4Wait(fd, By.xpath("//*[@id=\"changeMyMenu\"]"), 1);
+		WebDriverUtil.findElement4Wait(fd, By.id("changeMyMenu"), 1);
 		WebElement usernameWe = fd.findElement(By.id("username_login"));
 		usernameWe.clear();
 		usernameWe.sendKeys(username);
