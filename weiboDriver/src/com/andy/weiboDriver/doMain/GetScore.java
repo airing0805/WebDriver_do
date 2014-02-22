@@ -59,6 +59,7 @@ public class GetScore {
 				break;
 			} else {
 				try {
+					logger.info("等待。。。");
 					Thread.sleep(1000 * 60 * 5);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
