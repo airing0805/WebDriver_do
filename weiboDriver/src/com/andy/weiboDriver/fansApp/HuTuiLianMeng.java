@@ -48,7 +48,7 @@ public class HuTuiLianMeng {
 
 	private void startSpread(WebDriver fd) {
 		String url = "http://hufen.tlianmeng.com/welcome/mytg";
-		WebDriverUtil.getUrl(fd, url,By.cssSelector("div[id=\"myfollow\"] > table > tbody > tr >td > a[title=\"停止中,点击开启推广\"]"));
+		WebDriverUtil.getUrl(fd, url,By.cssSelector("div[id=\"myfollow\"]"));
 		WebElement startWe = fd.findElement(By.cssSelector("div[id=\"myfollow\"] > table > tbody > tr >td > a[title=\"停止中,点击开启推广\"]"));
 //		WebElement startWe = WebDriverUtil.findElement4Wait(fd,By.id("play_0_61373"),1);
 		if(null !=startWe && startWe.isDisplayed()){

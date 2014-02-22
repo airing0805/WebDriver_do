@@ -36,7 +36,7 @@ public class Tuitu {
 
 	private void startSpread(WebDriver fd) {
 		String url = "http://tuitu.sinaapp.com/weibo/space";
-		WebDriverUtil.getUrl(fd, url,By.cssSelector("div[id=\"myfollow\"] > table > tbody > tr >td > a[title=\"点击开启推广\"]"));
+		WebDriverUtil.getUrl(fd, url,By.cssSelector("div[id=\"myfollow\"] "));
 		WebElement startWe = fd.findElement(By.cssSelector("div[id=\"myfollow\"] > table > tbody > tr >td > a[title=\"点击开启推广\"]"));
 		if(null != startWe && startWe.isDisplayed()){
 			startWe.click();
