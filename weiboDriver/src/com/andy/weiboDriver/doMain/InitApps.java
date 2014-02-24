@@ -13,8 +13,10 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.interactions.Actions;
 
 import com.andy.weiboDriver.util.Threads;
 import com.andy.weiboDriver.util.XMLConfig;
@@ -60,7 +62,7 @@ public class InitApps {
 		fd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		// Map<String, String> weiboMap = getWeibo( );
 		Map<String, String> weiboMap = new HashMap<String, String>();
-		weiboMap.put("yitest08051@sina.com", "andy0805");
+		weiboMap.put("zy166688@163.com", "andy0805");
 		iterateInitApp(fd, weiboMap);
 		
 		fd.quit();
@@ -98,15 +100,11 @@ public class InitApps {
 
 	public static void selectInterest(WebDriver fd)  {
 		if ("http://weibo.com/nguide/interests".equals(fd.getCurrentUrl().split("\\u003F")[0])) {
-			fd.findElements(By.className("fav_tag_sel")).get(3).findElement(By.tagName("a")).click();
-			for (int j = 0; j < 10; j++) {
-				int size = fd.findElements(By.cssSelector("div[node-type=\"interest_list\"]")).size();
-				if (2 <= size) {
-					break;
-				} else {
-					Threads.sleep(500);
-				}
-			}
+			WebElement  interestEl = fd.findElements(By.cssSelector("div.fav_tag_sel")).get(3);
+			WebElement linkEl = interestEl.findElement(By.tagName("a"));
+			new Actions(fd).moveToElement(linkEl).build().perform();
+			linkEl.click();
+			
 			for (int j = 0; j < 10; j++) {
 				int size = fd.findElements(By.cssSelector("div[node-type=\"interest_list\"]")).size();
 				if (2 <= size) {

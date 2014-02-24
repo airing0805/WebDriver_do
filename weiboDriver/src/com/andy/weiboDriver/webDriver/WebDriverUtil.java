@@ -38,12 +38,16 @@ public class WebDriverUtil {
 			num = 1000;
 		}
 		for (int i = 0; i < num; i++) {
-			we = wd.findElement(by);
-			if (null != we && we.isDisplayed()) {
+			try {
 				we = wd.findElement(by);
-				break;
+				if (null != we && we.isDisplayed()) {
+					we = wd.findElement(by);
+					break;
+				}
+			} catch (Exception e) {
+				Threads.sleep(1000);
+				continue;
 			}
-			Threads.sleep(500);
 		}
 		return we;
 	}
@@ -71,9 +75,9 @@ public class WebDriverUtil {
 	public static boolean hasElement(WebElement wddddd, By by) {
 		try {
 			WebElement weEl = wddddd.findElement(by);
-			if(null != weEl && weEl.isDisplayed()){
+			if (null != weEl && weEl.isDisplayed()) {
 				return true;
-			}else{
+			} else {
 				return false;
 			}
 		} catch (RuntimeException e) {
@@ -83,10 +87,10 @@ public class WebDriverUtil {
 
 	public static boolean hasElement(WebDriver wddddd, By by) {
 		try {
-			WebElement weEl =wddddd.findElement(by);
-			if(null != weEl && weEl.isDisplayed()){
+			WebElement weEl = wddddd.findElement(by);
+			if (null != weEl && weEl.isDisplayed()) {
 				return true;
-			}else{
+			} else {
 				return false;
 			}
 		} catch (RuntimeException e) {
@@ -108,12 +112,16 @@ public class WebDriverUtil {
 			num = 1000;
 		}
 		for (int i = 0; i < num; i++) {
-			we2 = we.findElement(by);
-			if (null != we2 && we2.isDisplayed()) {
+			try {
 				we2 = we.findElement(by);
-				break;
+				if (null != we2 && we2.isDisplayed()) {
+					we2 = we.findElement(by);
+					break;
+				}
+			} catch (Exception e) {
+				Threads.sleep(500);
+				continue;
 			}
-			Threads.sleep(500);
 		}
 		return we2;
 	}
@@ -154,17 +162,26 @@ public class WebDriverUtil {
 
 	public static void waitDisplay(WebDriver driver, By by, int timeout) {
 		for (int i = 0; i < timeout; i++) {
-			Threads.sleep(1000);
-			if (driver.findElement(by).isDisplayed())
-				break;
+			try {
+				if (driver.findElement(by).isDisplayed())
+					break;
+			} catch (Exception e) {
+				Threads.sleep(1000);
+				continue;
+			}
 		}
 	}
 
 	public static void waitDisplay(WebDriver driver, WebElement webEl, By by, int timeout) {
 		for (int i = 0; i < timeout; i++) {
-			Threads.sleep(1000);
-			if (webEl.findElement(by).isDisplayed())
-				break;
+
+			try {
+				if (webEl.findElement(by).isDisplayed())
+					break;
+			} catch (Exception e) {
+				Threads.sleep(1000);
+				continue;
+			}
 		}
 	}
 
