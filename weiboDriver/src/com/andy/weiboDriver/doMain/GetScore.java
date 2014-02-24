@@ -40,7 +40,7 @@ public class GetScore {
 		}
 
 		iterateGetScore(fd, weiboNum);
-		
+
 		fd.quit();
 	}
 
@@ -59,143 +59,143 @@ public class GetScore {
 			if (startDay == Integer.parseInt(sf.format(new Date()))) {
 				break;
 			} else {
-					logger.info("等待5分钟。。。");
-					Threads.sleep(1000 * 60 * 5);
+				logger.info("等待5分钟。。。");
+				Threads.sleep(1000 * 60 * 5);
 			}
 		}
+		
+		for (int i = 0; i < weiboNum; i++) {
+			while (true) {
+				Map<String, Integer> map = new HashMap<String, Integer>();
+				int num = 0;
+				int numT = 0;
+				String username = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_username");
+				String password = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_password");
+				String weiboUrl = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_url");
+				SimpleDateFormat sf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				logger.info(sf1.format(new Date()));
+				String fileMess = username + "\n";
+				logger.info(fileMess);
+				new WeiboSina().login(fd, username, password);
+				map = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
+				num = map.get("关注");
 
-		while (true) {
-				for (int i = 0; i < weiboNum; i++) {
-					Map<String, Integer> map = new HashMap<String, Integer>();
-					int num = 0;
-					int numT = 0;
-					String username = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_username");
-					String password = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_password");
-					String weiboUrl = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_url");
-					SimpleDateFormat sf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-					logger.info(sf1.format(new Date()));
-					String fileMess = username + "\n";
-					logger.info(fileMess);
-					new WeiboSina().login(fd, username, password);
-					map = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
-					num = map.get("关注");
-					
-					//如果关注的数量只比2000少70以内，那么删除相关的关注用户
-					if(2000-num <70 ){
-						logger.info("关注人数接近2000了");
-						Map<String, String> weiboMap = new HashMap<String,String>();
-						weiboMap.put(username, password);
-						DelAttentions.iterateDelAttentions(fd, weiboMap);
-					}
-					// 一键关注最多只到十页，有一页成功就退出
-					// boolean flag = true;
-					// int aa = appList.indexOf(nextStartAppName);
-					boolean flag = false;
-
-					try {
-						// 推兔一键最多12个
-						// http://apps.weibo.com/tuituoo
-						logger.info("start:" + sf1.format(new Date()));
-						flag = new Tuitu().getScoreFlow(fd);
-						map = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
-						numT = map.get("关注");
-						fileMess = sf1.format(new Date()) + "_总关注：" + numT + "_总粉丝：" + map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
-						logger.info(fileMess);
-						num = numT;
-						// 关注过多，
-						if (!flag){
-							logger.info("关注之后，测试删除");
-							DelAttentions.delDeadAttentions(fd);
-							return;
-						}
-					} catch (Exception e) {
-						WebDriverUtil.takeScreenShot(fd);
-						logger.info(e.getMessage(), e);
-					}
-					Threads.sleep(1000 * 60 * 16);
-
-					try {
-						// 互粉加加 一键一页最多7个
-						logger.info("start:" + sf1.format(new Date()));
-						flag = new Qiuzf(2).getScoreFlow(fd);
-						map = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
-						numT = map.get("关注");
-						fileMess = sf1.format(new Date()) + "_总关注：" + numT + "_总粉丝：" + map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
-						logger.info(fileMess);
-						num = numT;
-						// 关注过多，
-						if (!flag){
-							logger.info("关注之后，测试删除");
-							DelAttentions.delDeadAttentions(fd);
-							return;
-						}
-					}  catch (Exception e) {
-						WebDriverUtil.takeScreenShot(fd);
-						logger.info(e.getMessage(), e);
-					}
-					Threads.sleep(1000 * 60 * 16);
-
-					try {
-						// 推米 一键一页最多7个
-						logger.info("start:" + sf1.format(new Date()));
-						flag = new Tuimi(2).getScoreFlow(fd);
-						map = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
-						numT = map.get("关注");
-						fileMess = sf1.format(new Date()) + "_总关注：" + numT + "_总粉丝：" + map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
-						logger.info(fileMess);
-						num = numT;
-						// 关注过多，
-						if (!flag){
-							logger.info("关注之后，测试删除");
-							DelAttentions.delDeadAttentions(fd);
-							return;
-						}
-					}  catch (Exception e) {
-						WebDriverUtil.takeScreenShot(fd);
-						logger.info(e.getMessage(), e);
-					}
-					Threads.sleep(1000 * 60 * 16);
-
-					try {
-						// 互推联盟 一键一页最多12个
-						logger.info("start:" + sf1.format(new Date()));
-						flag = new HuTuiLianMeng().getScoreFlow(fd);
-						map = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
-						numT = map.get("关注");
-						fileMess = sf1.format(new Date()) + "_总关注：" + numT + "_总粉丝：" + map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
-						logger.info(fileMess);
-						num = numT;
-						if (!flag){
-							logger.info("关注之后，测试删除");
-							DelAttentions.delDeadAttentions(fd);
-							return;
-						}
-					} catch (Exception e) {
-						WebDriverUtil.takeScreenShot(fd);
-						logger.info(e.getMessage(), e);
-					}
-					Threads.sleep(1000 * 60 * 16);
-
-					try {
-						// 互粉赏金榜一键一页最多16个
-						logger.info("start:" + sf1.format(new Date()));
-						flag = new HuFenBang().getScoreFlow(fd);
-						map = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
-						numT = map.get("关注");
-						fileMess = sf1.format(new Date()) + "_总关注：" + numT + "_总粉丝：" + map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
-						logger.info(fileMess);
-						num = numT;
-						if (!flag){
-							logger.info("关注之后，测试删除");
-							DelAttentions.delDeadAttentions(fd);
-							return;
-						}
-					}  catch (Exception e) {
-						WebDriverUtil.takeScreenShot(fd);
-						logger.info(e.getMessage(), e);
-					}
-					Threads.sleep(1000 * 60 * 16);
+				// 如果关注的数量只比2000少70以内，那么删除相关的关注用户
+				if (2000 - num < 70) {
+					logger.info("关注人数接近2000了");
+					Map<String, String> weiboMap = new HashMap<String, String>();
+					weiboMap.put(username, password);
+					DelAttentions.iterateDelAttentions(fd, weiboMap);
 				}
+				// 一键关注最多只到十页，有一页成功就退出
+				// boolean flag = true;
+				// int aa = appList.indexOf(nextStartAppName);
+				boolean flag = false;
+
+				try {
+					// 推兔一键最多12个
+					// http://apps.weibo.com/tuituoo
+					logger.info("start:" + sf1.format(new Date()));
+					flag = new Tuitu().getScoreFlow(fd);
+					map = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
+					numT = map.get("关注");
+					fileMess = sf1.format(new Date()) + "_总关注：" + numT + "_总粉丝：" + map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
+					logger.info(fileMess);
+					num = numT;
+					// 关注过多，
+					if (!flag) {
+						logger.info("关注之后，测试删除");
+						DelAttentions.delDeadAttentions(fd);
+						break;
+					}
+				} catch (Exception e) {
+					WebDriverUtil.takeScreenShot(fd);
+					logger.info(e.getMessage(), e);
+				}
+				Threads.sleep(1000 * 60 * 16);
+
+				try {
+					// 互粉加加 一键一页最多7个
+					logger.info("start:" + sf1.format(new Date()));
+					flag = new Qiuzf(2).getScoreFlow(fd);
+					map = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
+					numT = map.get("关注");
+					fileMess = sf1.format(new Date()) + "_总关注：" + numT + "_总粉丝：" + map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
+					logger.info(fileMess);
+					num = numT;
+					// 关注过多，
+					if (!flag) {
+						logger.info("关注之后，测试删除");
+						DelAttentions.delDeadAttentions(fd);
+						break;
+					}
+				} catch (Exception e) {
+					WebDriverUtil.takeScreenShot(fd);
+					logger.info(e.getMessage(), e);
+				}
+				Threads.sleep(1000 * 60 * 16);
+
+				try {
+					// 推米 一键一页最多7个
+					logger.info("start:" + sf1.format(new Date()));
+					flag = new Tuimi(2).getScoreFlow(fd);
+					map = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
+					numT = map.get("关注");
+					fileMess = sf1.format(new Date()) + "_总关注：" + numT + "_总粉丝：" + map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
+					logger.info(fileMess);
+					num = numT;
+					// 关注过多，
+					if (!flag) {
+						logger.info("关注之后，测试删除");
+						DelAttentions.delDeadAttentions(fd);
+						break;
+					}
+				} catch (Exception e) {
+					WebDriverUtil.takeScreenShot(fd);
+					logger.info(e.getMessage(), e);
+				}
+				Threads.sleep(1000 * 60 * 16);
+
+				try {
+					// 互推联盟 一键一页最多12个
+					logger.info("start:" + sf1.format(new Date()));
+					flag = new HuTuiLianMeng().getScoreFlow(fd);
+					map = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
+					numT = map.get("关注");
+					fileMess = sf1.format(new Date()) + "_总关注：" + numT + "_总粉丝：" + map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
+					logger.info(fileMess);
+					num = numT;
+					if (!flag) {
+						logger.info("关注之后，测试删除");
+						DelAttentions.delDeadAttentions(fd);
+						break;
+					}
+				} catch (Exception e) {
+					WebDriverUtil.takeScreenShot(fd);
+					logger.info(e.getMessage(), e);
+				}
+				Threads.sleep(1000 * 60 * 16);
+
+				try {
+					// 互粉赏金榜一键一页最多16个
+					logger.info("start:" + sf1.format(new Date()));
+					flag = new HuFenBang().getScoreFlow(fd);
+					map = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
+					numT = map.get("关注");
+					fileMess = sf1.format(new Date()) + "_总关注：" + numT + "_总粉丝：" + map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
+					logger.info(fileMess);
+					num = numT;
+					if (!flag) {
+						logger.info("关注之后，测试删除");
+						DelAttentions.delDeadAttentions(fd);
+						break;
+					}
+				} catch (Exception e) {
+					WebDriverUtil.takeScreenShot(fd);
+					logger.info(e.getMessage(), e);
+				}
+				Threads.sleep(1000 * 60 * 16);
+			}
 		}
 	}
 
