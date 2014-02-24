@@ -40,7 +40,7 @@ public class GetScore {
 		}
 
 		iterateGetScore(fd, weiboNum);
-
+		
 		fd.quit();
 	}
 
@@ -79,6 +79,14 @@ public class GetScore {
 					new WeiboSina().login(fd, username, password);
 					map = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
 					num = map.get("关注");
+					
+					//如果关注的数量只比2000少70以内，那么删除相关的关注用户
+					if(2000-num <70 ){
+						logger.info("关注人数接近2000了");
+						Map<String, String> weiboMap = new HashMap<String,String>();
+						weiboMap.put(username, password);
+						DelAttentions.iterateDelAttentions(fd, weiboMap);
+					}
 					// 一键关注最多只到十页，有一页成功就退出
 					// boolean flag = true;
 					// int aa = appList.indexOf(nextStartAppName);
@@ -95,8 +103,11 @@ public class GetScore {
 						logger.info(fileMess);
 						num = numT;
 						// 关注过多，
-						if (!flag)
+						if (!flag){
+							logger.info("关注之后，测试删除");
+							DelAttentions.delDeadAttentions(fd);
 							return;
+						}
 					} catch (Exception e) {
 						WebDriverUtil.takeScreenShot(fd);
 						logger.info(e.getMessage(), e);
@@ -113,8 +124,11 @@ public class GetScore {
 						logger.info(fileMess);
 						num = numT;
 						// 关注过多，
-						if (!flag)
+						if (!flag){
+							logger.info("关注之后，测试删除");
+							DelAttentions.delDeadAttentions(fd);
 							return;
+						}
 					}  catch (Exception e) {
 						WebDriverUtil.takeScreenShot(fd);
 						logger.info(e.getMessage(), e);
@@ -131,8 +145,11 @@ public class GetScore {
 						logger.info(fileMess);
 						num = numT;
 						// 关注过多，
-						if (!flag)
+						if (!flag){
+							logger.info("关注之后，测试删除");
+							DelAttentions.delDeadAttentions(fd);
 							return;
+						}
 					}  catch (Exception e) {
 						WebDriverUtil.takeScreenShot(fd);
 						logger.info(e.getMessage(), e);
@@ -148,8 +165,11 @@ public class GetScore {
 						fileMess = sf1.format(new Date()) + "_总关注：" + numT + "_总粉丝：" + map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
 						logger.info(fileMess);
 						num = numT;
-						if (!flag)
+						if (!flag){
+							logger.info("关注之后，测试删除");
+							DelAttentions.delDeadAttentions(fd);
 							return;
+						}
 					} catch (Exception e) {
 						WebDriverUtil.takeScreenShot(fd);
 						logger.info(e.getMessage(), e);
@@ -165,8 +185,11 @@ public class GetScore {
 						fileMess = sf1.format(new Date()) + "_总关注：" + numT + "_总粉丝：" + map.get("粉丝") + " _本次关注:" + (numT - num) + "\n";
 						logger.info(fileMess);
 						num = numT;
-						if (!flag)
+						if (!flag){
+							logger.info("关注之后，测试删除");
+							DelAttentions.delDeadAttentions(fd);
 							return;
+						}
 					}  catch (Exception e) {
 						WebDriverUtil.takeScreenShot(fd);
 						logger.info(e.getMessage(), e);

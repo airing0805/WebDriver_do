@@ -67,7 +67,7 @@ public class DelAttentions {
 		return weiboMap;
 	}
 
-	private static void iterateDelAttentions(WebDriver fd, Map<String, String> weiboMap) {
+	public  static void iterateDelAttentions(WebDriver fd, Map<String, String> weiboMap) {
 
 		for (Entry<String, String> weiboMapEntry : weiboMap.entrySet()) {
 			String username = weiboMapEntry.getKey();
@@ -78,11 +78,13 @@ public class DelAttentions {
 
 			delDeadAttentions(fd);
 			delEarliestAttentions(fd);
-			Threads.sleep(0);
+			
+			Threads.sleep(100);
 		}
 	}
 
-	private static void delEarliestAttentions(WebDriver fd) {
+	public  static void delEarliestAttentions(WebDriver fd) {
+		 //删除最后一页，循环两次，
 		for (int i = 0; i < 2; i++) {
 			String url = "http://apps.weibo.com/cancels?ref=appmy";
 			WebDriverUtil.getUrl(fd, url, By.id("apps"));
@@ -90,13 +92,15 @@ public class DelAttentions {
 			fd.switchTo().frame(iframeWe);
 			WebElement buttonEl = fd.findElement(By.cssSelector("div.pl10.pr20"));
 			WebElement pageEl = buttonEl.findElement(By.cssSelector("span.fr.page-info"));
+			//直到最后一页
 			while (true) {
-				WebElement linkEl = pageEl.findElements(By.tagName("a")).get(0);
-				Threads.sleep(1000);
-				if (linkEl.getText().contains("上一页")) {
+				List<WebElement> linkElList = pageEl.findElements(By.tagName("a"));
+				Threads.sleep(500);
+				if (null != linkElList && linkElList.size() ==2) {
 					break;
+				}else if(null != linkElList && linkElList.size() ==1){
+					linkElList.get(0).click();
 				}
-				linkEl.click();
 			}
 			List<WebElement> buttonList = buttonEl.findElements(By.tagName("a"));
 			buttonList.get(0).click();
@@ -110,17 +114,26 @@ public class DelAttentions {
 		}
 	}
 
-	private static void delDeadAttentions(WebDriver fd) {
+	public static void delDeadAttentions(WebDriver fd) {
 		String url = "http://apps.weibo.com/killdie?ref=appmy";
 		WebDriverUtil.getUrl(fd, url, By.id("apps"));
 		WebElement iframeWe = fd.findElement(By.id("apps"));
 		fd.switchTo().frame(iframeWe);
+		//开始扫描，扫描会有个时间
 		fd.findElement(By.cssSelector("a.btn")).click();
 		WebElement linkWe = fd.findElement(By.cssSelector("dl[node-type=\"clear\"] > dd")).findElements(By.tagName("a")).get(0);
 		WebDriverUtil.waitDisplay(fd, linkWe, 20);
+		//如果没有直接返回
+		By resultBy = By.id("result_none");
+		if(WebDriverUtil.hasElement(fd, resultBy)){
+			logger.info("删除死亡关注——0——个  ");
+			return;
+		}
+		WebElement numEl = fd.findElement(By.cssSelector("dl[node-type=\"die_num\"]")).findElement(By.tagName("dd"));
+		logger.info("删除死亡关注——"+numEl.getText()+"——个  ");
+		//全选
 		linkWe.click();
-		logger.info(linkWe.isDisplayed());
-		// new WebDriverWait(fd,1);
+		//删除
 		fd.findElement(By.cssSelector("a[action-type=\"submit_cancel\"]")).click();
 		WebDriverUtil.waitAlert(fd);
 		fd.switchTo().alert().accept();

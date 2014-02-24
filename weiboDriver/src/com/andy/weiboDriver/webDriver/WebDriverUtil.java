@@ -70,20 +70,28 @@ public class WebDriverUtil {
 
 	public static boolean hasElement(WebElement wddddd, By by) {
 		try {
-			wddddd.findElement(by);
+			WebElement weEl = wddddd.findElement(by);
+			if(null != weEl && weEl.isDisplayed()){
+				return true;
+			}else{
+				return false;
+			}
 		} catch (RuntimeException e) {
 			return false;
 		}
-		return true;
 	}
 
 	public static boolean hasElement(WebDriver wddddd, By by) {
 		try {
-			wddddd.findElement(by);
+			WebElement weEl =wddddd.findElement(by);
+			if(null != weEl && weEl.isDisplayed()){
+				return true;
+			}else{
+				return false;
+			}
 		} catch (RuntimeException e) {
 			return false;
 		}
-		return true;
 	}
 
 	/**
@@ -160,8 +168,8 @@ public class WebDriverUtil {
 		}
 	}
 
-	public static void waitDisplay(WebDriver driver, WebElement webEl, int timeout) {
-		for (int i = 0; i < timeout; i++) {
+	public static void waitDisplay(WebDriver driver, WebElement webEl, int timeoutSecond) {
+		for (int i = 0; i < timeoutSecond; i++) {
 			Threads.sleep(1000);
 			if (webEl.isDisplayed())
 				break;
@@ -194,9 +202,9 @@ public class WebDriverUtil {
 		}
 	}
 
-	private static boolean navigateAndLoad(WebDriver driver, String url, int timeout) {
+	private static boolean navigateAndLoad(WebDriver driver, String url, int timeoutSecond) {
 		try {
-			driver.manage().timeouts().pageLoadTimeout(timeout, TimeUnit.SECONDS);
+			driver.manage().timeouts().pageLoadTimeout(timeoutSecond, TimeUnit.SECONDS);
 			driver.get(url);
 
 		} catch (TimeoutException e) {
