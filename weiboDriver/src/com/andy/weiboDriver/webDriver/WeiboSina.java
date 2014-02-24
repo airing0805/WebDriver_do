@@ -10,13 +10,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.andy.weiboDriver.util.FileUtil;
+import com.andy.weiboDriver.util.Threads;
 
 public class WeiboSina {
 	
 	private static Logger logger = Logger.getLogger(  WeiboSina.class);
 	
 	//自己的首页发微博
-	public void SendMessage(WebDriver fd, String message) throws InterruptedException{
+	public void SendMessage(WebDriver fd, String message) {
 		//进入首页
 		By indexBy  =By.cssSelector("div[class=\"gn_nav\"] > div[node-type=\"home\"] > a");
 		WebElement indexEl = WebDriverUtil.findElement4Wait(fd, indexBy, 20);
@@ -33,7 +34,7 @@ public class WeiboSina {
 	}
 
 	//个人主页，通过聊天组件发私信
-	public void SendPrivateLetterAtUserIndex(WebDriver fd, String url,String message) throws InterruptedException {
+	public void SendPrivateLetterAtUserIndex(WebDriver fd, String url,String message)  {
 		fd.get(url);
 		//等待聊天组件加载
 		By catBy = By.cssSelector("div[node-type=\"onlineBarFriend\"]");
@@ -52,7 +53,7 @@ public class WeiboSina {
 		//通过聊天窗口发送私信
 		WebElement submitEl = fd.findElement(By.cssSelector("div[node-type=\"_sendBtnPanel\"] > a[node-type=\"_sendBtn\"]  "));
 		submitEl.click();
-		Thread.sleep(1000);
+		Threads.sleep(1000);
 		//关闭聊天窗口
 		WebElement closeEl = fd.findElement(By.cssSelector("div[class=\"wbim_tit2_rt\"] > a[node-type=\"WBIM_icon_close\"]"));
 		closeEl.sendKeys(Keys.DOWN);
@@ -82,7 +83,7 @@ public class WeiboSina {
 	}
 	
 	//TODO需要测试
-	public void GetUserFromFans(WebDriver fd) throws InterruptedException{
+	public void GetUserFromFans(WebDriver fd) {
 		fd.findElement(By.cssSelector("li[class=\"follower S_line1\"] > a[name=\"place\"]")).click();
 		WebElement we2 =fd.findElement(By.cssSelector("a[page-limited=\"true\"]"));
 		int num = Integer.parseInt(we2.getText());
@@ -97,9 +98,9 @@ public class WeiboSina {
 	}
 	
 	//这个是做什么的哦
-	public void getUserList(WebDriver fd,String url) throws InterruptedException{
+	public void getUserList(WebDriver fd,String url) {
 		fd.get(url);
-		Thread.sleep(5000);
+		Threads.sleep(5000);
 		List<WebElement> weList =fd.findElement(By.cssSelector("ul[node-type=\"userListBox\"]")).findElements(By.cssSelector(" a[class=\"W_f14 S_func1\"]"));
 		
 		logger.info(weList.size());

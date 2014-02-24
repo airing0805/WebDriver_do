@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import com.andy.weiboDriver.util.Threads;
 import com.andy.weiboDriver.webDriver.WebDriverUtil;
 import com.andy.weiboDriver.webDriver.WeiboSina;
 
@@ -65,17 +66,12 @@ public class HuFenBang {
 				logger.info("今天关注的太多了，明天再试试吧");
 				return false;
 			}
-			try {
-				Thread.sleep(1000);
+				Threads.sleep(1000);
 //				followAllBtnWe = fd.findElement(By.id("loading"));
 				//判断弹出窗口是否一直存在
 				if (!overWe.isDisplayed()) {
 					break;
 				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				continue;
-			}
 
 		}
 		fd.findElement(By.cssSelector("div[id=\"earnPageNav\"] >  a.jumpPageBtn")).click();

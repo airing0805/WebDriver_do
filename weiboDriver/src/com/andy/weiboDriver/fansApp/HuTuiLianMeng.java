@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import com.andy.weiboDriver.util.Threads;
 import com.andy.weiboDriver.webDriver.WebDriverUtil;
 import com.andy.weiboDriver.webDriver.WeiboSina;
 
@@ -70,16 +71,11 @@ public class HuTuiLianMeng {
 				logger.info("今天关注的太多了，明天再试试吧");
 				return false;
 			}
-			try {
-				Thread.sleep(1000);
+				Threads.sleep(1000);
 				followAllBtnWe = fd.findElement(By.id("loading"));
 				if (!followAllBtnWe.isDisplayed()) {
 					break;
 				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				continue;
-			}
 
 		}
 		fd.findElement(By.cssSelector("a[class=\"next\"]")).click();

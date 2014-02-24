@@ -30,8 +30,7 @@ public class WebDriverUtil {
 	 * @param wd
 	 * @param by
 	 * @param num
-	 * @return
-	 * @throws InterruptedException
+	 * @return @
 	 */
 	public static WebElement findElement4Wait(WebDriver wd, By by, int num) {
 		WebElement we = null;
@@ -39,15 +38,12 @@ public class WebDriverUtil {
 			num = 1000;
 		}
 		for (int i = 0; i < num; i++) {
-			try {
+			we = wd.findElement(by);
+			if (null != we && we.isDisplayed()) {
 				we = wd.findElement(by);
-				if (null != we)
-					we = wd.findElement(by);
 				break;
-			} catch (RuntimeException e) {
-				Threads.sleep(500);
-				continue;
 			}
+			Threads.sleep(500);
 		}
 		return we;
 	}
@@ -96,8 +92,7 @@ public class WebDriverUtil {
 	 * @param we
 	 * @param by
 	 * @param num
-	 * @return
-	 * @throws InterruptedException
+	 * @return @
 	 */
 	public static WebElement findElement4Wait(WebElement we, By by, int num) {
 		WebElement we2 = null;
@@ -105,15 +100,12 @@ public class WebDriverUtil {
 			num = 1000;
 		}
 		for (int i = 0; i < num; i++) {
-			try {
+			we2 = we.findElement(by);
+			if (null != we2 && we2.isDisplayed()) {
 				we2 = we.findElement(by);
-				if (null != we)
-					we2 = we.findElement(by);
 				break;
-			} catch (RuntimeException e) {
-				Threads.sleep(500);
-				continue;
 			}
+			Threads.sleep(500);
 		}
 		return we2;
 	}

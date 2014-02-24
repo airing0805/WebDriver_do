@@ -1,8 +1,6 @@
 package com.andy.weiboDriver.doMain;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -17,6 +15,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
+import com.andy.weiboDriver.util.Threads;
 import com.andy.weiboDriver.util.XMLConfig;
 import com.andy.weiboDriver.webDriver.WebDriverUtil;
 import com.andy.weiboDriver.webDriver.WeiboSina;
@@ -59,7 +58,6 @@ public class InitApps {
 	private static void iterateInitApp(WebDriver fd, Map<String, String> weiboMap) {
 
 		for (Entry<String, String> weiboMapEntry : weiboMap.entrySet()) {
-			try {
 				String username = weiboMapEntry.getKey();
 				String password = weiboMapEntry.getValue();
 				SimpleDateFormat sf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -70,14 +68,11 @@ public class InitApps {
 
 				addApp(fd,username, password);
 
-				Thread.sleep(0);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+				Threads.sleep(0);
 		}
 	}
 
-	public static void selectInterest(WebDriver fd) throws InterruptedException {
+	public static void selectInterest(WebDriver fd)  {
 		if ("http://weibo.com/nguide/interests".equals(fd.getCurrentUrl().split("\\u003F")[0])) {
 			fd.findElements(By.className("fav_tag_sel")).get(3).findElement(By.tagName("a")).click();
 			for (int j = 0; j < 10; j++) {
@@ -85,7 +80,7 @@ public class InitApps {
 				if (2 <= size) {
 					break;
 				} else {
-					Thread.sleep(500);
+					Threads.sleep(500);
 				}
 			}
 			for (int j = 0; j < 10; j++) {
@@ -93,7 +88,7 @@ public class InitApps {
 				if (2 <= size) {
 					break;
 				} else {
-					Thread.sleep(500);
+					Threads.sleep(500);
 				}
 			}
 			fd.findElement(By.cssSelector("a[action-type=\"W_btn_big\"]")).click();

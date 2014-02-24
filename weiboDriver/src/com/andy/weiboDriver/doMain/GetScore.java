@@ -18,6 +18,7 @@ import com.andy.weiboDriver.fansApp.HuTuiLianMeng;
 import com.andy.weiboDriver.fansApp.Qiuzf;
 import com.andy.weiboDriver.fansApp.Tuimi;
 import com.andy.weiboDriver.fansApp.Tuitu;
+import com.andy.weiboDriver.util.Threads;
 import com.andy.weiboDriver.util.XMLConfig;
 import com.andy.weiboDriver.webDriver.WebDriverUtil;
 import com.andy.weiboDriver.webDriver.WeiboSina;
@@ -58,17 +59,12 @@ public class GetScore {
 			if (startDay == Integer.parseInt(sf.format(new Date()))) {
 				break;
 			} else {
-				try {
 					logger.info("等待。。。");
-					Thread.sleep(1000 * 60 * 5);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+					Threads.sleep(1000 * 60 * 5);
 			}
 		}
 
 		while (true) {
-			try {
 				for (int i = 0; i < weiboNum; i++) {
 					Map<String, Integer> map = new HashMap<String, Integer>();
 					int num = 0;
@@ -105,7 +101,7 @@ public class GetScore {
 						WebDriverUtil.takeScreenShot(fd);
 						logger.info(e.getMessage(), e);
 					}
-					Thread.sleep(1000 * 60 * 16);
+					Threads.sleep(1000 * 60 * 16);
 
 					try {
 						// 互粉加加 一键一页最多7个
@@ -123,7 +119,7 @@ public class GetScore {
 						WebDriverUtil.takeScreenShot(fd);
 						logger.info(e.getMessage(), e);
 					}
-					Thread.sleep(1000 * 60 * 16);
+					Threads.sleep(1000 * 60 * 16);
 
 					try {
 						// 推米 一键一页最多7个
@@ -141,7 +137,7 @@ public class GetScore {
 						WebDriverUtil.takeScreenShot(fd);
 						logger.info(e.getMessage(), e);
 					}
-					Thread.sleep(1000 * 60 * 16);
+					Threads.sleep(1000 * 60 * 16);
 
 					try {
 						// 互推联盟 一键一页最多12个
@@ -158,7 +154,7 @@ public class GetScore {
 						WebDriverUtil.takeScreenShot(fd);
 						logger.info(e.getMessage(), e);
 					}
-					Thread.sleep(1000 * 60 * 16);
+					Threads.sleep(1000 * 60 * 16);
 
 					try {
 						// 互粉赏金榜一键一页最多16个
@@ -175,18 +171,8 @@ public class GetScore {
 						WebDriverUtil.takeScreenShot(fd);
 						logger.info(e.getMessage(), e);
 					}
-					Thread.sleep(1000 * 60 * 16);
+					Threads.sleep(1000 * 60 * 16);
 				}
-			} catch (InterruptedException e) {
-				WebDriverUtil.takeScreenShot(fd);
-				logger.info(e.getMessage(), e);
-				try {
-					Thread.sleep(1000 * 60 * 16);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				continue;
-			}
 		}
 	}
 

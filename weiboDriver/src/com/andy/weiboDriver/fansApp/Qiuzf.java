@@ -9,8 +9,8 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.andy.weiboDriver.util.Threads;
 import com.andy.weiboDriver.webDriver.WebDriverUtil;
 import com.andy.weiboDriver.webDriver.WeiboSina;
 
@@ -43,11 +43,7 @@ public class Qiuzf {
 			switchToIframe(fd);
 			boolean flag = oneKeyAttention(fd);
 			nextOneKeyAttention(fd, i + 2);
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+				Threads.sleep(500);
 			if (i == 10) {
 				logger.info("没有可以一键关注的了");
 				break;
@@ -83,17 +79,15 @@ public class Qiuzf {
 		String url2 = "https://api.weibo.com/oauth2/authorize?client_id=245891426&redirect_uri=http%3A%2F%2Fqiuzf.sinaapp.com%2Fcallback.php&response_type=code&state=sina";
 		fd.get(url2);
 		String url3 = "http://qiuzf.sinaapp.com/onekeyfl";
-		// WebDriverUtil.getUrl(fd, url3);
 		fd.get(url3);
 	}
 
 	public void switchToIframe(WebDriver fd) {
 		while (true) {
 			String buttonParentText = "";
-			try {
-				Thread.sleep(100);
+				Threads.sleep(100);
 				// 一直等到页面加载完成
-				WebElement oneKeyAttentionWe = WebDriverUtil.findElement4Wait(fd, By.cssSelector("div[id=\"oneKeyAttention\"]"), 10);
+				WebElement oneKeyAttentionWe = WebDriverUtil.findElement4Wait(fd, By.id("oneKeyAttention"), 10);
 				// 等到可以找到iframe,然后进入到iframe里面,还真的必须要等，
 				WebElement iframeWe = WebDriverUtil.findElement4Wait(oneKeyAttentionWe, By.tagName("iframe"), 10);
 				fd.switchTo().frame(iframeWe);
@@ -102,20 +96,17 @@ public class Qiuzf {
 				WebElement buttonParentWe = WebDriverUtil.findElement4Wait(fd, By.cssSelector("div[class=\"tsina_batconcern\"]"), 100);
 				buttonParentText = buttonParentWe.getText();
 				if (buttonParentText.contains("一键关注")) {
-					Thread.sleep(1000);
+					Threads.sleep(1000);
 					break;
 				}
-			} catch (InterruptedException e) {
-			} catch (StaleElementReferenceException e) {
-			}
 			fd.switchTo().defaultContent();
 		}
 	}
 
 	public boolean oneKeyAttention(WebDriver fd) {
 		// 点击一键关注
-		WebElement divWe = WebDriverUtil.findElement4Wait(fd, By.cssSelector("div[class=\"btn_con\"]"), 100);
-		WebElement oneKeyButton = WebDriverUtil.findElement4Wait(divWe, By.cssSelector("a[class=\"btngreen_l\"]"), 100);
+		WebElement divWe = WebDriverUtil.findElement4Wait(fd, By.cssSelector("div.btn_con"), 100);
+		WebElement oneKeyButton = WebDriverUtil.findElement4Wait(divWe, By.cssSelector("a.btngreen_l"), 100);
 		oneKeyButton.click();
 		// 确认关注
 		WebDriverUtil.waitAlert(fd);
@@ -124,11 +115,7 @@ public class Qiuzf {
 		alert.accept();
 		// 等待关注成功
 		while (true) {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+				Threads.sleep(100);
 			String buttonText = divWe.getText();
 			if (buttonText.contains("已关注")) {
 				break;
@@ -138,20 +125,12 @@ public class Qiuzf {
 				return false;
 			}
 		}
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+			Threads.sleep(100);
 		// 跳转到iframe外部，领取积分
 		fd.switchTo().defaultContent();
 		WebElement addMarkWe = fd.findElement(By.id("addMark"));
 		addMarkWe.click();
-		try {
-			Thread.sleep(200);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+			Threads.sleep(200);
 		while (true) {
 			if (addMarkWe.getText().contains("稍候")) {
 				addMarkWe.click();
@@ -164,25 +143,14 @@ public class Qiuzf {
 		String alertStr = alertWe.getText();
 		boolean flag = !(alertStr.contains("领分无效"));
 		logger.info("结果: " + flag);
-		alertWe.findElement(By.cssSelector("a[class=\"btn\"]")).click();
+		alertWe.findElement(By.cssSelector("a.btn")).click();
 		return flag;
 	}
 
 	public void nextOneKeyAttention(WebDriver fd, int page) {
 		WebElement wraperWe = fd.findElement(By.id("wraper"));
-		WebElement nextWe = wraperWe.findElement(By.cssSelector("a[class=\"next\"]"));
+		WebElement nextWe = wraperWe.findElement(By.cssSelector("a.next"));
 		nextWe.click();
-
-		// try {
-		// Thread.sleep(100);
-		// } catch (InterruptedException e) {
-		// e.printStackTrace();
-		// }
-		// WebElement paginationWe =
-		// fd.findElement(By.cssSelector("div.pagination.pagination-centered.f16"));
-		// WebElement paginationLi =
-		// paginationWe.findElements(By.cssSelector("ul>li")).get(0);
-		// paginationLi.getText().contains(page+"");
 	}
 
 }
