@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -34,17 +35,36 @@ public class InitApps {
 			fd = new FirefoxDriver();
 		}
 		fd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		 Map<String, String> weiboMap = getWeibo( );
+		iterateInitApp(fd, weiboMap);
+		
+		fd.quit();
+
+	}
+	
+	@Test
+	public static void test() {
+		List<Object> weiboXmlList = XMLConfig.getConfig().getList("weibo.weibo_username");
+		String firefoxRun = XMLConfig.getConfig().getString("firefoxRun");
+		int weiboNum = weiboXmlList.size();
+		WebDriver fd = null;
+		if ("false".equals(firefoxRun)) {
+			fd = new HtmlUnitDriver();
+		} else {
+			fd = new FirefoxDriver();
+		}
+		fd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		// Map<String, String> weiboMap = getWeibo( );
 		Map<String, String> weiboMap = new HashMap<String, String>();
 		weiboMap.put("yitest08051@sina.com", "andy0805");
 		iterateInitApp(fd, weiboMap);
 		
 		fd.quit();
-
+		
 	}
 
 	private static Map<String, String> getWeibo() {
-		List<Object> weiboXmlList = XMLConfig.getConfig().getList("weibo.weibo_username");
+		List<Object> weiboXmlList = XMLConfig.getConfig().getList("initapps.weibo_username");
 		int weiboNum = weiboXmlList.size();
 		Map<String, String> weiboMap = new LinkedHashMap<String, String>();
 		for (int i = 0; i < weiboNum; i++) {

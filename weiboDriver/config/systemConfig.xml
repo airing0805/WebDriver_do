@@ -11,6 +11,20 @@
 	<startDay>15</startDay>
 	<getfans></getfans>
 	
+	<initapps>
+		<weibo_username>z254436159@sina.com</weibo_username>
+		<weibo_password>andy0805</weibo_password>
+	</initapps>
+	<initapps>
+		<weibo_username>zy166688@163.com</weibo_username>
+		<weibo_password>andy0805</weibo_password>
+	</initapps>
+	
+	<initapps>
+		<weibo_username>z254436159@sina.com</weibo_username>
+		<weibo_password>andy0805</weibo_password>
+	</initapps>
+	
 	<weibo>
 		<weibo_username>yitest0805@sina.com</weibo_username>
 		<weibo_url>http://weibo.com/u/3961753167</weibo_url>

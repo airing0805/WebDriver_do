@@ -59,7 +59,7 @@ public class GetScore {
 			if (startDay == Integer.parseInt(sf.format(new Date()))) {
 				break;
 			} else {
-					logger.info("等待。。。");
+					logger.info("等待5分钟。。。");
 					Threads.sleep(1000 * 60 * 5);
 			}
 		}
