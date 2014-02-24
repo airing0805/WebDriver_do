@@ -34,10 +34,14 @@ public class InitApps {
 		} else {
 			fd = new FirefoxDriver();
 		}
-		fd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-		 Map<String, String> weiboMap = getWeibo( );
-		iterateInitApp(fd, weiboMap);
-		
+		try{
+			fd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+			Map<String, String> weiboMap = getWeibo();
+			iterateInitApp(fd, weiboMap);
+		}catch(Exception e){
+			WebDriverUtil.takeScreenShot(fd);
+			logger.info(e.getMessage(), e);
+		}
 		fd.quit();
 
 	}
