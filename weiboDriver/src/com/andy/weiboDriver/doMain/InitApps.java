@@ -68,8 +68,8 @@ public class InitApps {
 		int weiboNum = weiboXmlList.size();
 		Map<String, String> weiboMap = new LinkedHashMap<String, String>();
 		for (int i = 0; i < weiboNum; i++) {
-			String username = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_username");
-			String password = XMLConfig.getConfig().getString("weibo(" + i + ").weibo_password");
+			String username = XMLConfig.getConfig().getString("initapps(" + i + ").weibo_username");
+			String password = XMLConfig.getConfig().getString("initapps(" + i + ").weibo_password");
 			weiboMap.put(username, password);
 		}
 		return weiboMap;
@@ -161,13 +161,13 @@ public class InitApps {
 		submitOauth(fd);
 
 		// 皮皮时光机
-		fd.get("http://weibo.pp.cc/member.php?mod=login&action=register&app=weitu&type=sina");
-		if(WebDriverUtil.hasElement(fd, By.id("username_register"))){
-			regPP(fd,username, password);
-		}
-		fd.get("https://api.weibo.com/oauth2/authorize?client_id=1967296247&redirect_uri=http%3A%2F%2Fweibo.pp.cc%2Fmember.php%3Fmod%3Dbind%26action%3Daccess%26type%3Dsina%26app%3Dtime%26sinav%3D3&response_type=code");
-		submitOauth(fd);
-		return false;
+//		fd.get("http://weibo.pp.cc/member.php?mod=login&action=register&app=weitu&type=sina");
+//		if(WebDriverUtil.hasElement(fd, By.id("username_register"))){
+//			regPP(fd,username, password);
+//		}
+//		fd.get("https://api.weibo.com/oauth2/authorize?client_id=1967296247&redirect_uri=http%3A%2F%2Fweibo.pp.cc%2Fmember.php%3Fmod%3Dbind%26action%3Daccess%26type%3Dsina%26app%3Dtime%26sinav%3D3&response_type=code");
+//		submitOauth(fd);
+		return true;
 
 	}
 	
