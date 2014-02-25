@@ -85,7 +85,10 @@ public class GetScore {
 					logger.info("关注人数接近2000了");
 					Map<String, String> weiboMap = new HashMap<String, String>();
 					weiboMap.put(username, password);
-					DelAttentions.iterateDelAttentions(fd, weiboMap);
+					DelAttentions.delDeadAttentions(fd);
+					//删除死亡关注后，要等一段时间
+					Threads.sleep(1000);
+					DelAttentions.delEarliestAttentions(fd);
 				}
 				// 一键关注最多只到十页，有一页成功就退出
 				// boolean flag = true;

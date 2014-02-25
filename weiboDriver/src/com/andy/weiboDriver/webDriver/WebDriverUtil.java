@@ -126,6 +126,12 @@ public class WebDriverUtil {
 		return we2;
 	}
 
+	/**
+	 * 防止timeout，防止地址不一样，防止页面元素没有加载
+	 * @param driver
+	 * @param url
+	 * @param by
+	 */
 	public static void getUrl(WebDriver driver, String url, By by) {
 		int actionCount = 100;
 		boolean inited = false;
@@ -142,16 +148,15 @@ public class WebDriverUtil {
 			if (!inited) {
 				continue;
 			}
-			inited = hasElement(driver, by);
-			if (!inited) {
-				logger.info("没有找到 element");
-				continue;
-			}
-			inited = driver.findElement(by).isDisplayed();
-
-			if (!inited) {
-				logger.info("没有找到 element");
-				continue;
+			//等到元素出现
+			for(int i=0;i<10;i++){
+				inited = hasElement(driver, by);
+				if (!inited) {
+					logger.info("没有找到 element");
+				}else{
+					break;
+				}
+				Threads.sleep(1000);
 			}
 			index++;
 		}

@@ -77,6 +77,7 @@ public class DelAttentions {
 			new WeiboSina().login(fd, username, password);
 
 			delDeadAttentions(fd);
+			Threads.sleep(1000);
 			delEarliestAttentions(fd);
 			
 			Threads.sleep(100);
@@ -94,18 +95,28 @@ public class DelAttentions {
 			WebElement pageEl = buttonEl.findElement(By.cssSelector("span.fr.page-info"));
 			//直到最后一页
 			while (true) {
-				List<WebElement> linkElList = pageEl.findElements(By.tagName("a"));
-				Threads.sleep(500);
-				if (null != linkElList && linkElList.size() ==2) {
-					break;
-				}else if(null != linkElList && linkElList.size() ==1){
-					linkElList.get(0).click();
+				//元素内容发生变化，所以会异常
+				try{
+					List<WebElement> linkElList = pageEl.findElements(By.tagName("a"));
+					Threads.sleep(1500);
+					if (null != linkElList && linkElList.size() ==2) {
+						linkElList.get(1).click();
+					}else if(null != linkElList && linkElList.size() ==1){
+						if(linkElList.get(0).getText().contains("上一页")){
+							break;
+						}else{
+							//点击下一页
+							linkElList.get(0).click();
+						}
+					}
+				}catch(Exception e){
+					logger.info(e.getMessage());
 				}
 			}
 			List<WebElement> buttonList = buttonEl.findElements(By.tagName("a"));
 			buttonList.get(0).click();
-			// 等待选择要删除的关注
-			Threads.sleep(200);
+			// 等待选择要删除的关注，这个地方时间也要留长一点
+			Threads.sleep(500);
 			buttonList.get(2).click();
 			WebDriverUtil.waitAlert(fd);
 			fd.switchTo().alert().accept();
