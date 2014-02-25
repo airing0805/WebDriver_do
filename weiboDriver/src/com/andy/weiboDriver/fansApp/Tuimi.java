@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import com.andy.weiboDriver.util.Threads;
 import com.andy.weiboDriver.webDriver.WebDriverUtil;
 import com.andy.weiboDriver.webDriver.WeiboSina;
 
@@ -40,11 +41,7 @@ public class Tuimi {
 			switchToIframe(fd);
 			boolean flag = oneKeyAttention(fd);
 			nextOneKeyAttention(fd);
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			Threads.sleep(500);
 			if (i == 10) {
 				logger.info("没有可以一键关注的了");
 				break;
@@ -83,7 +80,7 @@ public class Tuimi {
 		while (true) {
 			String buttonParentText = "";
 			try {
-				Thread.sleep(100);
+				Threads.sleep(100);
 				// 一直等到页面加载完成
 				WebElement oneKeyAttentionWe = WebDriverUtil.findElement4Wait(fd, By.cssSelector("div[id=\"oneKeyAttention\"]"), 10);
 				// 等到可以找到iframe,然后进入到iframe里面,还真的必须要等，
@@ -91,13 +88,12 @@ public class Tuimi {
 				fd.switchTo().frame(iframeWe);
 
 				// 要处理iframe加载的时间
-				WebElement buttonParentWe = WebDriverUtil.findElement4Wait(fd, By.cssSelector("div[class=\"tsina_batconcern\"]"), 100);
+				WebElement buttonParentWe = WebDriverUtil.findElement4Wait(fd, By.cssSelector("div.tsina_batconcern"), 100);
 				buttonParentText = buttonParentWe.getText();
 				if (buttonParentText.contains("一键关注")) {
-					Thread.sleep(1000);
+					Threads.sleep(1000);
 					break;
 				}
-			} catch (InterruptedException e) {
 			} catch (StaleElementReferenceException e) {
 			}
 			fd.switchTo().defaultContent();
@@ -116,11 +112,7 @@ public class Tuimi {
 		alert.accept();
 		// 等待关注成功
 		while (true) {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			Threads.sleep(100);
 			String buttonText = divWe.getText();
 			if (buttonText.contains("已关注")) {
 				break;
@@ -130,20 +122,12 @@ public class Tuimi {
 				return false;
 			}
 		}
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Threads.sleep(100);
 		// 跳转到iframe外部，领取积分
 		fd.switchTo().defaultContent();
 		WebElement addMarkWe = fd.findElement(By.id("addMark"));
 		addMarkWe.click();
-		try {
-			Thread.sleep(200);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Threads.sleep(200);
 		if (addMarkWe.getText().contains("稍候")) {
 			addMarkWe.click();
 		}

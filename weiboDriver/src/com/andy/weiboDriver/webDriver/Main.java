@@ -17,6 +17,7 @@ import com.andy.weiboDriver.fansApp.Qiuzf;
 import com.andy.weiboDriver.fansApp.Tuimi;
 import com.andy.weiboDriver.fansApp.Tuitu;
 import com.andy.weiboDriver.util.FileUtil;
+import com.andy.weiboDriver.util.Threads;
 import com.andy.weiboDriver.util.XMLConfig;
 
 public class Main {
@@ -54,7 +55,6 @@ public class Main {
 
 	public static void iterateGetScore(WebDriver fd, int weiboNum) {
 		while (true) {
-			try {
 				for (int i = 0; i < weiboNum; i++) {
 					String path = System.getProperty("user.dir") + File.separator;
 					Map<String, Integer> map = new HashMap<String,Integer>();
@@ -85,7 +85,7 @@ public class Main {
 					// 关注过多，
 					if (!flag)
 						return;
-					Thread.sleep(1000*60*10);
+					Threads.sleep(1000*60*10);
 					
 					new Qiuzf().getScoreFlow(fd);
 					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
@@ -94,7 +94,7 @@ public class Main {
 					logger.info(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
-					Thread.sleep(1000*60*10);
+					Threads.sleep(1000*60*10);
 					
 					new Tuimi().getScoreFlow(fd);
 					map= WebDriverUtil.getNumInfoAtUrl(fd,weiboUrl);
@@ -103,11 +103,8 @@ public class Main {
 					logger.info(fileMess);
 					FileUtil.write2FileEnd(path, fileMess);
 					num = numT;
-					Thread.sleep(1000*60*10);
+					Threads.sleep(1000*60*10);
 				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 	

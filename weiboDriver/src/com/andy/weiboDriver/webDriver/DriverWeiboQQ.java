@@ -12,6 +12,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.andy.weiboDriver.util.FileUtil;
+import com.andy.weiboDriver.util.Threads;
 import com.andy.weiboDriver.util.XMLConfig;
 
 public class DriverWeiboQQ {
@@ -52,7 +53,7 @@ public class DriverWeiboQQ {
 	}
 
 	// 从qq获取微博内容，没有水印
-	private String getMessage(WebDriver fd) throws InterruptedException, ConfigurationException {
+	private String getMessage(WebDriver fd) throws ConfigurationException {
 		StringBuffer messageBuffer = new StringBuffer();
 		By closeLoginBy = By.cssSelector("div[class=\"DWrap\"] > a.DClose.close");
 		WebElement closeLoginElement = WebDriverUtil.getElementOrNot(fd, closeLoginBy);
@@ -68,7 +69,7 @@ public class DriverWeiboQQ {
 				originalWe.click();
 			}
 		}
-		Thread.sleep(500);
+		Threads.sleep(500);
 		List<WebElement> messageLiList = fd.findElements(By.cssSelector("ul[id=\"talkList\"] > li"));
 		for (int i = 0; i < messageLiList.size(); i++) {
 			WebElement messageLi = messageLiList.get(i);
