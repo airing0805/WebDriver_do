@@ -77,9 +77,7 @@ public class GetScore {
 				String fileMess = username + "\n";
 				logger.info(fileMess);
 				new WeiboSina().login(fd, username, password);
-				map = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
-				num = map.get("关注");
-
+				
 				// 如果关注的数量只比2000少70以内，那么删除相关的关注用户
 				if (2000 - num < 70) {
 					logger.info("关注人数接近2000了");
@@ -90,6 +88,10 @@ public class GetScore {
 					Threads.sleep(1000);
 					DelAttentions.delEarliestAttentions(fd);
 				}
+				
+				map = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);
+				num = map.get("关注");
+
 				// 一键关注最多只到十页，有一页成功就退出
 				// boolean flag = true;
 				// int aa = appList.indexOf(nextStartAppName);
