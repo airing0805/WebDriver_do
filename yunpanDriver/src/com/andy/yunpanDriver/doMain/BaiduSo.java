@@ -27,6 +27,7 @@ public class BaiduSo {
 		fd.findElement(By.cssSelector("input[name=\"wd\"]")).sendKeys("site:03wx.cc");
 		fd.findElement(By.id("su")).click();
 		
+		
 		List<WebElement> tableElList = fd.findElement(By.id("content_left")).findElements(By.tagName("table"));
 		for(WebElement tableEl : tableElList){
 			WebElement contentEl = tableEl.findElement(By.tagName("td"));
