@@ -27,9 +27,7 @@ public class InitApps {
 	private static Logger logger = Logger.getLogger(InitApps.class);
 
 	public static void main(String[] args) {
-		List<Object> weiboXmlList = XMLConfig.getConfig().getList("weibo.weibo_username");
 		String firefoxRun = XMLConfig.getConfig().getString("firefoxRun");
-		int weiboNum = weiboXmlList.size();
 		WebDriver fd = null;
 		if ("false".equals(firefoxRun)) {
 			fd = new HtmlUnitDriver();
@@ -50,9 +48,7 @@ public class InitApps {
 	
 	@Test
 	public static void test() {
-		List<Object> weiboXmlList = XMLConfig.getConfig().getList("weibo.weibo_username");
 		String firefoxRun = XMLConfig.getConfig().getString("firefoxRun");
-		int weiboNum = weiboXmlList.size();
 		WebDriver fd = null;
 		if ("false".equals(firefoxRun)) {
 			fd = new HtmlUnitDriver();
@@ -90,7 +86,7 @@ public class InitApps {
 				logger.info(sf1.format(new Date()));
 				new WeiboSina().login(fd, username, password);
 
-				selectInterest(fd);
+				//selectInterest(fd);//这个通过手工处理
 
 				addApp(fd,username, password);
 
@@ -100,11 +96,11 @@ public class InitApps {
 
 	public static void selectInterest(WebDriver fd)  {
 		if ("http://weibo.com/nguide/interests".equals(fd.getCurrentUrl().split("\\u003F")[0])) {
+			fd.findElement(By.id("pl_select_fav")).click();
 			WebElement  interestEl = fd.findElements(By.cssSelector("div.fav_tag_sel")).get(3);
+			new Actions(fd).moveToElement(interestEl).build().perform();
 			WebElement linkEl = interestEl.findElement(By.tagName("a"));
-			new Actions(fd).moveToElement(linkEl).build().perform();
 			linkEl.click();
-			
 			for (int j = 0; j < 10; j++) {
 				int size = fd.findElements(By.cssSelector("div[node-type=\"interest_list\"]")).size();
 				if (2 <= size) {

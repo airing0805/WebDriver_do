@@ -70,10 +70,10 @@ public class Tuimi {
 
 	public void gotoOneKeyPage(WebDriver fd) {
 		String url1 = "http://tuimi.sinaapp.com";
-		fd.get(url1);
+		WebDriverUtil.getUrl1(fd, url1);
 		// WebDriverUtil.findElement4Wait(fd, By.id("apps"), 10);
 		String url2 = "http://tuimi.sinaapp.com/onekeyfl";
-		fd.get(url2);
+		WebDriverUtil.getUrl1(fd, url2);
 	}
 
 	public void switchToIframe(WebDriver fd) {
@@ -82,9 +82,9 @@ public class Tuimi {
 			try {
 				Threads.sleep(100);
 				// 一直等到页面加载完成
-				WebElement oneKeyAttentionWe = WebDriverUtil.findElement4Wait(fd, By.cssSelector("div[id=\"oneKeyAttention\"]"), 10);
-				// 等到可以找到iframe,然后进入到iframe里面,还真的必须要等，
-				WebElement iframeWe = WebDriverUtil.findElement4Wait(oneKeyAttentionWe, By.tagName("iframe"), 10);
+				WebElement oneKeyAttentionWe = WebDriverUtil.findElement4Wait(fd, By.cssSelector("div[id=\"oneKeyAttention\"]"), 20);
+				// 等到可以找到iframe,然后进入到iframe里面,还真的必须要等，10秒的时候居然会报错
+				WebElement iframeWe = WebDriverUtil.findElement4Wait(oneKeyAttentionWe, By.tagName("iframe"), 20);
 				fd.switchTo().frame(iframeWe);
 
 				// 要处理iframe加载的时间

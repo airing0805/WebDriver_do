@@ -11,6 +11,10 @@ import javax.mail.Store;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+import com.andy.weiboDriver.webDriver.WeiboSina;
 
 public class EmailUtil {
 	private static Logger logger = Logger.getLogger(  EmailUtil.class);
@@ -18,7 +22,12 @@ public class EmailUtil {
 	public static void main(String[] args) throws Exception {
 		String username="zy166688";
 		String password ="andy0805";
-		getUrl( username, password);
+		String href = getUrl( username, password);
+		WebDriver fd = new FirefoxDriver();
+		logger.info(href);
+		new WeiboSina().login(fd, "zy166688@163.com", password);
+		fd.get(href);
+		
 	}
 	public static String getUrl(String username,String password) throws MessagingException, IOException {
 		String href = "";
@@ -45,6 +54,7 @@ public class EmailUtil {
 				String content = message[i].getContent().toString();
 				Document doc = Jsoup.parse(content);
 				href = doc.getElementsByTag("a").get(0).attr("href");
+//				logger.info(href);
 				break;
 			}
 //			logger.info(message[i].getSubject());

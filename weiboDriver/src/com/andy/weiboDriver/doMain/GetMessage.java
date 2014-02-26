@@ -1,5 +1,7 @@
 package com.andy.weiboDriver.doMain;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -30,13 +32,14 @@ public class GetMessage {
 		} else {
 			fd = new FirefoxDriver();
 		}
+		String suffix = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 		try {
 			if (caseNum == 0) {
-				new DriverWeiboQQ().getMessageFlow(fd, weiboNum);
+				new DriverWeiboQQ(suffix).getMessageFlow(fd, weiboNum);
 			} else if (caseNum == 1) {
 				new WeiboSendAtPP().sendAtPPFlow(fd, weiboNum);
 			} else if (caseNum == 2) {
-				new DriverWeiboQQ().getMessageFlow(fd, weiboNum);
+				new DriverWeiboQQ(suffix).getMessageFlow(fd, weiboNum);
 				new WeiboSendAtPP().sendAtPPFlow(fd, weiboNum);
 			}
 

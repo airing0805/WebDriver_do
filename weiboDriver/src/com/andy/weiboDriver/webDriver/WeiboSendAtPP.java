@@ -23,6 +23,7 @@ public class WeiboSendAtPP {
 	public WeiboSendAtPP() {
 		super();
 	}
+	
 
 	public void sendAtPPFlow(WebDriver fd, int weiboNum) throws ConfigurationException, InterruptedException {
 		for (int i = 0; i < weiboNum; i++) {
@@ -30,8 +31,9 @@ public class WeiboSendAtPP {
 			
 			String username = XMLConfig.getConfig().getString("weibo(" + i + ").pp_username");
 			String password = XMLConfig.getConfig().getString("weibo(" + i + ").pp_password");
+			String fileSuffix = XMLConfig.getConfig().getString("fileSuffix");
 			logger.info(username);
-			String path = System.getProperty("user.dir") + File.separator + username + ".txt";
+			String path = System.getProperty("user.dir") + File.separator + username + "-"+fileSuffix+".txt";
 			StringBuffer sb = FileUtil.readFileByLines(path);
 			String[][] messArr = str2Arr(sb.toString());
 			loginPP(fd, username, password);

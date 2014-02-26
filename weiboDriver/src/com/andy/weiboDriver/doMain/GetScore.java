@@ -40,6 +40,7 @@ public class GetScore {
 		}
 
 		iterateGetScore(fd, weiboNum);
+		
 
 		fd.quit();
 	}
@@ -53,16 +54,17 @@ public class GetScore {
 		appList.add("Tuimi");
 		appList.add("HuTuiLianMeng");
 		appList.add("HuFenBang");
-		while (true) {
-			int startDay = XMLConfig.getConfig().getInt("startDay");
-			SimpleDateFormat sf = new SimpleDateFormat("dd");
-			if (startDay == Integer.parseInt(sf.format(new Date()))) {
-				break;
-			} else {
-				logger.info("等待5分钟。。。");
-				Threads.sleep(1000 * 60 * 5);
-			}
-		}
+//		这个到命令行里面执行的时候处理
+//		while (true) {
+//			int startDay = XMLConfig.getConfig().getInt("startDay");
+//			SimpleDateFormat sf = new SimpleDateFormat("dd");
+//			if (startDay == Integer.parseInt(sf.format(new Date()))) {
+//				break;
+//			} else {
+//				logger.info("等待5分钟。。。");
+//				Threads.sleep(1000 * 60 * 5);
+//			}
+//		}
 		
 		for (int i = 0; i < weiboNum; i++) {
 			while (true) {
@@ -79,7 +81,7 @@ public class GetScore {
 				new WeiboSina().login(fd, username, password);
 				
 				// 如果关注的数量只比2000少70以内，那么删除相关的关注用户
-				if (2000 - num < 70) {
+				if (2000 - num < 80) {
 					logger.info("关注人数接近2000了");
 					Map<String, String> weiboMap = new HashMap<String, String>();
 					weiboMap.put(username, password);

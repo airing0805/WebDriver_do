@@ -19,9 +19,19 @@ public class DriverWeiboQQ {
 	
 	private static Logger logger = Logger.getLogger(  DriverWeiboQQ.class);
 	
+	String fileSuffix ="";
 	public DriverWeiboQQ() {
 		super();
 	}
+	
+	
+
+	public DriverWeiboQQ(String suffix) {
+		super();
+		this.fileSuffix = suffix;
+	}
+
+
 
 	public void getMessageFlow(WebDriver fd, int weiboNum) throws ConfigurationException, InterruptedException {
 		for (int i = 0; i < weiboNum; i++) {
@@ -30,7 +40,7 @@ public class DriverWeiboQQ {
 			String username = XMLConfig.getConfig().getString("weibo(" + i + ").pp_username");
 			logger.info(username);
 			String day = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-			String path = System.getProperty("user.dir") + File.separator + username + "-"+day+".txt";
+			String path = System.getProperty("user.dir") + File.separator + username + "-"+fileSuffix+".txt";
 			List<Object> addressList = XMLConfig.getConfig().getList("weibo(" + i + ").pp_address.QQAddress");
 			new File(path).delete();
 			for (int j = 0; j < addressList.size(); j++) {
