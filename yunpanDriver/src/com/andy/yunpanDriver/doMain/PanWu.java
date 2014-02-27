@@ -163,6 +163,8 @@ public class PanWu {
 			if (nextPageNum == Integer.parseInt(text)) {
 				String href = pageElList.get(i).getAttribute("href");
 				WebDriverUtil.getUrl(fd, href);
+				logger.info("准备进入"+ nextPageNum);
+				Threads.sleep(5000);
 				break;
 			}
 		}
