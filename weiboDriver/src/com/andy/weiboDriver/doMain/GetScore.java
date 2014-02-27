@@ -81,7 +81,7 @@ public class GetScore {
 				new WeiboSina().login(fd, username, password);
 				
 				// 如果关注的数量只比2000少70以内，那么删除相关的关注用户
-				if (2000 - num < 80) {
+				if ((2000 - num) < 80) {
 					logger.info("关注人数接近2000了");
 					Map<String, String> weiboMap = new HashMap<String, String>();
 					weiboMap.put(username, password);
@@ -89,6 +89,8 @@ public class GetScore {
 					//删除死亡关注后，要等一段时间
 					Threads.sleep(1000);
 					DelAttentions.delEarliestAttentions(fd);
+				}else{
+					logger.info("关注人数接近2000了");
 				}
 				
 				map = WebDriverUtil.getNumInfoAtUrl(fd, weiboUrl);

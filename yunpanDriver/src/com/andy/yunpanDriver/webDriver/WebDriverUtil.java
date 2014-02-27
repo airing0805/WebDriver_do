@@ -194,9 +194,8 @@ public class WebDriverUtil {
 				if (driver.findElement(by).isDisplayed())
 					break;
 			} catch (Exception e) {
-				Threads.sleep(1000);
-				continue;
 			}
+			Threads.sleep(1000);
 		}
 	}
 
