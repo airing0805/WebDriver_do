@@ -24,8 +24,7 @@ public class PanWu {
 		String url = "http://www.wangpanwu.com/s-all/zhongzi/";
 		WebDriverUtil.getUrl(fd, url);
 		String maxPageStr = fd.findElements(By.cssSelector("div.shuzi")).get(2).getText();
-		int maxPage = 1;// Integer.parseInt(maxPageStr.replace("共",
-						// "").replace("页", "").trim());
+		int maxPage =  Integer.parseInt(maxPageStr.replace("共","").replace("页", "").trim());
 		for (int i = 0; i < maxPage; i++) {
 			int startPage = i + 2;
 			panWu.getWuContent(fd);
