@@ -164,6 +164,30 @@ public class WebDriverUtil {
 			throw new RuntimeException("can not get the url [" + url + "] after retry " + actionCount + "times!");
 		}
 	}
+	
+	public static void getUrl(WebDriver driver, String url) {
+		int actionCount = 100;
+		boolean inited = false;
+		int maxLoadTime = 100;
+		int index = 0, timeout = 20;
+		while (!inited && index < actionCount) {
+			timeout = (index == actionCount - 1) ? maxLoadTime : 20;// 最后一次跳转使用最大的默认超时时间
+			inited = navigateAndLoad(driver, url, timeout);
+			if (!inited) {
+				logger.info("timeout");
+				continue;
+			}
+			inited = isCurrentUrl(driver, url);
+			if (!inited) {
+				continue;
+			}
+			
+			index++;
+		}
+		if (!inited && index == actionCount) {// 最终跳转失败则抛出运行时异常，退出运行
+			throw new RuntimeException("can not get the url [" + url + "] after retry " + actionCount + "times!");
+		}
+	}
 
 	public static void waitDisplay(WebDriver driver, By by, int timeout) {
 		for (int i = 0; i < timeout; i++) {

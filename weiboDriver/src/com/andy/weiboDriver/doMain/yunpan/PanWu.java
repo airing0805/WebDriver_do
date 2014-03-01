@@ -1,4 +1,4 @@
-package com.andy.yunpanDriver.doMain;
+package com.andy.weiboDriver.doMain.yunpan;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import com.andy.yunpanDriver.util.Threads;
-import com.andy.yunpanDriver.webDriver.WebDriverUtil;
+import com.andy.weiboDriver.util.Threads;
+import com.andy.weiboDriver.webDriver.WebDriverUtil;
 
 public class PanWu {
 
