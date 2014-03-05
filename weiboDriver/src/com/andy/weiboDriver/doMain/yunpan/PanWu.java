@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.andy.weiboDriver.util.Threads;
+import com.andy.weiboDriver.util.XMLConfig;
 import com.andy.weiboDriver.webDriver.WebDriverUtil;
 
 public class PanWu {
@@ -18,16 +19,15 @@ public class PanWu {
 	public static void main(String[] args) {
 		PanWu panWu = new PanWu();
 		WebDriver fd = new FirefoxDriver();
-		// String url = "http://www.wangpanwu.com/s-all/zhongziheji/";
 		panWu.loginBaiduyun(fd);
 		Threads.sleep(2000);
-//		String url = "http://www.wangpanwu.com/s-all/zhongzi/";
-		String url = "http://www.wangpanwu.com/s-all/zhongzi/list_2.html";
+		String url = XMLConfig.getConfig("panWuConfig").getString("scanUrl");// "http://www.wangpanwu.com/zjgx/bt/";
 		WebDriverUtil.getUrl(fd, url);
 		String maxPageStr = fd.findElements(By.cssSelector("div.shuzi")).get(2).getText();
 		int maxPage =  Integer.parseInt(maxPageStr.replace("共","").replace("页", "").trim());
 		for (int i = 1; i < maxPage; i++) {
 			int startPage = i + 1;
+			logger.info("start page :" + startPage);
 			panWu.getWuContent(fd);
 			panWu.doNextPage(fd, startPage);
 		}
@@ -35,7 +35,17 @@ public class PanWu {
 	}
 
 	public void getWuContent(WebDriver fd) {
-		List<WebElement> liElList = fd.findElement(By.id("flist")).findElements(By.tagName("li"));
+		By listby = By.id("flist"); 
+		boolean flag = WebDriverUtil.hasElement(fd, listby);
+		if(!flag){
+			listby = By.id("drlist");
+			flag = WebDriverUtil.hasElement(fd, listby);
+		}
+		if(!flag){
+			logger.info("没有找到内容，可能出错");
+		}
+		
+		List<WebElement> liElList = fd.findElement(listby).findElements(By.tagName("li"));
 		for (int i = 0; i < liElList.size(); i++) {
 			String winHandleBefore = fd.getWindowHandle();
 			WebElement liEl = liElList.get(i);
@@ -116,12 +126,12 @@ public class PanWu {
 			By barAllCmdTransferBy = By.id("barAllCmdTransfer");
 			WebDriverUtil.waitDisplay(fd, barAllCmdTransferBy, 20);
 			fd.findElement(barAllCmdTransferBy).click();
-			Threads.sleep(2000);
+			Threads.sleep(5000);
 		} else {
 			By saveBy = By.id("emphsizeButton");
 			WebDriverUtil.waitDisplay(fd, saveBy, 20);
 			fd.findElement(saveBy).click();
-			Threads.sleep(2000);
+			Threads.sleep(5000);
 		}
 		for (int i = 0; i < 20; i++) {
 			By submitBy = By.id("_disk_id_" + i);
@@ -147,6 +157,7 @@ public class PanWu {
 					break;
 				}
 			}
+			Threads.sleep(1000);
 		}
 		logger.info("要关了");
 		fd.close();

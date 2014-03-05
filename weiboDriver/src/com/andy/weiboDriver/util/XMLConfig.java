@@ -24,5 +24,17 @@ public class XMLConfig {
 		}
 		return xmlConifg;
 	}
+	
+	public static XMLConfiguration getConfig(String name) {
+		try {
+			if (xmlConifg == null) {
+				logger.info(System.getProperty("user.dir"));
+				xmlConifg = new XMLConfiguration(System.getProperty("user.dir") + "/config/"+name+".xml");
+			}
+		} catch (ConfigurationException e){
+			e.printStackTrace();
+		}
+		return xmlConifg;
+	}
 
 }
