@@ -160,7 +160,7 @@ public class WeiboSendAtPP {
 		if (null != closeHas && closeHas.isDisplayed()) {
 			closeHas.click();
 			//是否到达15天控制范围
-			WebElement messageContent = WebDriverUtil.getElementOrNot(fd, By.cssSelector("input[id=\"dialog_message\"]"));
+			WebElement messageContent = WebDriverUtil.getElementOrNot(fd, By.cssSelector("div[id=\"dialog_message\"]"));
 			if(null != messageContent && messageContent.isDisplayed()){
 				messageContent.getText().contains("15天");
 				logger.info("满15天了");

@@ -143,6 +143,7 @@ public class PanWu {
 					break;
 				}
 			}
+			Threads.sleep(1000);
 		}
 		Threads.sleep(5000);
 		
