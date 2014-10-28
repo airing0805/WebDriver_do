@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class HtmlUnitTest {
 	private static Logger logger = Logger.getLogger(  HtmlUnitTest.class);
@@ -13,7 +14,7 @@ public class HtmlUnitTest {
 	/*
 	 * 第一次测试htmlunit
 	 */
-	@Test
+//	@Test
 	public void testHtmlUnit(){
 		try{
 			String url = "http://www.baidu.com";
@@ -35,6 +36,17 @@ public class HtmlUnitTest {
 			logger.error(e.getMessage(), e);
 		}
 		
+	}
+	
+	@Test
+	public void baiduBook(){
+		WebDriver driver=new HtmlUnitDriver(true);
+		//打开百度首页
+		driver.get("http://wenku.baidu.com/view/a303d56eaf1ffc4ffe47ac44.html");
+		//打印页面标题
+		System.out.println("页面标题："+driver.getTitle());
+		WebElement current = driver.findElement(By.cssSelector("table[class=\"current\"]"));
+		System.out.println(current.getText());
 	}
 	
 	public void htmlUnitTest2(){
@@ -60,7 +72,21 @@ public class HtmlUnitTest {
 	}
 	
 	
-
+//	WebClient webClient = new WebClient(BrowserVersion.CHROME);
+//    webClient.getOptions().setThrowExceptionOnScriptError(false);
+//    webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+//
+//    webClient.getOptions().setJavaScriptEnabled(true);
+//    webClient.getOptions().setActiveXNative(false);
+//    webClient.getOptions().setCssEnabled(false);
+//    webClient.getOptions().setThrowExceptionOnScriptError(false);
+//    webClient.waitForBackgroundJavaScript(10*1000);
+//    webClient.setAjaxController(new NicelyResynchronizingAjaxController());
+//
+//    webClient.getOptions().setJavaScriptEnabled(true);
+//    HtmlPage page = webClient.getPage("http://xiayanmei168.1688.com/page/albumlist.htm");
+//    System.out.println(page.asXml());
+//    System.out.println(page.getWebResponse().getContentAsString()); 
 
 
 }
