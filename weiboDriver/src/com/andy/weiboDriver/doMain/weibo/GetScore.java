@@ -1,4 +1,4 @@
-package com.andy.weiboDriver.doMain;
+package com.andy.weiboDriver.doMain.weibo;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
