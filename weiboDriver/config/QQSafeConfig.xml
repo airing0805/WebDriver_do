@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<systemConfig>
+
+	<firefoxRun>true</firefoxRun>
+
+	
+	<QQ>
+	
+	<qqno><no>1434315203</no><p>aaaa2222</p></qqno>
+<!-- 	<qqno><no>2317042955</no><p>aaaa2222</p></qqno>
+	<qqno><no>2453995827</no><p>aaaa2222</p></qqno>
+	<qqno><no>2396989008</no><p>aaaa2222</p></qqno>
+	<qqno><no>1401975168</no><p>aaaa2222</p></qqno>
+	<qqno><no>2570028859</no><p>aaaa2222</p></qqno>
+	<qqno><no>1819408907</no><p>aaaa2222</p></qqno>
+	<qqno><no>1766067559</no><p>aaaa2222</p></qqno>
+	<qqno><no>2471668628</no><p>aaaa2222</p></qqno>
+	<qqno><no>1020137608</no><p>aaaa2222</p></qqno>
+	<qqno><no>1596378499</no><p>aaaa2222</p></qqno>
+	<qqno><no>1431911626</no><p>aaaa2222</p></qqno>
+	<qqno><no>1760098736</no><p>aaaa2222</p></qqno>
+	<qqno><no>1826294991</no><p>aaaa2222</p></qqno>
+	<qqno><no>2820281543</no><p>aaaa2222</p></qqno>
+	<qqno><no>1271057358</no><p>aaaa2222</p></qqno>
+	<qqno><no>1481977650</no><p>aaaa2222</p></qqno>
+	<qqno><no>1165130758</no><p>aaaa2222</p></qqno>
+	<qqno><no>2677807320</no><p>aaaa2222</p></qqno>
+	<qqno><no>1848922162</no><p>aaaa2222</p></qqno> -->
+	<old_1_q>您父亲的姓名是</old_1_q>
+	<old_1_a>kppp</old_1_a>
+	<old_2_q>您母亲的姓名是</old_2_q>
+	<old_2_a>wxxx</old_2_a>
+	<old_3_q>您配偶的姓名是</old_3_q>
+	<old_3_a>beee</old_3_a>
+	<new_1_q>学号</new_1_q>
+	<new_1_a>007</new_1_a>
+	<new_2_q>小学班主任名字</new_2_q>
+	<new_2_a>牛牛</new_2_a>
+	<new_3_q>童年好友</new_3_q>
+	<new_3_a>牛牛牛牛</new_3_a>
+		
+	</QQ>
+	
+</systemConfig>

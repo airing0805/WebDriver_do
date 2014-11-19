@@ -28,8 +28,9 @@ public class XMLConfig {
 	public static XMLConfiguration getConfig(String name) {
 		try {
 			if (xmlConifg == null) {
-				logger.info(System.getProperty("user.dir"));
-				xmlConifg = new XMLConfiguration(System.getProperty("user.dir") + "/config/"+name+".xml");
+				String fileStr = System.getProperty("user.dir") + "/config/"+name+".xml";
+				logger.info(fileStr);
+				xmlConifg = new XMLConfiguration(fileStr);
 			}
 		} catch (ConfigurationException e){
 			e.printStackTrace();
